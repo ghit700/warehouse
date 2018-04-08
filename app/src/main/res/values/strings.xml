@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">帖卡小助手</string>
+    <!--权限请求-->
+    <string name="permissions_fail">您之前拒绝了部分权限，请允许权限以保障功能运行</string>
 </resources>

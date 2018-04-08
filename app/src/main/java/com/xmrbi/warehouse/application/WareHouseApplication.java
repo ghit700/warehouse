@@ -1,6 +1,10 @@
 package com.xmrbi.warehouse.application;
 
+import android.Manifest;
 import android.app.Application;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -23,9 +27,8 @@ public class WareHouseApplication extends Application {
     private void initUtils() {
         Utils.init(this);
         //log
-        LogUtils.getConfig().setLogSwitch(Config.isOpenLog);
-        //崩溃日志
-//        CrashUtils.init(Config.CrashDir);
+        LogUtils.getConfig().setLogSwitch(Config.IS_OPEN_LOG);
+
 
     }
 }
