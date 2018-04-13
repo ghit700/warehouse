@@ -28,12 +28,14 @@ public class Config {
         public static String SETTING = "WAREHOURE_SETTING";
     }
     public static class Crash{
-
         /**
          * 崩溃文件的地址
          */
         public static String CRASH_DIR = SD_PATH + File.separator + "gmms" + File.separator + "errorFile";
 
+    }
+    public static class Http{
+        public static final int DEFAULT_TIMEOUT=10;
     }
 
 

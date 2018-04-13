@@ -1,13 +1,14 @@
 package com.xmrbi.warehouse.base;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.utils.ActivityStackUtils;
@@ -23,6 +24,7 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends AppCompatActivity {
     protected Activity mContext;
     protected Unbinder mUnbinder;
+    protected Bundle mBundle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayout());
         mUnbinder = ButterKnife.bind(this);
         mContext = this;
+        mBundle = getIntent().getExtras();
         ActivityStackUtils.addActivity(this);
         onViewCreated();
         initEventAndData();
@@ -75,5 +78,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         return new RxPermissions(mContext);
     }
 
-    ;
+    protected void lauch(Class clazz) {
+        ActivityUtils.startActivity(mContext, clazz);
+    }
+    protected void lauch(Class clazz,String tille) {
+        Intent intent = new Intent(mContext, clazz);
+        Bundle bundle=new Bundle();
+        bundle.putString("title",tille);
+        intent.putExtras(bundle);
+        ActivityUtils.startActivity(intent);
+    }
+
+    protected void lauch(Class clazz, Bundle bundle) {
+        Intent intent = new Intent(mContext, clazz);
+        intent.putExtras(bundle);
+        ActivityUtils.startActivity(intent);
+    }
+
+
 }

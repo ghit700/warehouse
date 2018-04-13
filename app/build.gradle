@@ -39,25 +39,27 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     //工具类
     compile 'com.blankj:utilcode:1.13.5'
-    //数据库
+//    //数据库
     compile 'org.greenrobot:greendao:3.2.2'
-    //图片加载工具
+//    //图片加载工具
     compile 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
-    compile "com.github.bumptech.glide:okhttp3-integration:4.6.1"
-    //okhttp+retrofit
+    compile 'com.github.bumptech.glide:okhttp3-integration:4.6.1'
+//    //okhttp+retrofit
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.4.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     compile 'com.github.BaronZ88:Retrofit2-FastJson-Converter:1.2'
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-
-    //rx
+//    //rx
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4'
-    //recyclerviewadapter
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.1'
+//    //recyclerviewadapter
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
-    //fastjson
+//    //fastjson
     compile 'com.alibaba:fastjson:1.1.68.android'
+    compile files('libs/zxing.jar')
 }

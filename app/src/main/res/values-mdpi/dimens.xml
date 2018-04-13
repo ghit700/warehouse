@@ -1,0 +1,70 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    
+    <dimen name="dip_480">252dp</dimen>
+    <dimen name="dip_400">267dp</dimen>
+    <dimen name="dip_335">235dp</dimen>
+    <dimen name="dip_320">214dp</dimen>
+    <dimen name="dip_300">200dp</dimen>
+    <dimen name="dip_240">160dp</dimen>
+    <dimen name="dip_200">133dp</dimen>
+    <dimen name="dip_160">106dp</dimen>
+    <dimen name="dip_150">100dp</dimen>
+    <dimen name="dip_140">94dp</dimen>
+    <dimen name="dip_130">87dp</dimen>
+    <dimen name="dip_125">84dp</dimen>
+    <dimen name="dip_116">78dp</dimen>
+    <dimen name="dip_110">74dp</dimen>
+    <dimen name="dip_120">80dp</dimen>
+    <dimen name="dip_100">68dp</dimen>
+    <dimen name="dip_95">65dp</dimen>
+    <dimen name="dip_90">60dp</dimen>
+    <dimen name="dip_85">57dp</dimen>
+    <dimen name="_dip_80">-54dp</dimen>
+    <dimen name="dip_80">54dp</dimen>
+    <dimen name="dip_78">52dp</dimen>
+    <dimen name="dip_70">46dp</dimen>
+    <dimen name="dip_64">42dp</dimen>
+    <dimen name="dip_60">40dp</dimen>
+    <dimen name="dip_55">38dp</dimen>
+    <dimen name="dip_50">34dp</dimen>
+    <dimen name="dip_48">32dp</dimen>
+    <dimen name="dip_40">26dp</dimen>
+    <dimen name="dip_45">30dp</dimen>
+    <dimen name="dip_30">20dp</dimen>
+    <dimen name="dip_25">18dp</dimen>
+    <dimen name="dip_20">15dp</dimen>
+    <dimen name="dip_15">10dp</dimen>
+    <dimen name="dip_13">8dp</dimen>
+    <dimen name="dip_12">7dp</dimen>
+    <dimen name="dip_8">7dp</dimen>
+    <dimen name="dip_7">5dp</dimen>
+    <dimen name="dip_5">3dp</dimen>
+    <dimen name="dip_3">2dp</dimen>
+    <dimen name="dip_2">1dp</dimen>
+    <dimen name="dip_1">0.7dp</dimen>
+    <dimen name="dip_1_1">-0.7dp</dimen>
+    
+    <dimen name="txt_size_8">3sp</dimen>
+    <dimen name="txt_size_10">5sp</dimen>
+    <dimen name="txt_size_12">7sp</dimen>
+    <dimen name="txt_size_14">8sp</dimen>
+    <dimen name="txt_size_16">10sp</dimen>
+    <dimen name="txt_size_18">12sp</dimen>
+    <dimen name="txt_size_20">14sp</dimen>
+    <dimen name="txt_size_22">15sp</dimen>
+    <dimen name="txt_size_24">16sp</dimen>
+    <dimen name="txt_size_26">17.3sp</dimen>
+    <dimen name="txt_size_28">18.7sp</dimen>
+    <dimen name="txt_size_30">20sp</dimen>
+    <dimen name="txt_size_60">40sp</dimen>
+    <dimen name="txt_size_80">55sp</dimen>
+    
+    <dimen name="pop_width">267dp</dimen>
+	<dimen name="login_lbl_size">16sp</dimen>
+	<dimen name="login_txt_size">14sp</dimen>
+	
+</resources>

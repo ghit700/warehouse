@@ -2,4 +2,13 @@
     <string name="app_name">帖卡小助手</string>
     <!--权限请求-->
     <string name="permissions_fail">您之前拒绝了部分权限，请允许权限以保障功能运行</string>
+    <!--main-->
+    <string name="main_text_deliver_goods">送货</string>
+    <string name="main_text_check_goods">盘点</string>
+    <string name="main_text_pick_goods">领料</string>
+    <string name="main_text_search_goods">查询</string>
+    <!--scan-->
+    <string name="scan_fail">扫描失败，请重新扫描</string>
+    <string name="scan_recognition_fail">识别失败，请重新识别</string>
+    <string name="scan_success">扫描成功</string>
 </resources>

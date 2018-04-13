@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 import com.xmrbi.warehouse.base.Config;
+import com.xmrbi.warehouse.utils.ImageLoader;
 
 
 /**
@@ -28,7 +29,17 @@ public class WareHouseApplication extends Application {
         Utils.init(this);
         //log
         LogUtils.getConfig().setLogSwitch(Config.IS_OPEN_LOG);
+    }
 
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        ImageLoader.GuideClearMemory(this);
+    }
 
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        ImageLoader.GuideClearMemory(this);
     }
 }

@@ -1,16 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    >
-    <include layout="@layout/base_actionbar">
-    </include>
+    android:weightSum="1"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <RelativeLayout
+        android:id="@+id/rlMainWarehouse"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="-2dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="@dimen/dip_5"
+            android:src="@drawable/ic_scan"/>
+
+        <TextView
+            android:id="@+id/tvMainWarehouseName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_size_30"/>
+
+        <ImageView
+            android:padding="@dimen/dip_8"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_settings"/>
+    </RelativeLayout>
+
     <ImageView
-        android:src="@drawable/index_bg"
+        android:id="@+id/imageView5"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/index_bg"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rlMainWarehouse"
+        tools:layout_constraintLeft_creator="1"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="494dp"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="329dp"/>
+
+    <LinearLayout
+        android:id="@+id/llMainDeliverGoods"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/main_bg_deliver_goods"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="3"
+            android:src="@drawable/main_deliver_goods"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/main_text_deliver_goods"
+
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_size_30"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llMainPickGoods"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/main_bg_pick_goods"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="3"
+            android:src="@drawable/main_pick_goods"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/main_text_pick_goods"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_size_30"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llMainCheckGoods"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/main_bg_check_goods"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="3"
+
+            android:src="@drawable/main_check_goods"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/main_text_check_goods"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_size_30"/>
+    </LinearLayout>
 
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/llMainSearchGoods"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/main_bg_search_goods"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline3"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="3"
+            android:src="@drawable/main_search_goods"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/main_text_search_goods"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_size_30"/>
+    </LinearLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"
+        tools:layout_editor_absoluteX="206dp"
+        tools:layout_editor_absoluteY="0dp"/>
+
+
+</android.support.constraint.ConstraintLayout>
