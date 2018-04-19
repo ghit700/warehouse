@@ -1,7 +1,6 @@
 package com.xmrbi.warehouse.module.san.activity;
 
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
@@ -11,14 +10,12 @@ import android.os.Vibrator;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.base.BaseActivity;
-import com.xmrbi.warehouse.base.Config;
 import com.xmrbi.warehouse.component.zxing.camera.CameraManager;
 import com.xmrbi.warehouse.component.zxing.decoding.CaptureActivityHandler;
 import com.xmrbi.warehouse.component.zxing.decoding.InactivityTimer;
@@ -28,7 +25,6 @@ import java.io.IOException;
 import java.util.Vector;
 
 import butterknife.BindView;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by wzn on 2018/4/9.
@@ -57,7 +53,7 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
 
     @Override
     protected void onViewCreated() {
-        setToolBar(mBundle.getString("title"));
+        setActionBarTitle(mBundle.getString("title"));
     }
 
     @Override
@@ -89,6 +85,7 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
         vibrate = true;
     }
 
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -96,16 +93,8 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
             handler.quitSynchronously();
             handler = null;
         }
-        getRxPermissionsInstance().request(Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean granted) throws Exception {
-                if (granted) {
-                    CameraManager.get().closeDriver();
-                } else {
-                    ToastUtils.showLong(R.string.permissions_fail);
-                }
-            }
-        });
+        CameraManager.get().closeDriver();
+
 
     }
 

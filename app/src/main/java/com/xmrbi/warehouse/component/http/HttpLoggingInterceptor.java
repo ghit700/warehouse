@@ -1,7 +1,5 @@
-package com.xmrbi.warehouse.utils;
+package com.xmrbi.warehouse.component.http;
 
-
-import android.util.Log;
 
 import com.blankj.utilcode.util.LogUtils;
 

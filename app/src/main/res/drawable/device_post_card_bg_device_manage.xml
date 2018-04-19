@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list>
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <corners
+                android:radius="@dimen/dip_20"
+                >
+            </corners>
+            <solid android:color="#198862"
+                ></solid>
+        </shape>
+    </item>
+    <item>
+        <!--扩展水波-->
+    </item>
+</layer-list>

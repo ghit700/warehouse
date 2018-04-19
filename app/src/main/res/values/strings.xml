@@ -7,8 +7,46 @@
     <string name="main_text_check_goods">盘点</string>
     <string name="main_text_pick_goods">领料</string>
     <string name="main_text_search_goods">查询</string>
+    <string name="main_text_deliver_goods_old">设备贴卡</string>
+    <string name="main_text_check_goods_old">设备上架</string>
+    <string name="main_text_pick_goods_old">库存盘点</string>
+    <string name="main_text_search_goods_old">领料扫码</string>
     <!--scan-->
     <string name="scan_fail">扫描失败，请重新扫描</string>
     <string name="scan_recognition_fail">识别失败，请重新识别</string>
     <string name="scan_success">扫描成功</string>
+    <string name="scan_pick_hint">请扫描屏幕上方领料单二维码</string>
+    <string name="scan_check_hint">请扫描屏幕上方盘点单二维码</string>
+    <!--setting-->
+    <string name="setting_server">服务器设置：</string>
+    <string name="setting_port">端口：</string>
+    <string name="setting_lessee">租户：</string>
+    <string name="setting_warehouse">仓库：</string>
+    <string name="setting_lessee_hint">请选择租户</string>
+    <string name="setting_warehouse_hint">请选择仓库</string>
+    <string name="setting_device">手持枪类型：</string>
+    <string name="setting_device_new">新版上位机</string>
+    <string name="setting_device_old">旧版上位机</string>
+    <string name="setting_save">保存</string>
+    <string name="setting_connection">获取</string>
+    <string name="setting_warning">还没保存仓库信息，是否确定退出</string>
+    <string name="setting_agree">确认</string>
+    <string name="setting_dailog_title">警告</string>
+    <string name="setting_no_choose_device">请选择手持枪类型</string>
+    <string name="setting_fail_lessess_dialog">请按获取按钮，获取租户列表</string>
+    <string name="setting_fail_house_dialog">请先获取租户列表再选择仓库</string>
+    <string name="setting_save_progress_title">获取仓库数据中</string>
+    <!--main-->
+    <string name="no_find_store_house_data">没有查找到仓库数据，请设置仓库再进行操作</string>
+    <string name="no_connect">当前网络不可用，请检查网络情况</string>
+    <string name="main_progress_title">获取数据中</string>
+    <string name="main_progress_content">请稍候...</string>
+    <string name="main_cancel">取消</string>
+    <!--tts-->
+    <string name="tts_no_support">不支持当前语言</string>
+    <string name="tts_init_fail">语音初始化失败</string>
+    <!--device_post_card-->
+    <string name="device_post_warehouse">库存贴卡</string>
+    <string name="device_post_manage">贴卡管理</string>
+    <string name="device_post_deliver">到货贴卡</string>
 </resources>

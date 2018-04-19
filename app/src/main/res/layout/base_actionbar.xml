@@ -1,33 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="@dimen/dip_60"
-              android:background="@color/colorPrimary"
-              android:orientation="horizontal">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dip_60"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
 
     <ImageView
-        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:id="@+id/leftBaseActionbar"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingLeft="@dimen/dip_5"
-        android:src="@drawable/ic_arrow_back"/>
+        android:layout_width="@dimen/dip_40"
+        android:layout_height="@dimen/dip_40"
+        android:layout_marginLeft="@dimen/dip_5"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/ic_arrow_back"
+        android:paddingLeft="@dimen/dip_10"
+        tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"
+        android:contentDescription=""/>
 
     <TextView
-        android:layout_centerInParent="true"
-        android:textSize="@dimen/txt_size_24"
-        android:textColor="@color/white"
         android:id="@+id/titleBaseAction"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:gravity="center"
-        />
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_size_24"
+        tools:ignore="RelativeOverlap"/>
 
     <ImageView
-        android:layout_alignParentRight="true"
-        android:paddingRight="@dimen/dip_5"
+        android:layout_centerVertical="true"
         android:id="@+id/rightBaseActionbar"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"/>
+        android:layout_width="@dimen/dip_40"
+        android:layout_height="@dimen/dip_40"
+        android:layout_alignParentRight="true"
+        android:paddingRight="@dimen/dip_10"
+        android:layout_marginRight="@dimen/dip_5"
+        tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
 
 </RelativeLayout>

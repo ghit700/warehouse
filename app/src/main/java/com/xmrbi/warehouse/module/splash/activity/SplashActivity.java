@@ -1,19 +1,15 @@
 package com.xmrbi.warehouse.module.splash.activity;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.CrashUtils;
+import com.blankj.utilcode.util.SPUtils;
 import com.xmrbi.warehouse.base.Config;
+import com.xmrbi.warehouse.component.http.HttpUtils;
 import com.xmrbi.warehouse.module.main.activity.MainActivity;
+import com.xmrbi.warehouse.module.setting.activity.SettingActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +33,12 @@ public class SplashActivity extends AppCompatActivity {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(@NonNull Long aLong) throws Exception {
-                        ActivityUtils.startActivity(SplashActivity.this,MainActivity.class);
+                        if (SPUtils.getInstance(Config.SP.SP_NAME).getBoolean(Config.SP.SP_IS_SETTING)) {
+                            HttpUtils.resetServerAddress();
+                            ActivityUtils.startActivity(SplashActivity.this, MainActivity.class);
+                        } else {
+                            ActivityUtils.startActivity(SplashActivity.this, SettingActivity.class);
+                        }
                         finish();
                     }
                 });

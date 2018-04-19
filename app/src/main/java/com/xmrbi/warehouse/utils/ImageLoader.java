@@ -99,9 +99,12 @@ public class ImageLoader {
     }
 
 //    //设置动态GIF加载方式
-//    public static void loadImageViewDynamicGif(Context mContext, String path, ImageView mImageView) {
-//        GlideApp.with(mContext).load(path).asGif().into(mImageView);
-//    }
+    public static void loadImageViewDynamicGif(Context mContext, String path, ImageView mImageView) {
+        GlideApp.with(mContext).asGif().load(path).into(mImageView);
+    }
+    public static void loadImageViewDynamicGif(Context mContext, int path, ImageView mImageView) {
+        GlideApp.with(mContext).asGif().load(path).into(mImageView);
+    }
 //
 //    //设置静态GIF加载方式
 //    public static void loadImageViewStaticGif(Context mContext, String path, ImageView mImageView) {

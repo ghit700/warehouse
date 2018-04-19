@@ -24,8 +24,7 @@ public class ActivityStackUtils {
             allActivities.remove(act);
         }
     }
-
-    public static void exitApp() {
+    public static void finishAllActivity(){
         if (allActivities != null) {
             synchronized (allActivities) {
                 for (Activity act : allActivities) {
@@ -33,6 +32,10 @@ public class ActivityStackUtils {
                 }
             }
         }
+    }
+
+    public static void exitApp() {
+        finishAllActivity();
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
     }
