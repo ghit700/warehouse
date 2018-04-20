@@ -11,16 +11,12 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechUtility;
 import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.base.BaseActivity;
 import com.xmrbi.warehouse.base.Config;
-import com.xmrbi.warehouse.base.Config.SP;
 import com.xmrbi.warehouse.data.entity.main.StoreHouse;
 import com.xmrbi.warehouse.data.local.MainLocalSource;
 import com.xmrbi.warehouse.module.deliver.activity.DevicePostCardActivity;
-import com.xmrbi.warehouse.module.san.activity.RfidPostScanGIFActivity;
 import com.xmrbi.warehouse.module.san.activity.ScanActivity;
 import com.xmrbi.warehouse.module.setting.activity.SettingActivity;
 
@@ -31,7 +27,6 @@ import io.reactivex.functions.Consumer;
 
 import static com.xmrbi.warehouse.base.Config.SP.SP_IS_NEW;
 import static com.xmrbi.warehouse.base.Config.SP.SP_NAME;
-import static com.xmrbi.warehouse.base.Config.SPEECHCONSTANT_APPID;
 
 public class MainActivity extends BaseActivity {
 
@@ -107,7 +102,7 @@ public class MainActivity extends BaseActivity {
                 if (mIsNew) {
                     lauchPermission(new String[]{Manifest.permission.CAMERA}, ScanActivity.class, "送货扫码");
                 } else {
-                    DevicePostCardActivity.lauch(mContext,mStoreHouse.getId());
+                    lauch(DevicePostCardActivity.class);
                 }
                 break;
             case R.id.llMainPickGoods:
@@ -120,10 +115,6 @@ public class MainActivity extends BaseActivity {
                 lauchPermission(new String[]{Manifest.permission.CAMERA}, ScanActivity.class, "盘点扫码");
                 break;
             case R.id.llMainSearchGoods:
-                if (mIsNew) {
-                } else {
-                    RfidPostScanGIFActivity.lauch(mContext, "pick", mStoreHouse.getId());
-                }
                 break;
         }
     }

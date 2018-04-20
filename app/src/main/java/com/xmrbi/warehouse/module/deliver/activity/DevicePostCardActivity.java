@@ -25,13 +25,6 @@ public class DevicePostCardActivity extends BaseActivity {
     @BindView(R.id.llDevicePostCardDeliver)
     LinearLayout llDevicePostCardDeliver;
 
-    public static void lauch(Context context,  Long storeHouseId) {
-        Bundle bundle = new Bundle();
-        bundle.putLong("storeHouseId", storeHouseId);
-        Intent intent = new Intent(context, DevicePostCardActivity.class);
-        intent.putExtras(bundle);
-        ActivityUtils.startActivity(intent);
-    }
 
     @Override
     protected int getLayout() {
@@ -49,7 +42,7 @@ public class DevicePostCardActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.llDevicePostCardWarehouse, R.id.llDevicePostCardManage, R.id.llDevicePostCardDeliver})
+    @OnClick({R.id.llDevicePostCardWarehouse, R.id.llDevicePostCardDeliver,R.id.llDevicePostCardManage})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.llDevicePostCardWarehouse:
@@ -57,6 +50,7 @@ public class DevicePostCardActivity extends BaseActivity {
             case R.id.llDevicePostCardManage:
                 break;
             case R.id.llDevicePostCardDeliver:
+                lauch(PostCardDeliverActivity.class);
                 break;
         }
     }

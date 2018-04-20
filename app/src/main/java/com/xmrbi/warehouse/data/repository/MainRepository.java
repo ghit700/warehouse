@@ -16,7 +16,7 @@ import io.reactivex.Observable;
  * Created by wzn on 2018/4/17.
  */
 
-public class MainRepository implements MainRemoteSource{
+public class MainRepository {
     private MainRemoteSource mainRemoteSource;
 
     public MainRepository() {

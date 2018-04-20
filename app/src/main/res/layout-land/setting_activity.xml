@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.34"/>
+        app:layout_constraintGuide_percent="0.3"/>
 
     <TextView
         android:id="@+id/textView"
@@ -27,15 +27,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="83dp"
         android:gravity="right"
         android:text="@string/setting_port"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView2"/>
 
     <TextView
         android:id="@+id/tvSettingWarehouseText"
@@ -43,22 +41,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="0dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="47dp"
         android:gravity="right"
         android:text="@string/setting_warehouse"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tvSettingLessessText"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline12"/>
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.22"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvSettingLessessText"/>
 
     <TextView
         android:id="@+id/tvSettingDeviceText"
@@ -66,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="0dp"
-        android:layout_marginTop="94dp"
+        android:layout_marginTop="115dp"
         android:gravity="right"
         android:text="@string/setting_device"
         app:layout_constraintHorizontal_bias="1.0"
@@ -80,15 +69,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="0dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:gravity="right"
         android:text="@string/setting_lessee"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline11"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -102,9 +89,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/include"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline9"/>
+        app:layout_constraintTop_toBottomOf="@+id/include"/>
 
     <Button
         android:textColor="@color/white"
@@ -167,7 +152,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="0dp"
         android:ems="10"
-        android:gravity="center_horizontal"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintLeft_toRightOf="@+id/textView"
@@ -237,26 +221,5 @@
             android:text="@string/setting_device_old"/>
 
     </RadioGroup>
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guideline10"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.31"/>
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guideline11"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.42"/>
-
-    <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guideline12"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.52"/>
 
 </android.support.constraint.ConstraintLayout>

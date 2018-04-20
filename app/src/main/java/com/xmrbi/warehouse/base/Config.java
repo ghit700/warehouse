@@ -38,7 +38,7 @@ public class Config {
          */
         public static String SP_IS_SETTING ="is_setting";
         /**
-         * 是否是新版手持枪
+         * 是否是新版上位机
          */
         public final static String SP_IS_NEW ="is_new";
         public final static String SP_SERVER_IP ="server_ip";

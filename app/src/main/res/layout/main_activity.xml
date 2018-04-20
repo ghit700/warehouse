@@ -45,7 +45,7 @@
     <!--android:layout_centerInParent="true"-->
     <!--android:gravity="center"-->
     <!--android:textColor="@color/white"-->
-    <!--android:textSize="@dimen/txt_size_30"/>-->
+    <!--android:textSize="@dimen/txt_size_22"/>-->
 
     <!--<ImageView-->
     <!--android:padding="@dimen/dip_8"-->
@@ -88,44 +88,6 @@
         tools:layout_editor_absoluteY="329dp"/>
 
     <LinearLayout
-        android:id="@+id/llMainDeliverGoods"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/main_bg_deliver_goods"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/guideline5"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:layout_constraintVertical_bias="0.0">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="3"
-            android:src="@drawable/main_deliver_goods"/>
-
-        <TextView
-            android:id="@+id/tvMainDeleverText"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/main_text_deliver_goods"
-            android:textColor="@color/white"
-            android:textSize="@dimen/txt_size_30"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/llMainPickGoods"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -145,6 +107,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView
+            android:paddingTop="@dimen/dip_10"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
@@ -160,7 +123,7 @@
             android:gravity="center_horizontal"
             android:text="@string/main_text_pick_goods"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_size_30"/>
+            android:textSize="@dimen/txt_size_22"/>
     </LinearLayout>
 
     <LinearLayout
@@ -183,6 +146,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView
+            android:paddingTop="@dimen/dip_10"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
@@ -199,7 +163,7 @@
             android:gravity="center_horizontal"
             android:text="@string/main_text_check_goods"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_size_30"/>
+            android:textSize="@dimen/txt_size_22"/>
     </LinearLayout>
 
 
@@ -223,6 +187,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView
+            android:paddingTop="@dimen/dip_10"
             android:id="@+id/ivMainSearchIcon"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -239,7 +204,7 @@
             android:gravity="center_horizontal"
             android:text="@string/main_text_search_goods"
             android:textColor="@color/white"
-            android:textSize="@dimen/txt_size_30"/>
+            android:textSize="@dimen/txt_size_22"/>
     </LinearLayout>
 
     <android.support.constraint.Guideline
@@ -250,6 +215,45 @@
         app:layout_constraintGuide_percent="0.5"
         tools:layout_editor_absoluteX="206dp"
         tools:layout_editor_absoluteY="0dp"/>
+
+    <LinearLayout
+        android:id="@+id/llMainDeliverGoods"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/main_bg_deliver_goods"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:paddingTop="@dimen/dip_10"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="3"
+            android:src="@drawable/main_deliver_goods"/>
+
+        <TextView
+            android:id="@+id/tvMainDeleverText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/main_text_deliver_goods"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_size_22"/>
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

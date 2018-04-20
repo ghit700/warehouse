@@ -9,4 +9,7 @@
     <color name="viewfinder_mask">#60000000</color>
     <color name="possible_result_points">#c0ffff00</color>
     <color name="item_press_color">#f4f4f4</color>
+    <!--deliver-->
+    <color name="deliver_post_card_bg_text">#ccc</color>
+    <color name="deliver_post_card_bg">#f2f2f2</color>
 </resources>

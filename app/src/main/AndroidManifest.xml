@@ -47,10 +47,8 @@
         </activity>
         <activity android:name=".module.setting.activity.SettingActivity">
         </activity>
-        <activity android:name=".module.san.activity.RfidPostScanGIFActivity"
-            android:theme="@style/FullWindow">
-        </activity>
         <activity android:name=".module.deliver.activity.DevicePostCardActivity"/>
+        <activity android:name=".module.deliver.activity.PostCardDeliverActivity"/>
     </application>
 
 </manifest>

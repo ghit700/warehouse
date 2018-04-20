@@ -45,8 +45,11 @@
     <!--tts-->
     <string name="tts_no_support">不支持当前语言</string>
     <string name="tts_init_fail">语音初始化失败</string>
-    <!--device_post_card-->
+    <!--deliver-->
     <string name="device_post_warehouse">库存贴卡</string>
     <string name="device_post_manage">贴卡管理</string>
     <string name="device_post_deliver">到货贴卡</string>
+    <string name="deliver_post_card_search_text">输入订购单号或合同编号或供应商名称或设备编号或设备名称或经办人</string>
+    <string name="deliver_item_suplier">供应商：</string>
+    <string name="deliver_item_device_code">设备编号：</string>
 </resources>
