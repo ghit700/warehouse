@@ -24,7 +24,7 @@
     <string name="setting_warehouse">仓库：</string>
     <string name="setting_lessee_hint">请选择租户</string>
     <string name="setting_warehouse_hint">请选择仓库</string>
-    <string name="setting_device">手持枪类型：</string>
+    <string name="setting_device">上位机类型：</string>
     <string name="setting_device_new">新版上位机</string>
     <string name="setting_device_old">旧版上位机</string>
     <string name="setting_save">保存</string>

@@ -88,6 +88,9 @@ public abstract class BaseActivity extends RxActivity {
     protected void lauch(Class clazz) {
         ActivityUtils.startActivity(mContext, clazz);
     }
+    protected void lauch(Intent intent) {
+        ActivityUtils.startActivity(intent);
+    }
 
     protected void lauch(Class clazz, String tille) {
         Intent intent = new Intent(mContext, clazz);

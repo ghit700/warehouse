@@ -52,7 +52,7 @@ public class Config {
 
     }
     public static class Http{
-        public static final int DEFAULT_TIMEOUT=100;
+        public static final int DEFAULT_TIMEOUT=10;
         /**
          * 服务器地址
          */
@@ -64,7 +64,7 @@ public class Config {
         /**
          * gmms地址
          */
-        public static final String SERVER_GMMS="http://172.16.53.226:8080/gmms/";
+        public static final String SERVER_GMMS="http://117.29.161.2:28080/gmms/";
         public static final boolean IS_IP_ADDRESS=true;
     }
 

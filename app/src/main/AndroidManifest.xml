@@ -49,6 +49,7 @@
         </activity>
         <activity android:name=".module.deliver.activity.DevicePostCardActivity"/>
         <activity android:name=".module.deliver.activity.PostCardDeliverActivity"/>
+        <activity android:name=".module.deliver.activity.PostCardSearchActivity"/>
     </application>
 
 </manifest>

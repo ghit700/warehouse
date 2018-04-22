@@ -73,26 +73,21 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onComplete() {
-        if (isShowDialog) {
-            closeLoadingProgress();
-        }
+        closeLoadingProgress();
     }
 
     protected void onError(ExceptionHandle.ResponeThrowable e) {
         if (isShowErrorToast) {
             ToastUtils.showLong(e.message);
         }
-        if (isShowDialog) {
-            closeLoadingProgress();
-        }
+        closeLoadingProgress();
 
     }
 
     protected void closeLoadingProgress() {
         if (dialog != null) {
-
+            dialog.dismiss();
         }
-        dialog.dismiss();
     }
 
     protected void showLoadingProgress() {

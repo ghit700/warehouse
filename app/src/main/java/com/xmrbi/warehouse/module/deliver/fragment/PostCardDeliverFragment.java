@@ -13,11 +13,14 @@ import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.base.BaseFragment;
 import com.xmrbi.warehouse.component.http.BaseObserver;
 import com.xmrbi.warehouse.component.http.IOTransformer;
+import com.xmrbi.warehouse.data.entity.deliver.RfidSearchHistory;
 import com.xmrbi.warehouse.data.entity.deliver.RfidUserDeviceEntity;
 import com.xmrbi.warehouse.data.entity.main.StoreHouse;
 import com.xmrbi.warehouse.data.local.MainLocalSource;
 import com.xmrbi.warehouse.data.repository.DeliverRepository;
+import com.xmrbi.warehouse.event.RfidSearchHistoryEvent;
 import com.xmrbi.warehouse.module.deliver.adapter.PostCardDeliverAdapter;
+import com.xmrbi.warehouse.utils.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * 到货贴卡
@@ -70,7 +74,7 @@ public class PostCardDeliverFragment extends BaseFragment {
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                selectAllUserDeviceList(mSearchContent);
+                selectAllUserDeviceList();
                 mPageNo++;
             }
         }, listPostCardDeliver);
@@ -78,8 +82,8 @@ public class PostCardDeliverFragment extends BaseFragment {
         srlPostCardDeliver.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                    mPageNo = 1;
-                    selectAllUserDeviceList(mSearchContent);
+                mPageNo = 1;
+                selectAllUserDeviceList();
             }
         });
     }
@@ -94,22 +98,30 @@ public class PostCardDeliverFragment extends BaseFragment {
             @Override
             public void run() {
                 srlPostCardDeliver.setRefreshing(true);
-                selectAllUserDeviceList(mSearchContent);
+                selectAllUserDeviceList();
             }
         });
+        RxBus.getDefault().toObservable(RfidSearchHistoryEvent.class)
+                .compose(this.<RfidSearchHistoryEvent>bindToLifecycle())
+                .subscribe(new Consumer<RfidSearchHistoryEvent>() {
+                    @Override
+                    public void accept(RfidSearchHistoryEvent event) throws Exception {
+                        mSearchContent = event.getHistory().getContent();
+                        selectAllUserDeviceList();
+                    }
+                });
     }
 
     /**
      * 从所有经办人保管设备中选择
-     *
-     * @param name
      */
-    public void selectAllUserDeviceList(String name) {
+    public void selectAllUserDeviceList() {
         if (mPageNo <= mMaxNo) {
-            deliverRepository.selectAllUserDeviceList(0, mStoreHouse.getLesseeId(), mStoreHouse.getId(), name, mPageNo, mPageNum)
+            srlPostCardDeliver.setRefreshing(true);
+            deliverRepository.selectAllUserDeviceList(0, mStoreHouse.getLesseeId(), mStoreHouse.getId(), mSearchContent, mPageNo, mPageNum)
                     .compose(new IOTransformer<RfidUserDeviceEntity>())
                     .compose(this.<RfidUserDeviceEntity>bindToLifecycle())
-                    .subscribe(new BaseObserver<RfidUserDeviceEntity>(getActivity(),true,false) {
+                    .subscribe(new BaseObserver<RfidUserDeviceEntity>(getActivity(), true, false) {
                         @Override
                         public void onNext(@NonNull RfidUserDeviceEntity entity) {
                             if (mPageNo == 1) {
@@ -122,11 +134,25 @@ public class PostCardDeliverFragment extends BaseFragment {
                             mAdapter.loadMoreComplete();
                         }
 
+                        @Override
+                        protected void closeLoadingProgress() {
+                            super.closeLoadingProgress();
+                            srlPostCardDeliver.setRefreshing(false);
+                            mAdapter.loadMoreComplete();
 
+                        }
                     });
         } else {
             mAdapter.loadMoreEnd();
         }
     }
 
+    /**
+     * 获取搜索内容
+     *
+     * @return
+     */
+    public String getSearchContent() {
+        return mSearchContent;
+    }
 }

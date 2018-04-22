@@ -21,6 +21,7 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(Database db, boolean ifNotExists) {
+        RfidSearchHistoryDao.createTable(db, ifNotExists);
         StoreHouseDao.createTable(db, ifNotExists);
         StoreHouseAioConfigDao.createTable(db, ifNotExists);
         UseunitDao.createTable(db, ifNotExists);
@@ -28,6 +29,7 @@ public class DaoMaster extends AbstractDaoMaster {
 
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(Database db, boolean ifExists) {
+        RfidSearchHistoryDao.dropTable(db, ifExists);
         StoreHouseDao.dropTable(db, ifExists);
         StoreHouseAioConfigDao.dropTable(db, ifExists);
         UseunitDao.dropTable(db, ifExists);
@@ -49,6 +51,7 @@ public class DaoMaster extends AbstractDaoMaster {
 
     public DaoMaster(Database db) {
         super(db, SCHEMA_VERSION);
+        registerDaoClass(RfidSearchHistoryDao.class);
         registerDaoClass(StoreHouseDao.class);
         registerDaoClass(StoreHouseAioConfigDao.class);
         registerDaoClass(UseunitDao.class);

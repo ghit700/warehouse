@@ -8,10 +8,12 @@ import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
+import com.xmrbi.warehouse.data.entity.deliver.RfidSearchHistory;
 import com.xmrbi.warehouse.data.entity.main.StoreHouse;
 import com.xmrbi.warehouse.data.entity.main.StoreHouseAioConfig;
 import com.xmrbi.warehouse.data.entity.main.Useunit;
 
+import com.xmrbi.warehouse.component.greendao.RfidSearchHistoryDao;
 import com.xmrbi.warehouse.component.greendao.StoreHouseDao;
 import com.xmrbi.warehouse.component.greendao.StoreHouseAioConfigDao;
 import com.xmrbi.warehouse.component.greendao.UseunitDao;
@@ -25,10 +27,12 @@ import com.xmrbi.warehouse.component.greendao.UseunitDao;
  */
 public class DaoSession extends AbstractDaoSession {
 
+    private final DaoConfig rfidSearchHistoryDaoConfig;
     private final DaoConfig storeHouseDaoConfig;
     private final DaoConfig storeHouseAioConfigDaoConfig;
     private final DaoConfig useunitDaoConfig;
 
+    private final RfidSearchHistoryDao rfidSearchHistoryDao;
     private final StoreHouseDao storeHouseDao;
     private final StoreHouseAioConfigDao storeHouseAioConfigDao;
     private final UseunitDao useunitDao;
@@ -36,6 +40,9 @@ public class DaoSession extends AbstractDaoSession {
     public DaoSession(Database db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
         super(db);
+
+        rfidSearchHistoryDaoConfig = daoConfigMap.get(RfidSearchHistoryDao.class).clone();
+        rfidSearchHistoryDaoConfig.initIdentityScope(type);
 
         storeHouseDaoConfig = daoConfigMap.get(StoreHouseDao.class).clone();
         storeHouseDaoConfig.initIdentityScope(type);
@@ -46,19 +53,26 @@ public class DaoSession extends AbstractDaoSession {
         useunitDaoConfig = daoConfigMap.get(UseunitDao.class).clone();
         useunitDaoConfig.initIdentityScope(type);
 
+        rfidSearchHistoryDao = new RfidSearchHistoryDao(rfidSearchHistoryDaoConfig, this);
         storeHouseDao = new StoreHouseDao(storeHouseDaoConfig, this);
         storeHouseAioConfigDao = new StoreHouseAioConfigDao(storeHouseAioConfigDaoConfig, this);
         useunitDao = new UseunitDao(useunitDaoConfig, this);
 
+        registerDao(RfidSearchHistory.class, rfidSearchHistoryDao);
         registerDao(StoreHouse.class, storeHouseDao);
         registerDao(StoreHouseAioConfig.class, storeHouseAioConfigDao);
         registerDao(Useunit.class, useunitDao);
     }
     
     public void clear() {
+        rfidSearchHistoryDaoConfig.clearIdentityScope();
         storeHouseDaoConfig.clearIdentityScope();
         storeHouseAioConfigDaoConfig.clearIdentityScope();
         useunitDaoConfig.clearIdentityScope();
+    }
+
+    public RfidSearchHistoryDao getRfidSearchHistoryDao() {
+        return rfidSearchHistoryDao;
     }
 
     public StoreHouseDao getStoreHouseDao() {

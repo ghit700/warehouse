@@ -29,11 +29,13 @@ import com.xmrbi.warehouse.utils.ActivityStackUtils;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.R.attr.data;
 import static com.xmrbi.warehouse.base.Config.SP.SP_IS_NEW;
 import static com.xmrbi.warehouse.base.Config.SP.SP_IS_SETTING;
 import static com.xmrbi.warehouse.base.Config.SP.SP_NAME;
@@ -114,7 +116,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initEventAndData() {
-        mainLocalSource = new MainLocalSource();
+        mainLocalSource=new MainLocalSource();
         if(SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_SETTING)){
             mStoreHouse=mainLocalSource.getStoreHouse();
             mUseunit=mainLocalSource.getUseunit(mStoreHouse.getUseunitId());
@@ -162,12 +164,12 @@ public class SettingActivity extends BaseActivity {
             return;
         }
         SPUtils.getInstance(SP_NAME).put(SP_IS_NEW,isNewDevice);
-        SPUtils.getInstance(SP_NAME).put(SP_IS_SETTING,true);
         SPUtils.getInstance(SP_NAME).put(SP_SERVER_IP,etSettingServerIp.getText().toString().trim());
         SPUtils.getInstance(SP_NAME).put(SP_SERVER_PORT,etSettingPort.getText().toString().trim());
         HttpUtils.resetServerAddress();
         mainLocalSource.saveStoreHouse(mStoreHouse);
         mainLocalSource.saveUseunit(mUseunit);
+        SPUtils.getInstance(SP_NAME).put(SP_IS_SETTING,true);
         finish();
         ActivityStackUtils.finishAllActivity();
         lauch(MainActivity.class);
@@ -197,6 +199,7 @@ public class SettingActivity extends BaseActivity {
      * 获取租户信息
      */
     private void queryLessessMsg() {
+        setFakeData();
         //每次获取租户信息都要更改baseurl
         Config.Http.SERVER_IP=etSettingServerIp.getText().toString();
         Config.Http.SERVER_PORT=etSettingPort.getText().toString();
@@ -246,6 +249,47 @@ public class SettingActivity extends BaseActivity {
                         mProgress.dismiss();
                     }
                 });
+    }
+
+    /**
+     * 设置假数据
+     */
+    private void setFakeData() {
+        String[] items=new String[1];
+        mLstUseunits=new ArrayList<>();
+        Useunit useunit=new Useunit();
+        useunit.setName("管理公司");
+        List<StoreHouse> lstStoreHouses=new ArrayList<>();
+        StoreHouse house=new StoreHouse();
+        house.setId(10L);
+        house.setLesseeId(8L);
+        house.setName("厦门大桥仓库");
+        lstStoreHouses.add(house);
+        useunit.setStoreHouses(lstStoreHouses);
+        mLstUseunits.add(useunit);
+        for (int i=0;i<mLstUseunits.size();i++) {
+            items[i]=mLstUseunits.get(i).getName();
+        }
+        initDialog( "租户",items, new MaterialDialog.ListCallback() {
+            @Override
+            public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                tvSettingLessee.setText(text);
+                mUseunit=mLstUseunits.get(position);
+                mLstStoreHouses=mLstUseunits.get(position).getStoreHouses();
+                String[] items=new String[mLstStoreHouses.size()];
+                for (int i=0;i<mLstStoreHouses.size();i++) {
+                    items[i]=mLstStoreHouses.get(i).getName();
+                }
+                initDialog( "仓库", items, new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                        mStoreHouse=mLstStoreHouses.get(position);
+                        mobileQueryAioConfig(mStoreHouse.getLesseeId(),mStoreHouse.getId());
+                        tvSettingWarehouse.setText(text);
+                    }
+                });
+            }
+        });
     }
 
 
@@ -304,4 +348,5 @@ public class SettingActivity extends BaseActivity {
             mlstStoreHouseDialog.setItems(items);
         }
     }
+
 }

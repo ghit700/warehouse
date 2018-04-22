@@ -69,4 +69,7 @@ dependencies {
     //material-dialogs
     compile 'com.afollestad.material-dialogs:core:0.9.6.0'
     compile 'com.android.support:cardview-v7:25.3.1'
+    //横向流式布局
+    compile 'com.github.1002326270xc:LayoutManager-FlowLayout:v1.6'
+
 }
