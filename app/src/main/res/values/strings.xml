@@ -52,6 +52,7 @@
     <string name="device_post_manage">贴卡管理</string>
     <string name="device_post_deliver">到货贴卡</string>
     <string name="deliver_post_card_search_text">输入订购单号或合同编号或供应商名称或设备编号或设备名称或经办人</string>
+    <string name="deliver_place_shelves_search_text">输入RFID或品牌或型号</string>
     <string name="deliver_item_suplier">供应商：</string>
     <string name="deliver_item_device_code">设备编号：</string>
     <string name="empty_view_hint_text">暂无数据，请重新刷新</string>

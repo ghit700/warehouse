@@ -100,13 +100,13 @@ public abstract class BaseObserver<T> implements Observer<T> {
     }
 
     protected void closeLoadingProgress() {
-        if (dialog != null && mContext != null) {
+        if (dialog != null ) {
             dialog.dismiss();
         }
     }
 
     protected void showLoadingProgress() {
-        if (isShowDialog && mContext != null) {
+        if ((isShowDialog && mContext != null) || dialog != null) {
             if (dialog == null) {
                 if (isPost) {
                     dialog = new MaterialDialog.Builder(mContext)
@@ -129,11 +129,11 @@ public abstract class BaseObserver<T> implements Observer<T> {
         }
     }
 
-    /**
-     * 设置样式
-     */
-    protected void setDialog(MaterialDialog dialog) {
-        this.dialog = dialog;
+    public MaterialDialog getDialog() {
+        return dialog;
     }
 
+    public void setDialog(MaterialDialog dialog) {
+        this.dialog = dialog;
+    }
 }

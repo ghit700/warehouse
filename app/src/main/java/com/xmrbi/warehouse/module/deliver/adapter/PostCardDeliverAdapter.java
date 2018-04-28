@@ -1,14 +1,12 @@
 package com.xmrbi.warehouse.module.deliver.adapter;
 
 import android.support.annotation.Nullable;
-import android.support.constraint.solver.SolverVariable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.data.entity.deliver.RfidAlreadyCardEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidIsExistStoreDeviceEntity;
-import com.xmrbi.warehouse.data.entity.deliver.RfidUserDeviceEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidUserDeviceEntity.RowsBean;
 import com.xmrbi.warehouse.module.deliver.activity.PostCardDeliverActivity;
 
@@ -30,7 +28,7 @@ public class PostCardDeliverAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
     protected void convert(BaseViewHolder helper, T item) {
         if (mType == PostCardDeliverActivity.POST_CARD) {
             RowsBean entity = (RowsBean) item;
-            helper.setText(R.id.tvDeliverItemContractNo, entity.getDevice().getAssetCode());
+            helper.setText(R.id.tvDeliverItemPlaceContractNo, entity.getDevice().getAssetCode());
             if (entity.getDevice().getModelExtend() != null && entity.getDevice().getModelExtend().getNeedClass().getParent() != null) {
                 helper.setText(R.id.tvDeliverItemNeedClass, entity.getDevice().getModelExtend().getNeedClass().getParent().getClassName());
             }
@@ -47,7 +45,7 @@ public class PostCardDeliverAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
         }
         if (mType == PostCardDeliverActivity.POST_STORE) {
             RfidIsExistStoreDeviceEntity.RowsBean entity = (RfidIsExistStoreDeviceEntity.RowsBean) item;
-            helper.setText(R.id.tvDeliverItemContractNo, entity.getDevice().getAssetCode());
+            helper.setText(R.id.tvDeliverItemPlaceContractNo, entity.getDevice().getAssetCode());
             if (entity.getDevice().getModelExtend() != null && entity.getDevice().getModelExtend().getNeedClass().getParent() != null) {
                 helper.setText(R.id.tvDeliverItemNeedClass, entity.getDevice().getModelExtend().getNeedClass().getParent().getClassName());
             }
@@ -64,7 +62,7 @@ public class PostCardDeliverAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
         }
         if (mType == PostCardDeliverActivity.POST_MANAGE) {
             RfidAlreadyCardEntity.RowsBean entity = (RfidAlreadyCardEntity.RowsBean) item;
-            helper.setText(R.id.tvDeliverItemContractNo, entity.getAssetCode());
+            helper.setText(R.id.tvDeliverItemPlaceContractNo, entity.getAssetCode());
             if (entity.getModelExtend() != null && entity.getModelExtend().getNeedClass().getParent() != null) {
                 helper.setText(R.id.tvDeliverItemNeedClass, entity.getModelExtend().getNeedClass().getParent().getClassName());
             }

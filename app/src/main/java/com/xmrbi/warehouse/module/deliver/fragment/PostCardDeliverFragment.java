@@ -43,8 +43,8 @@ public class PostCardDeliverFragment extends BaseFragment {
     SwipeRefreshLayout srlPostCardDeliver;
 
     private DeliverRepository deliverRepository;
-    private int mPageNo = 1;
     private int mMaxNo = Integer.MAX_VALUE;
+    private int mPageNo = 1;
     private int mPageNum = 10;
     private StoreHouse mStoreHouse;
     private MainLocalSource mainLocalSource;

@@ -2,7 +2,9 @@ package com.xmrbi.warehouse.data.repository;
 
 import com.xmrbi.warehouse.base.BaseActivity;
 import com.xmrbi.warehouse.component.http.IOTransformer;
+import com.xmrbi.warehouse.component.http.Response;
 import com.xmrbi.warehouse.component.http.RetrofitHelper;
+import com.xmrbi.warehouse.data.entity.deliver.PlaceShavesEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidAlreadyCardEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidIsExistStoreDeviceEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidUserDeviceEntity;
@@ -29,7 +31,7 @@ public class DeliverRepository extends BaseRepository {
     DeliverRemoteSource deliverRemoteSource;
 
     public DeliverRepository(BaseActivity activity) {
-       super(activity);
+        super(activity);
         deliverRemoteSource = RetrofitHelper.getInstance(DeliverRemoteSource.class, SERVER_GMMS);
     }
 
@@ -65,6 +67,21 @@ public class DeliverRepository extends BaseRepository {
 
     public Observable<String> findRfidBydeviceId(long deviceId) {
         return deliverRemoteSource.findRfidBydeviceId(deviceId)
+                .compose(new IOTransformer<String>(mBaseActivity));
+    }
+
+    public Observable<Response<List<PlaceShavesEntity>>> queryStoreDeviceNoShelves(String content, String shelves, long storeId, int pageNo, int pageSize) {
+        return deliverRemoteSource.queryStoreDeviceNoShelves(content, shelves, storeId, pageNo, pageSize)
+                .compose(new IOTransformer<Response<List<PlaceShavesEntity>>>(mBaseActivity));
+    }
+
+    public Observable<String> queryDrawerNeedClass(long classNameId, long storeId) {
+        return deliverRemoteSource.queryDrawerNeedClass(classNameId, storeId)
+                .compose(new IOTransformer<String>(mBaseActivity));
+    }
+
+    public Observable<String> updateDeviceDrawer(long deviceId, long storeId, String drawerNames) {
+        return deliverRemoteSource.updateDeviceDrawer(deviceId, storeId, drawerNames)
                 .compose(new IOTransformer<String>(mBaseActivity));
     }
 }

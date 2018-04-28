@@ -40,8 +40,8 @@ public class PlaceShelvesActivity extends BaseActivity {
     protected void onViewCreated() {
         setActionBarTitle("设备上架");
         mLstFragments=new ArrayList<>();
-        mLstFragments.add(new PlaceShelvesFragment());
-        mLstFragments.add(new PlaceShelvesFragment());
+        mLstFragments.add(PlaceShelvesFragment.newInstance(PlaceShelvesFragment.TYPE_NONE_PLACE));
+        mLstFragments.add(PlaceShelvesFragment.newInstance(PlaceShelvesFragment.TYPE_PLACE));
         mAdapter = new PlaceShevesAdapter(getFragmentManager(),mLstTabs,mLstFragments);
         vpPlaceShevesList.setAdapter(mAdapter);
         tlPlaceSheves.setupWithViewPager(vpPlaceShevesList);

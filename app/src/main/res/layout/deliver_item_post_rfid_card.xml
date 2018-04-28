@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dip_10"
     app:cardCornerRadius="@dimen/dip_15"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

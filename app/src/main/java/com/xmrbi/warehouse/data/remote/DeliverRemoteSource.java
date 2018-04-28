@@ -1,13 +1,21 @@
 package com.xmrbi.warehouse.data.remote;
 
+import com.xmrbi.warehouse.component.http.Response;
+import com.xmrbi.warehouse.data.entity.deliver.PlaceShavesEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidAlreadyCardEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidIsExistStoreDeviceEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidUserDeviceEntity;
 
+import java.util.List;
+
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+
+import static com.iflytek.sunflower.config.a.t;
 
 /**
  * Created by wzn on 2018/4/20.
@@ -94,4 +102,40 @@ public interface DeliverRemoteSource {
      */
     @GET("gmms/modules/device/device!findRfidBydeviceId.action")
     Observable<String> findRfidBydeviceId(@Query("deviceId") long deviceId);
+
+
+    /**
+     * 查询出在库设备上架情况
+     *
+     * @param content  搜索内容
+     * @param shelves  如果此参数为null 则查询未上架设备（一般为1）
+     * @param storeId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @GET("gmms/modules/device/in-out-order!queryStoreDeviceNoShelves.action")
+    Observable<Response<List<PlaceShavesEntity>>> queryStoreDeviceNoShelves(@Query("content") String content, @Query("shelves") String shelves, @Query("storeId") long storeId, @Query("pageNo") int pageNo, @Query("pageSize") int pageSize);
+
+    /**
+     * 查询货架
+     *
+     * @param classNameId 货架类别
+     * @param storeId
+     * @return
+     */
+    @GET("gmms/modules/device/in-out-order!queryDrawerNeedClass.action")
+    Observable<String> queryDrawerNeedClass(@Query("classNameId") long classNameId, @Query("storeId") long storeId);
+
+    /**
+     * 更新货架
+     *
+     * @param deviceId
+     * @param storeId
+     * @param drawerNames
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("gmms/modules/device/device!updateDeviceDrawer.action")
+    Observable<String> updateDeviceDrawer(@Field("deviceId") long deviceId, @Field("storeId") long storeId, @Field("drawerNames") String drawerNames);
 }

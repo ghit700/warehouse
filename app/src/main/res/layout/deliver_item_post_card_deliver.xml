@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvDeliverItemContractNo"
+            android:id="@+id/tvDeliverItemPlaceContractNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -46,7 +46,7 @@
             android:background="@color/deliver_post_card_bg_text"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDeliverItemContractNo"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvDeliverItemPlaceContractNo"/>
 
         <TextView
             android:id="@+id/tvDeliverItemName"
