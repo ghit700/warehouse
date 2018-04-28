@@ -3,11 +3,13 @@ package com.xmrbi.warehouse.data.entity.deliver;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * Created by wzn on 2018/4/22.
  */
 @Entity
-public class RfidSearchHistory {
+public class RfidSearchHistory  {
     /**
      * 搜索的内容
      */

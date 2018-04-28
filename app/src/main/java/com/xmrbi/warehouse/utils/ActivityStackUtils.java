@@ -1,6 +1,9 @@
 package com.xmrbi.warehouse.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -38,5 +41,11 @@ public class ActivityStackUtils {
         finishAllActivity();
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);
+    }
+
+    public static void lauch(Context context,Class clazz ,Bundle bundle){
+        Intent intent=new Intent(context,clazz);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 }

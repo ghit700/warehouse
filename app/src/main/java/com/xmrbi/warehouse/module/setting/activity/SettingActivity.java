@@ -109,40 +109,40 @@ public class SettingActivity extends BaseActivity {
         rgSettingDevice.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                isNewDevice=checkedId==R.id.rbSettingNew;
+                isNewDevice = checkedId == R.id.rbSettingNew;
             }
         });
     }
 
     @Override
     protected void initEventAndData() {
-        mainLocalSource=new MainLocalSource();
-        if(SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_SETTING)){
-            mStoreHouse=mainLocalSource.getStoreHouse();
-            mUseunit=mainLocalSource.getUseunit(mStoreHouse.getUseunitId());
+        mainLocalSource = new MainLocalSource();
+        if (SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_SETTING)) {
+            mStoreHouse = mainLocalSource.getStoreHouse();
+            mUseunit = mainLocalSource.getUseunit(mStoreHouse.getUseunitId());
             tvSettingWarehouse.setText(mStoreHouse.getName());
             tvSettingLessee.setText(mUseunit.getName());
-            rgSettingDevice.check(SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_NEW)?R.id.rbSettingNew: R.id.rbSettingOld);
-        }else{
+            rgSettingDevice.check(SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_NEW) ? R.id.rbSettingNew : R.id.rbSettingOld);
+        } else {
             queryLessessMsg();
         }
     }
 
 
-    @OnClick({R.id.btnSettingSave, R.id.btnSettingConnect,R.id.tvSettingLessee,R.id.tvSettingWarehouse})
+    @OnClick({R.id.btnSettingSave, R.id.btnSettingConnect, R.id.tvSettingLessee, R.id.tvSettingWarehouse})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvSettingLessee:
-                if(mlstLessessDialog!=null){
+                if (mlstLessessDialog != null) {
                     mlstLessessDialog.show();
-                }else{
+                } else {
                     ToastUtils.showLong(R.string.setting_fail_lessess_dialog);
                 }
                 break;
             case R.id.tvSettingWarehouse:
-                if(mlstStoreHouseDialog!=null){
+                if (mlstStoreHouseDialog != null) {
                     mlstStoreHouseDialog.show();
-                }else{
+                } else {
                     ToastUtils.showLong(R.string.setting_fail_house_dialog);
                 }
                 break;
@@ -159,25 +159,24 @@ public class SettingActivity extends BaseActivity {
      * 保存仓库配置信息
      */
     private void saveStoreHouseSetting() {
-        if(isNewDevice==null){
+        if (isNewDevice == null) {
             ToastUtils.showLong(R.string.setting_no_choose_device);
             return;
         }
-        SPUtils.getInstance(SP_NAME).put(SP_IS_NEW,isNewDevice);
-        SPUtils.getInstance(SP_NAME).put(SP_SERVER_IP,etSettingServerIp.getText().toString().trim());
-        SPUtils.getInstance(SP_NAME).put(SP_SERVER_PORT,etSettingPort.getText().toString().trim());
+        SPUtils.getInstance(SP_NAME).put(SP_IS_NEW, isNewDevice);
+        SPUtils.getInstance(SP_NAME).put(SP_SERVER_IP, etSettingServerIp.getText().toString().trim());
+        SPUtils.getInstance(SP_NAME).put(SP_SERVER_PORT, etSettingPort.getText().toString().trim());
         HttpUtils.resetServerAddress();
         mainLocalSource.saveStoreHouse(mStoreHouse);
         mainLocalSource.saveUseunit(mUseunit);
-        SPUtils.getInstance(SP_NAME).put(SP_IS_SETTING,true);
+        SPUtils.getInstance(SP_NAME).put(SP_IS_SETTING, true);
         finish();
-        ActivityStackUtils.finishAllActivity();
         lauch(MainActivity.class);
     }
 
     @Override
     public void onBackPressed() {
-        if(!SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_SETTING,false)){
+        if (!SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_SETTING, false)) {
             new MaterialDialog.Builder(this)
                     .title(R.string.setting_dailog_title)
                     .content(R.string.setting_warning, true)
@@ -190,7 +189,7 @@ public class SettingActivity extends BaseActivity {
                     .positiveText(R.string.setting_agree)
                     .negativeText(R.string.main_cancel)
                     .show();
-        }else{
+        } else {
             finish();
         }
     }
@@ -201,36 +200,34 @@ public class SettingActivity extends BaseActivity {
     private void queryLessessMsg() {
         setFakeData();
         //每次获取租户信息都要更改baseurl
-        Config.Http.SERVER_IP=etSettingServerIp.getText().toString();
-        Config.Http.SERVER_PORT=etSettingPort.getText().toString();
-        mainRepository = new MainRepository();
+        Config.Http.SERVER_IP = etSettingServerIp.getText().toString();
+        Config.Http.SERVER_PORT = etSettingPort.getText().toString();
+        mainRepository = new MainRepository(this);
         mainRepository.mobileLesseeIdStoreHouse()
-                .compose(new IOTransformer<Response>())
-                .compose(this.<Response>bindToLifecycle())
                 .subscribe(new ResponseObserver<List<Useunit>>() {
 
                     @Override
                     public void handleData(@NotNull List<Useunit> data) {
-                        String[] items=new String[data.size()];
-                        mLstUseunits=data;
-                        for (int i=0;i<data.size();i++) {
-                            items[i]=data.get(i).getName();
+                        String[] items = new String[data.size()];
+                        mLstUseunits = data;
+                        for (int i = 0; i < data.size(); i++) {
+                            items[i] = data.get(i).getName();
                         }
-                        initDialog( "租户",items, new MaterialDialog.ListCallback() {
+                        initDialog("租户", items, new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                                 tvSettingLessee.setText(text);
-                                mUseunit=mLstUseunits.get(position);
-                                mLstStoreHouses=mLstUseunits.get(position).getStoreHouses();
-                                String[] items=new String[mLstStoreHouses.size()];
-                                for (int i=0;i<mLstStoreHouses.size();i++) {
-                                    items[i]=mLstStoreHouses.get(i).getName();
+                                mUseunit = mLstUseunits.get(position);
+                                mLstStoreHouses = mLstUseunits.get(position).getStoreHouses();
+                                String[] items = new String[mLstStoreHouses.size()];
+                                for (int i = 0; i < mLstStoreHouses.size(); i++) {
+                                    items[i] = mLstStoreHouses.get(i).getName();
                                 }
-                                initDialog( "仓库", items, new MaterialDialog.ListCallback() {
+                                initDialog("仓库", items, new MaterialDialog.ListCallback() {
                                     @Override
                                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                                        mStoreHouse=mLstStoreHouses.get(position);
-                                        mobileQueryAioConfig(mStoreHouse.getLesseeId(),mStoreHouse.getId());
+                                        mStoreHouse = mLstStoreHouses.get(position);
+                                        mobileQueryAioConfig(mStoreHouse.getLesseeId(), mStoreHouse.getId());
                                         tvSettingWarehouse.setText(text);
                                     }
                                 });
@@ -255,36 +252,36 @@ public class SettingActivity extends BaseActivity {
      * 设置假数据
      */
     private void setFakeData() {
-        String[] items=new String[1];
-        mLstUseunits=new ArrayList<>();
-        Useunit useunit=new Useunit();
+        String[] items = new String[1];
+        mLstUseunits = new ArrayList<>();
+        Useunit useunit = new Useunit();
         useunit.setName("管理公司");
-        List<StoreHouse> lstStoreHouses=new ArrayList<>();
-        StoreHouse house=new StoreHouse();
+        List<StoreHouse> lstStoreHouses = new ArrayList<>();
+        StoreHouse house = new StoreHouse();
         house.setId(10L);
         house.setLesseeId(8L);
         house.setName("厦门大桥仓库");
         lstStoreHouses.add(house);
         useunit.setStoreHouses(lstStoreHouses);
         mLstUseunits.add(useunit);
-        for (int i=0;i<mLstUseunits.size();i++) {
-            items[i]=mLstUseunits.get(i).getName();
+        for (int i = 0; i < mLstUseunits.size(); i++) {
+            items[i] = mLstUseunits.get(i).getName();
         }
-        initDialog( "租户",items, new MaterialDialog.ListCallback() {
+        initDialog("租户", items, new MaterialDialog.ListCallback() {
             @Override
             public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                 tvSettingLessee.setText(text);
-                mUseunit=mLstUseunits.get(position);
-                mLstStoreHouses=mLstUseunits.get(position).getStoreHouses();
-                String[] items=new String[mLstStoreHouses.size()];
-                for (int i=0;i<mLstStoreHouses.size();i++) {
-                    items[i]=mLstStoreHouses.get(i).getName();
+                mUseunit = mLstUseunits.get(position);
+                mLstStoreHouses = mLstUseunits.get(position).getStoreHouses();
+                String[] items = new String[mLstStoreHouses.size()];
+                for (int i = 0; i < mLstStoreHouses.size(); i++) {
+                    items[i] = mLstStoreHouses.get(i).getName();
                 }
-                initDialog( "仓库", items, new MaterialDialog.ListCallback() {
+                initDialog("仓库", items, new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                        mStoreHouse=mLstStoreHouses.get(position);
-                        mobileQueryAioConfig(mStoreHouse.getLesseeId(),mStoreHouse.getId());
+                        mStoreHouse = mLstStoreHouses.get(position);
+                        mobileQueryAioConfig(mStoreHouse.getLesseeId(), mStoreHouse.getId());
                         tvSettingWarehouse.setText(text);
                     }
                 });
@@ -294,12 +291,10 @@ public class SettingActivity extends BaseActivity {
 
 
     /**
-     *  查询仓库一体机参数配置
+     * 查询仓库一体机参数配置
      */
-    public void mobileQueryAioConfig(long lessessId,long storeHouseId){
-        mainRepository.mobileQueryAioConfig(lessessId,storeHouseId)
-                .compose(new IOTransformer<Response<List<StoreHouseAioConfig>>>())
-                .compose(this.<Response<List<StoreHouseAioConfig>>>bindToLifecycle())
+    public void mobileQueryAioConfig(long lessessId, long storeHouseId) {
+        mainRepository.mobileQueryAioConfig(lessessId, storeHouseId)
                 .subscribe(new ResponseObserver<List<StoreHouseAioConfig>>() {
                     @Override
                     public void handleData(@NotNull List<StoreHouseAioConfig> data) {
@@ -320,13 +315,14 @@ public class SettingActivity extends BaseActivity {
 
     /**
      * 初始化选择对话框
+     *
      * @param title
      * @param items
      * @param callback
      */
-    private void initDialog(String title,String[] items,MaterialDialog.ListCallback callback) {
-        if(title.equals("租户")){
-            if(mlstLessessDialog==null) {
+    private void initDialog(String title, String[] items, MaterialDialog.ListCallback callback) {
+        if (title.equals("租户")) {
+            if (mlstLessessDialog == null) {
                 mlstLessessDialog = new MaterialDialog.Builder(mContext)
                         .title(title)
                         .itemsCallback(callback)
@@ -336,8 +332,8 @@ public class SettingActivity extends BaseActivity {
             }
             mlstLessessDialog.setItems(items);
         }
-        if(title.equals("仓库")){
-            if(mlstStoreHouseDialog==null){
+        if (title.equals("仓库")) {
+            if (mlstStoreHouseDialog == null) {
                 mlstStoreHouseDialog = new MaterialDialog.Builder(mContext)
                         .title(title)
                         .itemsCallback(callback)

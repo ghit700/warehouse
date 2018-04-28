@@ -20,6 +20,8 @@ import com.xmrbi.warehouse.component.zxing.camera.CameraManager;
 import com.xmrbi.warehouse.component.zxing.decoding.CaptureActivityHandler;
 import com.xmrbi.warehouse.component.zxing.decoding.InactivityTimer;
 import com.xmrbi.warehouse.component.zxing.view.ViewfinderView;
+import com.xmrbi.warehouse.module.check.activity.CheckStoreDeviceListActivity;
+import com.xmrbi.warehouse.module.pick.activity.PickDeviceListActivity;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -119,7 +121,14 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
         if (sequenceCode == null || sequenceCode.equals("")) {
             ToastUtils.showLong(R.string.scan_fail);
         } else {
-            if (sequenceCode.length()>=6&&sequenceCode.subSequence(0, 5).equals("'rfid")) {
+            if (sequenceCode.contains("'rfid")) {
+                //旧版上位机的领料扫码
+                String[] arr = sequenceCode.split("\\'");
+                if (arr.length > 1) {
+                    PickDeviceListActivity.lauch(mContext, Long.parseLong(arr[1].substring(4, arr[1].length())));
+                }
+                finish();
+            } else if (sequenceCode.length() >= 6 && sequenceCode.subSequence(0, 5).equals("'RfidUtils")) {
                 ToastUtils.showLong(R.string.scan_success);
 //                mTextToSpeech.speak("扫描成功", TextToSpeech.QUEUE_FLUSH, null);
                 //if (type.equals("领料扫码")) {
@@ -135,20 +144,18 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
                             arr[1].substring(4, arr[1].length()));
                 }
                 startActivity(intent);
-                
-            } else if (sequenceCode.length()>=4&&sequenceCode.subSequence(0, 3).equals("'pd")) {
+
+            } else if (sequenceCode.length() >= 4 && sequenceCode.subSequence(0, 3).equals("'pd")) {
+                //盘点
                 String[] arr = sequenceCode.split("\\'");
                 if (arr.length > 1) {
-                    intent.putExtra("PickListid",
-                            arr[1].substring(2, arr[1].length()));
+                    CheckStoreDeviceListActivity.lauch(mContext,Long.parseLong(arr[1].substring(2,arr[1].length())));
                 }
-//                intent.setClass(BarcodeActivity.this,
-//                        RfidNewInventoryActivity.class);
-                startActivity(intent);
+
                 ToastUtils.showLong(R.string.scan_success);
                 finish();
 //                mTextToSpeech.speak("扫描成功", TextToSpeech.QUEUE_FLUSH, null);
-            } else if (sequenceCode.length()>=10&&sequenceCode.subSequence(0, 9).equals("PICKGOOD-")) {
+            } else if (sequenceCode.length() >= 10 && sequenceCode.subSequence(0, 9).equals("PICKGOOD-")) {
                 //安卓上位机领料
                 String[] arr = sequenceCode.split("-");
                 if (arr.length > 1) {
@@ -159,7 +166,7 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
                 startActivity(intent);
                 ToastUtils.showLong(R.string.scan_success);
                 finish();
-            } else if (sequenceCode.length()>=13&&sequenceCode.subSequence(0, 12).equals("DELIVERGOOD,")) {
+            } else if (sequenceCode.length() >= 13 && sequenceCode.subSequence(0, 12).equals("DELIVERGOOD,")) {
                 //安卓上位机送货
                 String[] arr = sequenceCode.split(",");
                 if (arr.length > 1) {

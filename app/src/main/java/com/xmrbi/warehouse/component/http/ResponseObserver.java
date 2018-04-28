@@ -1,5 +1,7 @@
 package com.xmrbi.warehouse.component.http;
 
+import android.content.Context;
+
 import com.blankj.utilcode.util.ToastUtils;
 
 import org.greenrobot.greendao.annotation.NotNull;
@@ -12,6 +14,17 @@ import io.reactivex.annotations.NonNull;
  */
 
 public abstract class ResponseObserver<T> extends BaseObserver<Response> {
+    public ResponseObserver() {
+    }
+
+    public ResponseObserver(Context context) {
+        super(context);
+    }
+
+    public ResponseObserver(Context mContext, boolean isShowErrorToast, boolean isShowDialog) {
+        super(mContext, isShowErrorToast, isShowDialog);
+    }
+
     @Override
     public void onNext(@NonNull Response response) {
         super.onNext(response);

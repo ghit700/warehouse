@@ -27,6 +27,7 @@ public abstract class BaseFragment extends RxFragment {
         }
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

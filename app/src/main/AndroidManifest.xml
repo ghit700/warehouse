@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.xmrbi.warehouse">
-    <!--写入文件-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    package="com.xmrbi.warehouse">
     <!--网络请求-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!--摄像头-->
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <!--震动权限-->
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
     <!--获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!--获取当前wifi状态 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!--允许程序改变网络连接状态 -->
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <!--读取手机信息权限 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--外存储写权限，构建语法需要用到此权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--外存储读权限，构建语法需要用到此权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--配置权限，用来记录应用配置信息 -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:name=".application.WareHouseApplication"
@@ -35,21 +33,32 @@
         android:theme="@style/AppTheme">
         <activity android:name=".module.splash.activity.SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.main.activity.MainActivity"
-            android:launchMode="singleTop">
-        </activity>
-        <activity android:name=".module.san.activity.ScanActivity">
-        </activity>
-        <activity android:name=".module.setting.activity.SettingActivity">
-        </activity>
-        <activity android:name=".module.deliver.activity.DevicePostCardActivity"/>
-        <activity android:name=".module.deliver.activity.PostCardDeliverActivity"/>
-        <activity android:name=".module.deliver.activity.PostCardSearchActivity"/>
+        <!--主页面-->
+        <activity
+            android:name=".module.main.activity.MainActivity"
+            android:launchMode="singleTop" />
+        <!--扫码-->
+        <activity android:name=".module.san.activity.ScanActivity" />
+        <!--设置-->
+        <activity android:name=".module.setting.activity.SettingActivity" />
+        <!--送货-->
+        <activity android:name=".module.deliver.activity.DevicePostCardActivity" />
+        <activity android:name=".module.deliver.activity.PostCardDeliverActivity" />
+        <activity android:name=".module.deliver.activity.PostRfidCardActivity" />
+        <activity android:name=".module.deliver.activity.PlaceShelvesActivity" />
+        <activity
+            android:name=".module.deliver.activity.PostCardSearchActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <!--盘点-->
+        <activity android:name=".module.check.activity.CheckStoreDeviceListActivity" />
+        <!--领料-->
+        <activity android:name=".module.pick.activity.PickDeviceListActivity" />
+        <activity android:name=".module.pick.activity.PickDeviceMateActity" />
     </application>
 
 </manifest>

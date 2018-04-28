@@ -1,6 +1,8 @@
 package com.xmrbi.warehouse.component.http;
 
 
+import android.util.Log;
+
 import com.blankj.utilcode.util.LogUtils;
 
 import java.io.IOException;
@@ -19,6 +21,8 @@ import okhttp3.ResponseBody;
 import okhttp3.internal.http.HttpHeaders;
 import okio.Buffer;
 import okio.BufferedSource;
+
+import static com.xmrbi.warehouse.base.Config.IS_OPEN_LOG;
 
 /**
  * Created by wzn on 2017/1/6.
@@ -95,7 +99,9 @@ public class HttpLoggingInterceptor implements Interceptor {
         Logger DEFAULT = new Logger() {
             @Override
             public void log(String message) {
-                LogUtils.w("okhttp",message);
+                if(IS_OPEN_LOG){
+                    Log.w("okhttp",message);
+                }
             }
         };
     }

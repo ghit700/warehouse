@@ -8,8 +8,8 @@
     <string name="main_text_pick_goods">领料</string>
     <string name="main_text_search_goods">查询</string>
     <string name="main_text_deliver_goods_old">设备贴卡</string>
-    <string name="main_text_check_goods_old">设备上架</string>
-    <string name="main_text_pick_goods_old">库存盘点</string>
+    <string name="main_text_check_goods_old">库存盘点</string>
+    <string name="main_text_pick_goods_old">设备上架</string>
     <string name="main_text_search_goods_old">领料扫码</string>
     <!--scan-->
     <string name="scan_fail">扫描失败，请重新扫描</string>
@@ -41,7 +41,9 @@
     <string name="no_connect">当前网络不可用，请检查网络情况</string>
     <string name="main_progress_title">获取数据中</string>
     <string name="main_progress_content">请稍候...</string>
+    <string name="main_progress_post_title">上传数据中</string>
     <string name="main_cancel">取消</string>
+    <string name="main_exit_toast">再按一次退出</string>
     <!--tts-->
     <string name="tts_no_support">不支持当前语言</string>
     <string name="tts_init_fail">语音初始化失败</string>
@@ -52,4 +54,20 @@
     <string name="deliver_post_card_search_text">输入订购单号或合同编号或供应商名称或设备编号或设备名称或经办人</string>
     <string name="deliver_item_suplier">供应商：</string>
     <string name="deliver_item_device_code">设备编号：</string>
+    <string name="empty_view_hint_text">暂无数据，请重新刷新</string>
+    <string name="post_rfid_card_num_hint">请输入数量</string>
+    <string name="post_rfid_card_scaning">正在扫描中，请稍等</string>
+    <string name="post_rfid_card_initing">正在初始中，请稍等</string>
+    <string name="post_rfid_card_submiting">正在提交中，请稍等</string>
+    <!--search-->
+    <string name="search_empty_content">请输入搜索内容</string>
+    <string name="search_delete_agree_btn">确定</string>
+    <string name="search_delete_hint_content">确定删除历史记录？</string>
+    <string name="btn_post_rfid_card">提交</string>
+    <!--rifd-->
+    <string name="rfid_init_fail">模块不存在</string>
+    <!--pick-->
+    <string name="pick_item_rfid_code_text">Rfid码：</string>
+    <string name="pick_item_device_post_text">扫码领料</string>
+    <string name="pick_item_store_text">存放位置：</string>
 </resources>

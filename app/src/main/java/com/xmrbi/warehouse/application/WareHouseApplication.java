@@ -2,8 +2,10 @@ package com.xmrbi.warehouse.application;
 
 import android.Manifest;
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -39,6 +41,13 @@ public class WareHouseApplication extends Application {
         //讯飞语音在线合成
         SpeechUtility.createUtility(this, SpeechConstant.APPID+"=" + SPEECHCONSTANT_APPID);
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        //分包
+        MultiDex.install(this);
     }
 
     private void initUtils() {

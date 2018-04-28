@@ -8,7 +8,6 @@ import com.xmrbi.warehouse.data.entity.main.Useunit;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 

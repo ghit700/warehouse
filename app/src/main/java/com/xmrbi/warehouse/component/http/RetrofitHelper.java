@@ -1,6 +1,5 @@
 package com.xmrbi.warehouse.component.http;
 
-import com.baronzhang.retrofit2.converter.FastJsonConverterFactory;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -33,7 +32,7 @@ public class RetrofitHelper {
     }
 
     /**
-     * 获取一个自定义的服务
+     * 获取一个自定义的服务(json)
      * @param service
      * @param baseUrl
      * @param client

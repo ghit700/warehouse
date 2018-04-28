@@ -45,12 +45,14 @@ public class DevicePostCardActivity extends BaseActivity {
     @OnClick({R.id.llDevicePostCardWarehouse, R.id.llDevicePostCardDeliver,R.id.llDevicePostCardManage})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.llDevicePostCardDeliver:
+                PostCardDeliverActivity.lauch(mContext,PostCardDeliverActivity.POST_CARD);
+                break;
             case R.id.llDevicePostCardWarehouse:
+                PostCardDeliverActivity.lauch(mContext,PostCardDeliverActivity.POST_STORE);
                 break;
             case R.id.llDevicePostCardManage:
-                break;
-            case R.id.llDevicePostCardDeliver:
-                lauch(PostCardDeliverActivity.class);
+                PostCardDeliverActivity.lauch(mContext,PostCardDeliverActivity.POST_MANAGE);
                 break;
         }
     }

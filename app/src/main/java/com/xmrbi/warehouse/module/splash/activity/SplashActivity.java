@@ -8,6 +8,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.SPUtils;
 import com.xmrbi.warehouse.base.Config;
 import com.xmrbi.warehouse.component.http.HttpUtils;
+import com.xmrbi.warehouse.component.rfid.RfidUtils;
 import com.xmrbi.warehouse.module.main.activity.MainActivity;
 import com.xmrbi.warehouse.module.setting.activity.SettingActivity;
 
@@ -28,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheme(Config.WELCOME_STYLE);
 
-        Observable.timer(3, TimeUnit.SECONDS) // thanks to XieEDeHeiShou
+        Observable.timer(1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {
                     @Override

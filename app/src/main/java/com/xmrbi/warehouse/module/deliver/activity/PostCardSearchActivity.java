@@ -3,13 +3,17 @@ package com.xmrbi.warehouse.module.deliver.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.library.flowlayout.FlowLayoutManager;
@@ -27,6 +31,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
+ *
  * Created by wzn on 2018/4/22.
  */
 
@@ -50,6 +55,10 @@ public class PostCardSearchActivity extends BaseActivity {
     private List<RfidSearchHistory> mLstSearchHistories;
     private BaseQuickAdapter<RfidSearchHistory, BaseViewHolder> mAdapter;
     private DeliverLocalSource deliverLocalSource;
+    /**
+     * 删除历史记录提示框
+     */
+    private MaterialDialog mDeleteDialog;
     /**
      * 搜索内容
      */
@@ -84,6 +93,17 @@ public class PostCardSearchActivity extends BaseActivity {
             mSearchContent = mBundle.getString("searchContent");
             etDeliverPostCardSearch.setText(mSearchContent);
         }
+        mDeleteDialog = new MaterialDialog.Builder(this)
+                .content(R.string.search_delete_hint_content)
+                .positiveText(R.string.search_delete_agree_btn)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        deleteAllHistory();
+                    }
+                })
+                .negativeText(R.string.main_cancel)
+                .build();
 
     }
 
@@ -99,7 +119,7 @@ public class PostCardSearchActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnDeliverDeleteSearchHistory:
-                deleteAllHistory();
+                mDeleteDialog.show();
                 break;
             case R.id.btnDeliverSearch:
                 searchContent();
@@ -111,11 +131,16 @@ public class PostCardSearchActivity extends BaseActivity {
      * 搜索内容
      */
     private void searchContent() {
-        RfidSearchHistory history=new RfidSearchHistory();
-        history.setContent(etDeliverPostCardSearch.getText().toString().trim());
-        deliverLocalSource.saveRfidSearchHistory(history);
-        RxBus.getDefault().post(new RfidSearchHistoryEvent(history.getContent()));
-        finish();
+        String content = etDeliverPostCardSearch.getText().toString().trim();
+        if (!StringUtils.isEmpty(content)) {
+            RfidSearchHistory history = new RfidSearchHistory();
+            history.setContent(etDeliverPostCardSearch.getText().toString().trim());
+            deliverLocalSource.saveRfidSearchHistory(history);
+            RxBus.getDefault().post(new RfidSearchHistoryEvent(history.getContent()));
+            finish();
+        } else {
+            ToastUtils.showLong(R.string.search_empty_content);
+        }
     }
 
     /**

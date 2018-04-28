@@ -1,6 +1,10 @@
 package com.xmrbi.warehouse.data.repository;
 
+import com.xmrbi.warehouse.base.BaseActivity;
+import com.xmrbi.warehouse.component.http.IOTransformer;
 import com.xmrbi.warehouse.component.http.RetrofitHelper;
+import com.xmrbi.warehouse.data.entity.deliver.RfidAlreadyCardEntity;
+import com.xmrbi.warehouse.data.entity.deliver.RfidIsExistStoreDeviceEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidUserDeviceEntity;
 import com.xmrbi.warehouse.data.remote.DeliverRemoteSource;
 
@@ -21,17 +25,46 @@ import static com.xmrbi.warehouse.base.Config.Http.SERVER_GMMS;
  * Created by wzn on 2018/4/20.
  */
 
-public class DeliverRepository {
+public class DeliverRepository extends BaseRepository {
     DeliverRemoteSource deliverRemoteSource;
 
-    public DeliverRepository() {
+    public DeliverRepository(BaseActivity activity) {
+       super(activity);
         deliverRemoteSource = RetrofitHelper.getInstance(DeliverRemoteSource.class, SERVER_GMMS);
     }
 
     public Observable<RfidUserDeviceEntity> selectAllUserDeviceList(long transactUserId, long lesseeId, long storeId, String name, int pageNo, int pageSize) {
         return deliverRemoteSource
-                .selectAllUserDeviceList(transactUserId, lesseeId, storeId, name, pageNo, pageSize);
+                .selectAllUserDeviceList(transactUserId, lesseeId, storeId, name, pageNo, pageSize)
+                .compose(new IOTransformer<RfidUserDeviceEntity>(mBaseActivity));
+    }
 
+    public Observable<String> saveModelRfid(long deviceId, String rfid, long userId, long lesseeId, long StoreHouseId, int amount) {
+        return deliverRemoteSource.saveModelRfid(deviceId, rfid, userId, lesseeId, StoreHouseId, amount)
+                .compose(new IOTransformer<String>(mBaseActivity));
+    }
 
+    public Observable<String> queryExitsRfid(String rfids) {
+        return deliverRemoteSource.queryExitsRfid(rfids)
+                .compose(new IOTransformer<String>(mBaseActivity));
+    }
+
+    public Observable<RfidIsExistStoreDeviceEntity> selectIsExistStoreDevice(long lesseeId, long storeId,
+                                                                             String name, int pageNo,
+                                                                             int pageSize) {
+        return deliverRemoteSource.selectIsExistStoreDevice(lesseeId, storeId, name, pageNo, pageSize)
+                .compose(new IOTransformer<RfidIsExistStoreDeviceEntity>(mBaseActivity));
+    }
+
+    public Observable<RfidAlreadyCardEntity> selectAlreadyRfidDevice(long lesseeId, long storeId,
+                                                                     String name, int card, int pageNo,
+                                                                     int pageSize) {
+        return deliverRemoteSource.selectAlreadyRfidDevice(lesseeId, storeId, name, card, pageNo, pageSize)
+                .compose(new IOTransformer<RfidAlreadyCardEntity>(mBaseActivity));
+    }
+
+    public Observable<String> findRfidBydeviceId(long deviceId) {
+        return deliverRemoteSource.findRfidBydeviceId(deviceId)
+                .compose(new IOTransformer<String>(mBaseActivity));
     }
 }
