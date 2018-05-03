@@ -84,4 +84,7 @@ dependencies {
     compile 'com.speedata:deivice:+'
     //分包
     compile 'com.android.support:multidex:1.0.1'
+    //图表
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
 }

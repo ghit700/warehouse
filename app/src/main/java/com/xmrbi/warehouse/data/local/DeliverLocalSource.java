@@ -24,12 +24,12 @@ public class DeliverLocalSource {
      *
      * @return
      */
-    public List<RfidSearchHistory> queryAllRfidSearchHistory() {
-        return rfidSearchHistoryDao.loadAll();
+    public List<RfidSearchHistory> queryAllRfidSearchHistory(Integer type) {
+        return rfidSearchHistoryDao.queryRaw(" where T.type=?", type.toString());
     }
 
     public void saveRfidSearchHistory(RfidSearchHistory history) {
-        List<RfidSearchHistory> lstHistories = rfidSearchHistoryDao.queryRaw(" where T.content =? ",history.getContent());
+        List<RfidSearchHistory> lstHistories = rfidSearchHistoryDao.queryRaw(" where T.content =? ", history.getContent());
         if (lstHistories.isEmpty()) {
             rfidSearchHistoryDao.insertOrReplace(history);
         }

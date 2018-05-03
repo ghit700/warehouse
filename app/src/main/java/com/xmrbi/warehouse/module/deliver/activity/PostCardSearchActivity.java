@@ -31,18 +31,27 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- *
  * Created by wzn on 2018/4/22.
  */
 
 public class PostCardSearchActivity extends BaseActivity {
-    public static void lauch(Context context, String searchContent) {
+    public static void lauch(Context context, String searchContent, int type) {
         Bundle bundle = new Bundle();
         bundle.putString("searchContent", searchContent);
+        bundle.putInt("type", type);
         Intent intent = new Intent(context, PostCardSearchActivity.class);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
+
+    /**
+     * 贴卡管理
+     */
+    public static final int TYPE_POST_CARD = 0X001;
+    /**
+     * 设备上架
+     */
+    public static final int TYPE_PLACE_SHELVES = 0X002;
 
     @BindView(R.id.etDeliverPostCardSearch)
     EditText etDeliverPostCardSearch;
@@ -63,6 +72,10 @@ public class PostCardSearchActivity extends BaseActivity {
      * 搜索内容
      */
     private String mSearchContent;
+    /**
+     * 搜索的类型
+     */
+    private int mType;
 
     @Override
     protected int getLayout() {
@@ -72,6 +85,12 @@ public class PostCardSearchActivity extends BaseActivity {
     @Override
     protected void onViewCreated() {
         setActionBarTitle("搜索");
+        if (mType == TYPE_PLACE_SHELVES) {
+            etDeliverPostCardSearch.setHint(R.string.deliver_place_shelves_search_text);
+        } else if (mType == TYPE_POST_CARD) {
+            etDeliverPostCardSearch.setHint(R.string.deliver_post_card_search_text);
+
+        }
         FlowLayoutManager manager = new FlowLayoutManager();
         listDeliverSearch.setLayoutManager(manager);
         mLstSearchHistories = new ArrayList<>();
@@ -109,8 +128,9 @@ public class PostCardSearchActivity extends BaseActivity {
 
     @Override
     protected void initEventAndData() {
+        mType = mBundle.getInt("type");
         deliverLocalSource = new DeliverLocalSource();
-        mLstSearchHistories.addAll(deliverLocalSource.queryAllRfidSearchHistory());
+        mLstSearchHistories.addAll(deliverLocalSource.queryAllRfidSearchHistory(mType));
         mAdapter.notifyDataSetChanged();
     }
 
@@ -135,12 +155,11 @@ public class PostCardSearchActivity extends BaseActivity {
         if (!StringUtils.isEmpty(content)) {
             RfidSearchHistory history = new RfidSearchHistory();
             history.setContent(etDeliverPostCardSearch.getText().toString().trim());
+            history.setType(mType);
             deliverLocalSource.saveRfidSearchHistory(history);
-            RxBus.getDefault().post(new RfidSearchHistoryEvent(history.getContent()));
-            finish();
-        } else {
-            ToastUtils.showLong(R.string.search_empty_content);
         }
+        RxBus.getDefault().post(new RfidSearchHistoryEvent(content, mType));
+        finish();
     }
 
     /**
@@ -151,4 +170,5 @@ public class PostCardSearchActivity extends BaseActivity {
         mLstSearchHistories.clear();
         mAdapter.notifyDataSetChanged();
     }
+
 }

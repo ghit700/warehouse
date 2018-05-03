@@ -71,4 +71,13 @@
     <string name="pick_item_rfid_code_text">Rfid码：</string>
     <string name="pick_item_device_post_text">扫码领料</string>
     <string name="pick_item_store_text">存放位置：</string>
+    <!--check-->
+    <string name="check_btn_manual_text">人工盘点</string>
+    <string name="check_btn_auto_text">自动盘点</string>
+    <string name="check_btn_stop_auto_text">停止自动盘点</string>
+    <string name="check_start_manual_check">进行人工盘点</string>
+    <string name="check_item_rfid_text">Rfid码：</string>
+    <string name="check_item_device_factnum">实际数量：</string>
+    <string name="check_btn_check_text">盘点</string>
+    <string name="check_manual_dailog_content">确定盘点完毕？</string>
 </resources>

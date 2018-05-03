@@ -98,7 +98,7 @@ public class PostCardDeliverActivity extends BaseActivity {
 
     @OnClick(R.id.tvDeliverPostCardSearchText)
     public void onClick() {
-        PostCardSearchActivity.lauch(mContext, mPostCardDeliverFragment.getSearchContent());
+        PostCardSearchActivity.lauch(mContext, mPostCardDeliverFragment.getSearchContent(), PostCardSearchActivity.TYPE_POST_CARD);
     }
 
 

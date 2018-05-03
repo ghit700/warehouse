@@ -115,7 +115,7 @@ public interface DeliverRemoteSource {
      * @return
      */
     @GET("gmms/modules/device/in-out-order!queryStoreDeviceNoShelves.action")
-    Observable<Response<List<PlaceShavesEntity>>> queryStoreDeviceNoShelves(@Query("content") String content, @Query("shelves") String shelves, @Query("storeId") long storeId, @Query("pageNo") int pageNo, @Query("pageSize") int pageSize);
+    Observable<String> queryStoreDeviceNoShelves(@Query("content") String content, @Query("shelves") String shelves, @Query("storeId") long storeId, @Query("pageNo") int pageNo, @Query("pageSize") int pageSize);
 
     /**
      * 查询货架

@@ -22,5 +22,8 @@ public class CheckStoreDeviceListAdapter extends BaseQuickAdapter<RfidNewInvento
     protected void convert(BaseViewHolder helper, RfidNewInventoryEntity item) {
         helper.setText(R.id.tvItemCheckPlace, item.getDrawerName());
         helper.addOnClickListener(R.id.btnItemAutoCheck);
+        int checkCount = item.getRfidCheck() + item.getNoRfidCheck();
+        int noCheckCount = item.getNoRfidUncheck() + item.getRfidUncheck();
+        helper.setText(R.id.tvItemCheckNum, "已盘点" + checkCount + "件" + ",未盘点" + noCheckCount + "件");
     }
 }

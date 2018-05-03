@@ -70,9 +70,9 @@ public class DeliverRepository extends BaseRepository {
                 .compose(new IOTransformer<String>(mBaseActivity));
     }
 
-    public Observable<Response<List<PlaceShavesEntity>>> queryStoreDeviceNoShelves(String content, String shelves, long storeId, int pageNo, int pageSize) {
+    public Observable<String> queryStoreDeviceNoShelves(String content, String shelves, long storeId, int pageNo, int pageSize) {
         return deliverRemoteSource.queryStoreDeviceNoShelves(content, shelves, storeId, pageNo, pageSize)
-                .compose(new IOTransformer<Response<List<PlaceShavesEntity>>>(mBaseActivity));
+                .compose(new IOTransformer<String>(mBaseActivity));
     }
 
     public Observable<String> queryDrawerNeedClass(long classNameId, long storeId) {

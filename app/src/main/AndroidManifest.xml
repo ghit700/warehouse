@@ -56,6 +56,9 @@
             android:windowSoftInputMode="stateHidden" />
         <!--盘点-->
         <activity android:name=".module.check.activity.CheckStoreDeviceListActivity" />
+        <activity android:name=".module.check.activity.CheckStoreDeviceActivity" />
+        <activity android:name=".module.check.activity.ManualCheckDeviceListActivity" />
+        <activity android:name=".module.check.activity.ManualCheckDeviceActivity" />
         <!--领料-->
         <activity android:name=".module.pick.activity.PickDeviceListActivity" />
         <activity android:name=".module.pick.activity.PickDeviceMateActity" />

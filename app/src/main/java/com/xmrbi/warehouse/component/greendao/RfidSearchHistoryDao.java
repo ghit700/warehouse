@@ -25,6 +25,7 @@ public class RfidSearchHistoryDao extends AbstractDao<RfidSearchHistory, Void> {
      */
     public static class Properties {
         public final static Property Content = new Property(0, String.class, "content", false, "CONTENT");
+        public final static Property Type = new Property(1, int.class, "type", false, "TYPE");
     }
 
 
@@ -40,7 +41,8 @@ public class RfidSearchHistoryDao extends AbstractDao<RfidSearchHistory, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"RFID_SEARCH_HISTORY\" (" + //
-                "\"CONTENT\" TEXT);"); // 0: content
+                "\"CONTENT\" TEXT," + // 0: content
+                "\"TYPE\" INTEGER NOT NULL );"); // 1: type
     }
 
     /** Drops the underlying database table. */
@@ -57,6 +59,7 @@ public class RfidSearchHistoryDao extends AbstractDao<RfidSearchHistory, Void> {
         if (content != null) {
             stmt.bindString(1, content);
         }
+        stmt.bindLong(2, entity.getType());
     }
 
     @Override
@@ -67,6 +70,7 @@ public class RfidSearchHistoryDao extends AbstractDao<RfidSearchHistory, Void> {
         if (content != null) {
             stmt.bindString(1, content);
         }
+        stmt.bindLong(2, entity.getType());
     }
 
     @Override
@@ -77,7 +81,8 @@ public class RfidSearchHistoryDao extends AbstractDao<RfidSearchHistory, Void> {
     @Override
     public RfidSearchHistory readEntity(Cursor cursor, int offset) {
         RfidSearchHistory entity = new RfidSearchHistory( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0) // content
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // content
+            cursor.getInt(offset + 1) // type
         );
         return entity;
     }
@@ -85,6 +90,7 @@ public class RfidSearchHistoryDao extends AbstractDao<RfidSearchHistory, Void> {
     @Override
     public void readEntity(Cursor cursor, RfidSearchHistory entity, int offset) {
         entity.setContent(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setType(cursor.getInt(offset + 1));
      }
     
     @Override

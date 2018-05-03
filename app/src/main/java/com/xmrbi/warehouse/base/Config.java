@@ -67,7 +67,9 @@ public class Config {
         /**
          * gmms地址
          */
-        public static final String SERVER_GMMS="http://172.16.53.226:8080/";
+//        public static final String SERVER_GMMS="http://192.168.0.101:8844/";
+        public static final String SERVER_GMMS="http://192.168.199.226:8844/";
+//        public static final String SERVER_GMMS="http://172.16.53.226:8080/";
         public static final boolean IS_IP_ADDRESS=true;
     }
 

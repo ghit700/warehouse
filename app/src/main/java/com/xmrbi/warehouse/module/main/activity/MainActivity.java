@@ -95,8 +95,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initEventAndData() {
-        initCrash();
-//        initRfid();
+        initRfid();
         mainLocalSource = new MainLocalSource();
         mStoreHouse = mainLocalSource.getStoreHouse();
         titleBaseAction.setText(mStoreHouse.getName());
@@ -178,26 +177,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    /**
-     * 初始化崩溃文件日志以便上传回溯崩溃
-     */
-    private void initCrash() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            getRxPermissionsInstance().request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
-                @Override
-                public void accept(@NonNull Boolean granted) throws Exception {
-                    if (granted) {
-                        //崩溃日志
-                        CrashUtils.init(Config.Crash.CRASH_DIR);
-                    } else {
-                        ToastUtils.showLong(R.string.permissions_fail);
-                    }
-                }
-            });
-        } else {
-            CrashUtils.init(Config.Crash.CRASH_DIR);
-        }
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

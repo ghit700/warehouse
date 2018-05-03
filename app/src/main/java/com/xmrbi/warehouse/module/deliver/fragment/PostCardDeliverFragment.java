@@ -11,6 +11,7 @@ import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.base.BaseActivity;
 import com.xmrbi.warehouse.base.BaseFragment;
 import com.xmrbi.warehouse.component.http.BaseObserver;
+import com.xmrbi.warehouse.component.http.ExceptionHandle;
 import com.xmrbi.warehouse.data.entity.deliver.RfidAlreadyCardEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidIsExistStoreDeviceEntity;
 import com.xmrbi.warehouse.data.entity.deliver.RfidUserDeviceEntity;
@@ -129,7 +130,6 @@ public class PostCardDeliverFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
         mSearchContent = "";
         mainLocalSource = new MainLocalSource();
         mStoreHouse = mainLocalSource.getStoreHouse();
@@ -203,6 +203,13 @@ public class PostCardDeliverFragment extends BaseFragment {
                         }
 
                         @Override
+                        protected void onError(ExceptionHandle.ResponeThrowable e) {
+                            super.onError(e);
+                            mLstReadyDeviceRowsBeen.clear();
+                            mAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
                         protected void closeLoadingProgress() {
                             super.closeLoadingProgress();
                             srlPostCardDeliver.setRefreshing(false);
@@ -232,6 +239,13 @@ public class PostCardDeliverFragment extends BaseFragment {
                             mAdapter.notifyDataSetChanged();
                             srlPostCardDeliver.setRefreshing(false);
                             mAdapter.loadMoreComplete();
+                        }
+
+                        @Override
+                        protected void onError(ExceptionHandle.ResponeThrowable e) {
+                            super.onError(e);
+                            mLstStoreDeviceRowsBeen.clear();
+                            mAdapter.notifyDataSetChanged();
                         }
 
                         @Override
@@ -265,6 +279,13 @@ public class PostCardDeliverFragment extends BaseFragment {
                             mAdapter.notifyDataSetChanged();
                             srlPostCardDeliver.setRefreshing(false);
                             mAdapter.loadMoreComplete();
+                        }
+
+                        @Override
+                        protected void onError(ExceptionHandle.ResponeThrowable e) {
+                            super.onError(e);
+                            mLstUserDeviceRowsBeen.clear();
+                            mAdapter.notifyDataSetChanged();
                         }
 
                         @Override

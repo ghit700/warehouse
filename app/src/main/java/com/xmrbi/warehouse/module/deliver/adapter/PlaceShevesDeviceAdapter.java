@@ -1,7 +1,6 @@
 package com.xmrbi.warehouse.module.deliver.adapter;
 
 import android.support.annotation.Nullable;
-import android.text.format.DateUtils;
 
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -14,7 +13,6 @@ import com.xmrbi.warehouse.module.deliver.fragment.PlaceShelvesFragment;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import static com.iflytek.sunflower.config.a.u;
 
 /**
  * Created by wzn on 2018/4/28.

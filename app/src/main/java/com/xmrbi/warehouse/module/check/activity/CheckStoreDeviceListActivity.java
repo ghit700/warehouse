@@ -63,7 +63,8 @@ public class CheckStoreDeviceListActivity extends BaseActivity {
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
+                RfidNewInventoryEntity entity = mLstEntities.get(position);
+                CheckStoreDeviceActivity.lauch(mContext, mCheckId, entity.getDrawerName());
             }
         });
         listCheckStoreDevice.setAdapter(mAdapter);
@@ -73,6 +74,12 @@ public class CheckStoreDeviceListActivity extends BaseActivity {
     protected void initEventAndData() {
         mCheckId = mBundle.getLong("checkId");
         checkRepository = new CheckRepository(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //返回到当前页面刷新数据
         countCheckStoreDeviceItemOrRfid();
     }
 
@@ -81,8 +88,11 @@ public class CheckStoreDeviceListActivity extends BaseActivity {
                 .subscribe(new ResponseObserver<List<RfidNewInventoryEntity>>(mContext) {
                     @Override
                     public void handleData(@NotNull List<RfidNewInventoryEntity> data) {
-                        mLstEntities.addAll(data);
-                        mAdapter.notifyDataSetChanged();
+                        if(data!=null&&!data.isEmpty()){
+                            mLstEntities.clear();
+                            mLstEntities.addAll(data);
+                            mAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
     }

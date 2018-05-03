@@ -9,9 +9,10 @@ import com.xmrbi.warehouse.data.entity.deliver.RfidSearchHistory;
 public class RfidSearchHistoryEvent {
     private RfidSearchHistory history;
 
-    public RfidSearchHistoryEvent(String content) {
+    public RfidSearchHistoryEvent(String content, int type) {
         this.history = new RfidSearchHistory();
         this.history.setContent(content);
+        this.history.setType(type);
     }
 
     public RfidSearchHistoryEvent(RfidSearchHistory history) {
