@@ -39,7 +39,7 @@ public class WareHouseApplication extends Application {
         initUtils();
         initDb();
         //讯飞语音在线合成
-        SpeechUtility.createUtility(this, SpeechConstant.APPID+"=" + SPEECHCONSTANT_APPID);
+//        SpeechUtility.createUtility(this, SpeechConstant.APPID+"=" + SPEECHCONSTANT_APPID);
 
     }
 
