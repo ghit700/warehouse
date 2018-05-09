@@ -51,7 +51,7 @@ public class PostCardDeliverAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
             }
             helper.setText(R.id.tvDeliverItemName, entity.getDevice().getModel().getComponent().getName());
             String unit = entity.getDevice().getUnit() == null ? "个" : entity.getDevice().getUnit();
-            helper.setText(R.id.tvDeliverItemNum, String.valueOf(entity.getDevice().getAmount()) + unit);
+            helper.setText(R.id.tvDeliverItemNum, String.valueOf(entity.getAmount()) + unit);
             helper.setText(R.id.tvDeliverItemModel, entity.getDevice().getModel().getName());
             if (entity.getDevice().getModel().getBrand() != null) {
                 helper.setText(R.id.tvDeliverItemBrand, entity.getDevice().getModel().getBrand().getName());
@@ -75,6 +75,7 @@ public class PostCardDeliverAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
             }
             helper.setText(R.id.tvDeliverItemSequenceCode, entity.getSequenceCode());
             helper.setText(R.id.tvDeliverItemSuplier, entity.getContractName() == null ? "" : entity.getContractName());
+
             helper.setText(R.id.btnDeliverItemPost, "修改")
                     .addOnClickListener(R.id.btnDeliverItemPost);
         }

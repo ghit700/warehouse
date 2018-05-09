@@ -82,6 +82,7 @@ public class PlaceShelvesFragment extends BaseFragment {
     private int mPageNo = 1;
     private int mMaxPageNo = 1;
     private int mPageSize = 10;
+    private int mPosition;
     private MaterialDialog mChooseDrawerDialog;
     /**
      * 货架列表
@@ -109,14 +110,15 @@ public class PlaceShelvesFragment extends BaseFragment {
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                queryStoreDeviceNoShelves();
                 mPageNo++;
+                queryStoreDeviceNoShelves();
             }
         }, listDeliverPlaceShelves);
         mAdapter.setEmptyView(R.layout.empty_view);
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, final View view, final int position) {
+                mPosition = position;
                 queryDrawerNeedClass(mLstPlaceShavesEntities.get(position).getNeedId(), mLstPlaceShavesEntities.get(position).getDrawerName());
                 if (mChooseDrawerDialog == null) {
                     mLstNeedClass = new ArrayList<>();
@@ -138,7 +140,7 @@ public class PlaceShelvesFragment extends BaseFragment {
                                         for (int index : selectIndices) {
                                             selectText.append(",").append(mLstNeedClass.get(index).getName());
                                         }
-                                        updateDeviceDrawer(mLstPlaceShavesEntities.get(position).getDeviceId(), selectText.substring(1), position);
+                                        updateDeviceDrawer(mLstPlaceShavesEntities.get(mPosition).getDeviceId(), selectText.substring(1));
                                     } else {
                                         ToastUtils.showLong("请选择货架");
                                     }
@@ -309,18 +311,17 @@ public class PlaceShelvesFragment extends BaseFragment {
      *
      * @param deviceId
      * @param drawerNames
-     * @param position
      */
-    public void updateDeviceDrawer(long deviceId, final String drawerNames, final int position) {
+    public void updateDeviceDrawer(long deviceId, final String drawerNames) {
         deliverRepository.updateDeviceDrawer(deviceId, mStoreHouse.getId(), drawerNames)
                 .subscribe(new BaseObserver<String>(getActivity()) {
                     @Override
                     public void onNext(@NonNull String result) {
                         if (result.contains("成功")) {
                             if (mType == TYPE_NONE_PLACE) {
-                                mLstPlaceShavesEntities.remove(position);
+                                mLstPlaceShavesEntities.remove(mPosition);
                             } else {
-                                mLstPlaceShavesEntities.get(position).setDrawerName(drawerNames);
+                                mLstPlaceShavesEntities.get(mPosition).setDrawerName(drawerNames);
                             }
                             mAdapter.notifyDataSetChanged();
                         }

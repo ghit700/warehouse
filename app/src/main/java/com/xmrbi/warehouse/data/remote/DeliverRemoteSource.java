@@ -135,7 +135,6 @@ public interface DeliverRemoteSource {
      * @param drawerNames
      * @return
      */
-    @FormUrlEncoded
     @POST("gmms/modules/device/device!updateDeviceDrawer.action")
-    Observable<String> updateDeviceDrawer(@Field("deviceId") long deviceId, @Field("storeId") long storeId, @Field("drawerNames") String drawerNames);
+    Observable<String> updateDeviceDrawer(@Query("deviceId") long deviceId, @Query("storeId") long storeId, @Query("drawerNames") String drawerNames);
 }

@@ -122,7 +122,10 @@ public class RfidIsExistStoreDeviceEntity implements Serializable {
     public static class RowsBean implements Serializable {
         @Override
         public boolean equals(Object obj) {
-            return this.id == ((RowsBean) obj).getId();
+            if (obj.getClass().getName().equals(this.getClass().getName())) {
+                return this.id == ((RowsBean) obj).id;
+            }
+            return false;
         }
 
         /**

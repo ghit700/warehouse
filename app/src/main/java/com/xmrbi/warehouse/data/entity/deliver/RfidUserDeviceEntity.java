@@ -127,7 +127,10 @@ public class RfidUserDeviceEntity implements Serializable {
     public class RowsBean implements Serializable {
         @Override
         public boolean equals(Object obj) {
-            return this.id==((RowsBean)obj).id;
+            if (obj.getClass().getName().equals(this.getClass().getName())) {
+                return this.id == ((RowsBean) obj).id;
+            }
+            return false;
         }
 
         /**
@@ -1029,7 +1032,7 @@ public class RfidUserDeviceEntity implements Serializable {
                 this.rfids = rfids;
             }
 
-            public  class ModelBean implements Serializable {
+            public class ModelBean implements Serializable {
                 /**
                  * displayName : DS-2DF82GL-V
                  * name : DS-2DF82GL-V
@@ -1224,7 +1227,7 @@ public class RfidUserDeviceEntity implements Serializable {
                     this.lesseeId = lesseeId;
                 }
 
-                public  class ComponentBean implements Serializable {
+                public class ComponentBean implements Serializable {
                     /**
                      * name : 高清数字球机
                      * parent : {"name":"未整理构件","parent":null,"id":3,"type":1,"structureType":null,"roadType":null,"lstDevice":null,"description":null,"lesseeid":null,"installTime":null,"deleteTime":null,"deleteUserId":null,"createUserId":null,"isDeleted":null,"isVidicon":null,"isSecurity":null,"isFire":null,"capital":null,"createTime":null,"devicePlaces":[],"isDlss":null,"isCalibration":null,"isFeeLane":null,"isIcon":null,"legend":null,"items":[],"isBase":null,"isBig":null,"childCount":null,"createUserName":null,"treeCode":null,"deleteUserName":null,"treeName":null,"isMonitorBoard":null,"lstComponentParams":null,"isBigComponent":null,"isBigChildComponent":null}
@@ -2073,7 +2076,7 @@ public class RfidUserDeviceEntity implements Serializable {
                 }
             }
 
-             public class ContractCompanyBean implements Serializable {
+            public class ContractCompanyBean implements Serializable {
                 /**
                  * address : null
                  * name : 自动化新增供方单位
@@ -2449,7 +2452,7 @@ public class RfidUserDeviceEntity implements Serializable {
                 }
             }
 
-           public  class ModelExtendBean implements Serializable {
+            public class ModelExtendBean implements Serializable {
                 /**
                  * id : 33947
                  * model : {"displayName":"DS-2DF82GL-V","name":"DS-2DF82GL-V","id":49898,"code":"049898","deviceAptitude":null,"deviceAptitudeValue":null,"componentName":null,"code2":null,"supplierMain":null,"unit":null,"isDeleted":null,"life":null,"lifeUnit":null,"brandName":null,"component":{"name":"高清数字球机","parent":{"name":"未整理构件","parent":null,"id":3,"type":1,"structureType":null,"roadType":null,"lstDevice":null,"description":null,"lesseeid":null,"installTime":null,"deleteTime":null,"deleteUserId":null,"createUserId":null,"isDeleted":null,"isVidicon":null,"isSecurity":null,"isFire":null,"capital":null,"createTime":null,"devicePlaces":[],"isDlss":null,"isCalibration":null,"isFeeLane":null,"isIcon":null,"legend":null,"items":[],"isBase":null,"isBig":null,"childCount":null,"createUserName":null,"treeCode":null,"deleteUserName":null,"treeName":null,"isMonitorBoard":null,"lstComponentParams":null,"isBigComponent":null,"isBigChildComponent":null},"id":5474,"type":2,"structureType":null,"roadType":null,"lstDevice":null,"description":"来自OA系统","lesseeid":null,"installTime":null,"deleteTime":null,"deleteUserId":null,"createUserId":238,"isDeleted":false,"isVidicon":null,"isSecurity":null,"isFire":null,"capital":"GQSZQJ","createTime":1370413464000,"devicePlaces":[],"isDlss":null,"isCalibration":null,"isFeeLane":null,"isIcon":null,"legend":null,"items":[],"isBase":false,"isBig":null,"childCount":null,"createUserName":"姚鸣","treeCode":"1,3,5474,","deleteUserName":null,"treeName":"机电->未整理构件->高清数字球机","isMonitorBoard":null,"lstComponentParams":null,"isBigComponent":null,"isBigChildComponent":null},"brand":{"displayName":"海康威视","name":"海康威视","id":1379,"isDeleted":null,"otherName":null,"isWholeSet":null,"capital":"HKWS","createTime":1365667660000,"isBase":null},"createTime":1496717159000,"isBase":false,"lesseeId":null}
@@ -2759,7 +2762,7 @@ public class RfidUserDeviceEntity implements Serializable {
                         this.lesseeId = lesseeId;
                     }
 
-                   public  class ComponentBeanX implements Serializable{
+                    public class ComponentBeanX implements Serializable {
                         /**
                          * name : 高清数字球机
                          * parent : {"name":"未整理构件","parent":null,"id":3,"type":1,"structureType":null,"roadType":null,"lstDevice":null,"description":null,"lesseeid":null,"installTime":null,"deleteTime":null,"deleteUserId":null,"createUserId":null,"isDeleted":null,"isVidicon":null,"isSecurity":null,"isFire":null,"capital":null,"createTime":null,"devicePlaces":[],"isDlss":null,"isCalibration":null,"isFeeLane":null,"isIcon":null,"legend":null,"items":[],"isBase":null,"isBig":null,"childCount":null,"createUserName":null,"treeCode":null,"deleteUserName":null,"treeName":null,"isMonitorBoard":null,"lstComponentParams":null,"isBigComponent":null,"isBigChildComponent":null}
@@ -3134,7 +3137,7 @@ public class RfidUserDeviceEntity implements Serializable {
                             this.items = items;
                         }
 
-                       public class ParentBeanX implements Serializable {
+                        public class ParentBeanX implements Serializable {
                             /**
                              * name : 未整理构件
                              * parent : null
@@ -3511,7 +3514,7 @@ public class RfidUserDeviceEntity implements Serializable {
                         }
                     }
 
-                   public class BrandBeanX implements Serializable {
+                    public class BrandBeanX implements Serializable {
                         /**
                          * displayName : 海康威视
                          * name : 海康威视
@@ -3608,7 +3611,7 @@ public class RfidUserDeviceEntity implements Serializable {
                     }
                 }
 
-               public class BrandBeanXX implements Serializable{
+                public class BrandBeanXX implements Serializable {
                     /**
                      * displayName : 海康威视
                      * name : 海康威视
@@ -3704,7 +3707,7 @@ public class RfidUserDeviceEntity implements Serializable {
                     }
                 }
 
-               public class NeedClassBean implements Serializable {
+                public class NeedClassBean implements Serializable {
                     /**
                      * parent : {"parent":null,"id":1824,"type":null,"className":"弱电养护","icon":null,"code":null,"status":null,"sortCode":null,"goodsClass":null,"isDeleted":null,"useunitNames":null,"isSecurity":null,"component":null,"useunitIds":null,"isElectron":null,"childCount":null,"lesseeId":null,"useunit":null,"manageType":null,"treeCode":null,"levelSort":null,"treeName":null}
                      * id : 12346
@@ -3929,7 +3932,7 @@ public class RfidUserDeviceEntity implements Serializable {
                         this.treeName = treeName;
                     }
 
-                     public class ParentBeanXX implements Serializable {
+                    public class ParentBeanXX implements Serializable {
                         /**
                          * parent : null
                          * id : 1824
@@ -4155,7 +4158,7 @@ public class RfidUserDeviceEntity implements Serializable {
                         }
                     }
 
-                     public class ComponentBeanXX implements Serializable {
+                    public class ComponentBeanXX implements Serializable {
                         /**
                          * name : 高清数字球机
                          * parent : {"name":"未整理构件","parent":null,"id":3,"type":1,"structureType":null,"roadType":null,"lstDevice":null,"description":null,"lesseeid":null,"installTime":null,"deleteTime":null,"deleteUserId":null,"createUserId":null,"isDeleted":null,"isVidicon":null,"isSecurity":null,"isFire":null,"capital":null,"createTime":null,"devicePlaces":[],"isDlss":null,"isCalibration":null,"isFeeLane":null,"isIcon":null,"legend":null,"items":[],"isBase":null,"isBig":null,"childCount":null,"createUserName":null,"treeCode":null,"deleteUserName":null,"treeName":null,"isMonitorBoard":null,"lstComponentParams":null,"isBigComponent":null,"isBigChildComponent":null}
@@ -4530,7 +4533,7 @@ public class RfidUserDeviceEntity implements Serializable {
                             this.items = items;
                         }
 
-                       public  class ParentBeanXXX implements Serializable {
+                        public class ParentBeanXXX implements Serializable {
                             /**
                              * name : 未整理构件
                              * parent : null
@@ -4907,7 +4910,7 @@ public class RfidUserDeviceEntity implements Serializable {
                         }
                     }
 
-                  public class UseunitBean implements Serializable {
+                    public class UseunitBean implements Serializable {
                         /**
                          * address : 翔安隧道
                          * name : 厦门市路桥管理有限公司
@@ -5252,7 +5255,7 @@ public class RfidUserDeviceEntity implements Serializable {
                             this.authoritys = authoritys;
                         }
 
-                         public class HireInfoBean implements Serializable {
+                        public class HireInfoBean implements Serializable {
                             /**
                              * id : 1
                              * theme : default
@@ -5362,7 +5365,7 @@ public class RfidUserDeviceEntity implements Serializable {
             }
         }
 
-         public class UserBean implements Serializable {
+        public class UserBean implements Serializable {
             /**
              * address : null
              * name : 姚鸣

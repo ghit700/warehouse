@@ -138,6 +138,12 @@ public class PickDeviceMateActity extends BaseActivity {
                 });
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        RfidUtils.stop();
+    }
+
     /**
      * 获取领料单明细
      */

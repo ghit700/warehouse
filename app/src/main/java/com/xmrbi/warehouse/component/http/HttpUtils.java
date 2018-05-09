@@ -10,7 +10,7 @@ import com.xmrbi.warehouse.base.Config;
 public class HttpUtils {
     public static String getBaseUrl() {
         if (Config.Http.IS_IP_ADDRESS) {
-            return "http://"+Config.Http.SERVER_IP + ":" + Config.Http.SERVER_PORT + "/";
+            return "http://" + Config.Http.SERVER_IP + ":" + Config.Http.SERVER_PORT + "/";
         } else {
             return Config.Http.SERVER_IP + "/";
         }
@@ -19,8 +19,11 @@ public class HttpUtils {
     /**
      * 重置服务器地址
      */
-    public static void resetServerAddress(){
+    public static void resetServerAddress() {
         Config.Http.SERVER_IP = SPUtils.getInstance(Config.SP.SP_NAME).getString(Config.SP.SP_SERVER_IP);
         Config.Http.SERVER_PORT = SPUtils.getInstance(Config.SP.SP_NAME).getString(Config.SP.SP_SERVER_PORT);
+        Config.Http.SERVER_GMMS = SPUtils.getInstance(Config.SP.SP_NAME).getString(Config.SP.SP_OA_IP);
+        Config.Http.UPDATE_APK_ADDRESS = Config.Http.SERVER_GMMS + "gmms/files/wareHouse.apk";
+        Config.Http.UPDATE_APK_UPDATE_FILE = Config.Http.SERVER_GMMS + "gmms/updateRfid.xml";
     }
 }

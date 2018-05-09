@@ -9,6 +9,7 @@ public class Response<T> {
     private boolean success;
     private T data;
 
+
     public boolean isSuccess() {
         return success;
     }

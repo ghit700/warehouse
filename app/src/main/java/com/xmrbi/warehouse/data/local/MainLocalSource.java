@@ -23,8 +23,8 @@ public class MainLocalSource {
 
     public MainLocalSource() {
         mStoreHouseDao = WareHouseApplication.getInstances().getDaoSession().getStoreHouseDao();
-        mStoreHouseAioConfigDao= WareHouseApplication.getInstances().getDaoSession().getStoreHouseAioConfigDao();
-        mUseunitDao=WareHouseApplication.getInstances().getDaoSession().getUseunitDao();
+        mStoreHouseAioConfigDao = WareHouseApplication.getInstances().getDaoSession().getStoreHouseAioConfigDao();
+        mUseunitDao = WareHouseApplication.getInstances().getDaoSession().getUseunitDao();
     }
 
     /**
@@ -32,31 +32,35 @@ public class MainLocalSource {
      *
      * @return
      */
-    public  StoreHouse getStoreHouse() {
-        if (mStoreHouse == null) {
-            if (WareHouseApplication.getInstances().getDaoSession().getStoreHouseDao().count() > 0) {
-                //只保存当前仓库的数据
-                mStoreHouse = WareHouseApplication.getInstances().getDaoSession().getStoreHouseDao().loadAll().get(0);
-            } else {
-                ToastUtils.showLong(R.string.no_find_store_house_data);
-            }
+    public StoreHouse getStoreHouse() {
+        if (WareHouseApplication.getInstances().getDaoSession().getStoreHouseDao().count() > 0) {
+            //只保存当前仓库的数据
+            mStoreHouse = WareHouseApplication.getInstances().getDaoSession().getStoreHouseDao().loadAll().get(0);
+        } else {
+            ToastUtils.showLong(R.string.no_find_store_house_data);
         }
         return mStoreHouse;
     }
-    public void saveStoreHouse(StoreHouse house){
+
+    public void saveStoreHouse(StoreHouse house) {
+        mStoreHouse = null;
+        mStoreHouseDao.deleteAll();
         mStoreHouseDao.insertOrReplace(house);
     }
-    public void saveUseunit(Useunit useunit){
+
+    public void saveUseunit(Useunit useunit) {
+        mUseunitDao.deleteAll();
         mUseunitDao.insertOrReplace(useunit);
     }
-    public Useunit getUseunit(Long useunitId){
+
+    public Useunit getUseunit(Long useunitId) {
         return mUseunitDao.loadByRowId(useunitId);
     }
 
     /**
      * 保存仓库硬件配置
      */
-    public void saveAioConfig(StoreHouseAioConfig config){
+    public void saveAioConfig(StoreHouseAioConfig config) {
         mStoreHouseAioConfigDao.insertOrReplace(config);
     }
 

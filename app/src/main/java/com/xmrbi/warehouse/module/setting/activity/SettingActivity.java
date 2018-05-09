@@ -24,8 +24,10 @@ import com.xmrbi.warehouse.data.entity.main.StoreHouseAioConfig;
 import com.xmrbi.warehouse.data.entity.main.Useunit;
 import com.xmrbi.warehouse.data.local.MainLocalSource;
 import com.xmrbi.warehouse.data.repository.MainRepository;
+import com.xmrbi.warehouse.event.ChangeStoreHouseSettingEvent;
 import com.xmrbi.warehouse.module.main.activity.MainActivity;
 import com.xmrbi.warehouse.utils.ActivityStackUtils;
+import com.xmrbi.warehouse.utils.RxBus;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
@@ -39,6 +41,7 @@ import static android.R.attr.data;
 import static com.xmrbi.warehouse.base.Config.SP.SP_IS_NEW;
 import static com.xmrbi.warehouse.base.Config.SP.SP_IS_SETTING;
 import static com.xmrbi.warehouse.base.Config.SP.SP_NAME;
+import static com.xmrbi.warehouse.base.Config.SP.SP_OA_IP;
 import static com.xmrbi.warehouse.base.Config.SP.SP_SERVER_IP;
 import static com.xmrbi.warehouse.base.Config.SP.SP_SERVER_PORT;
 
@@ -59,6 +62,8 @@ public class SettingActivity extends BaseActivity {
     TextView tvSettingLessee;
     @BindView(R.id.etSettingPort)
     EditText etSettingPort;
+    @BindView(R.id.etSettingOAAddress)
+    EditText etSettingOAAddress;
     @BindView(R.id.etSettingServerIp)
     EditText etSettingServerIp;
     @BindView(R.id.btnSettingConnect)
@@ -94,6 +99,7 @@ public class SettingActivity extends BaseActivity {
         setActionBarTitle("设置");
         etSettingServerIp.setText(Config.Http.SERVER_IP);
         etSettingPort.setText(Config.Http.SERVER_PORT);
+        etSettingOAAddress.setText(Config.Http.SERVER_GMMS);
         mProgress = new MaterialDialog.Builder(mContext)
                 .title(R.string.main_progress_title)
                 .content(R.string.main_progress_content)
@@ -118,11 +124,13 @@ public class SettingActivity extends BaseActivity {
     protected void initEventAndData() {
         mainLocalSource = new MainLocalSource();
         if (SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_SETTING)) {
+            queryLessessMsg();
             mStoreHouse = mainLocalSource.getStoreHouse();
             mUseunit = mainLocalSource.getUseunit(mStoreHouse.getUseunitId());
             tvSettingWarehouse.setText(mStoreHouse.getName());
             tvSettingLessee.setText(mUseunit.getName());
             rgSettingDevice.check(SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_NEW) ? R.id.rbSettingNew : R.id.rbSettingOld);
+
         } else {
             queryLessessMsg();
         }
@@ -166,10 +174,12 @@ public class SettingActivity extends BaseActivity {
         SPUtils.getInstance(SP_NAME).put(SP_IS_NEW, isNewDevice);
         SPUtils.getInstance(SP_NAME).put(SP_SERVER_IP, etSettingServerIp.getText().toString().trim());
         SPUtils.getInstance(SP_NAME).put(SP_SERVER_PORT, etSettingPort.getText().toString().trim());
+        SPUtils.getInstance(SP_NAME).put(SP_OA_IP, etSettingOAAddress.getText().toString().trim());
         HttpUtils.resetServerAddress();
         mainLocalSource.saveStoreHouse(mStoreHouse);
         mainLocalSource.saveUseunit(mUseunit);
         SPUtils.getInstance(SP_NAME).put(SP_IS_SETTING, true);
+        RxBus.getDefault().post(new ChangeStoreHouseSettingEvent());
         finish();
         lauch(MainActivity.class);
     }
@@ -198,39 +208,26 @@ public class SettingActivity extends BaseActivity {
      * 获取租户信息
      */
     private void queryLessessMsg() {
-        setFakeData();
         //每次获取租户信息都要更改baseurl
         Config.Http.SERVER_IP = etSettingServerIp.getText().toString();
         Config.Http.SERVER_PORT = etSettingPort.getText().toString();
         mainRepository = new MainRepository(this);
         mainRepository.mobileLesseeIdStoreHouse()
                 .subscribe(new ResponseObserver<List<Useunit>>() {
-
                     @Override
                     public void handleData(@NotNull List<Useunit> data) {
                         String[] items = new String[data.size()];
                         mLstUseunits = data;
                         for (int i = 0; i < data.size(); i++) {
                             items[i] = data.get(i).getName();
+                            if (mUseunit != null && mUseunit.getId().equals(data.get(i).getId())) {
+                                initStoreHouse(data.get(i));
+                            }
                         }
                         initDialog("租户", items, new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                                tvSettingLessee.setText(text);
-                                mUseunit = mLstUseunits.get(position);
-                                mLstStoreHouses = mLstUseunits.get(position).getStoreHouses();
-                                String[] items = new String[mLstStoreHouses.size()];
-                                for (int i = 0; i < mLstStoreHouses.size(); i++) {
-                                    items[i] = mLstStoreHouses.get(i).getName();
-                                }
-                                initDialog("仓库", items, new MaterialDialog.ListCallback() {
-                                    @Override
-                                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                                        mStoreHouse = mLstStoreHouses.get(position);
-                                        mobileQueryAioConfig(mStoreHouse.getLesseeId(), mStoreHouse.getId());
-                                        tvSettingWarehouse.setText(text);
-                                    }
-                                });
+                                initStoreHouse(mLstUseunits.get(position));
                             }
                         });
 
@@ -249,42 +246,22 @@ public class SettingActivity extends BaseActivity {
     }
 
     /**
-     * 设置假数据
+     * 初始化仓库dailog
      */
-    private void setFakeData() {
-        String[] items = new String[1];
-        mLstUseunits = new ArrayList<>();
-        Useunit useunit = new Useunit();
-        useunit.setName("管理公司");
-        List<StoreHouse> lstStoreHouses = new ArrayList<>();
-        StoreHouse house = new StoreHouse();
-        house.setId(10L);
-        house.setLesseeId(8L);
-        house.setName("厦门大桥仓库");
-        lstStoreHouses.add(house);
-        useunit.setStoreHouses(lstStoreHouses);
-        mLstUseunits.add(useunit);
-        for (int i = 0; i < mLstUseunits.size(); i++) {
-            items[i] = mLstUseunits.get(i).getName();
+    private void initStoreHouse(Useunit useunit) {
+        tvSettingLessee.setText(useunit.getName());
+        mUseunit = useunit;
+        mLstStoreHouses = useunit.getStoreHouses();
+        String[] items = new String[mLstStoreHouses.size()];
+        for (int i = 0; i < mLstStoreHouses.size(); i++) {
+            items[i] = mLstStoreHouses.get(i).getName();
         }
-        initDialog("租户", items, new MaterialDialog.ListCallback() {
+        initDialog("仓库", items, new MaterialDialog.ListCallback() {
             @Override
             public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                tvSettingLessee.setText(text);
-                mUseunit = mLstUseunits.get(position);
-                mLstStoreHouses = mLstUseunits.get(position).getStoreHouses();
-                String[] items = new String[mLstStoreHouses.size()];
-                for (int i = 0; i < mLstStoreHouses.size(); i++) {
-                    items[i] = mLstStoreHouses.get(i).getName();
-                }
-                initDialog("仓库", items, new MaterialDialog.ListCallback() {
-                    @Override
-                    public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                        mStoreHouse = mLstStoreHouses.get(position);
-                        mobileQueryAioConfig(mStoreHouse.getLesseeId(), mStoreHouse.getId());
-                        tvSettingWarehouse.setText(text);
-                    }
-                });
+                mStoreHouse = mLstStoreHouses.get(position);
+                mobileQueryAioConfig(mStoreHouse.getLesseeId(), mStoreHouse.getId());
+                tvSettingWarehouse.setText(text);
             }
         });
     }
@@ -294,23 +271,24 @@ public class SettingActivity extends BaseActivity {
      * 查询仓库一体机参数配置
      */
     public void mobileQueryAioConfig(long lessessId, long storeHouseId) {
-        mainRepository.mobileQueryAioConfig(lessessId, storeHouseId)
-                .subscribe(new ResponseObserver<List<StoreHouseAioConfig>>() {
-                    @Override
-                    public void handleData(@NotNull List<StoreHouseAioConfig> data) {
-                        mainLocalSource.saveAioConfig(data.get(0));
-                    }
-
-                    @Override
-                    protected void showLoadingProgress() {
-                        mSaveProgress.show();
-                    }
-
-                    @Override
-                    protected void closeLoadingProgress() {
-                        mSaveProgress.dismiss();
-                    }
-                });
+        //为了不影响使用，先屏蔽
+//        mainRepository.mobileQueryAioConfig(lessessId, storeHouseId)
+//                .subscribe(new ResponseObserver<List<StoreHouseAioConfig>>() {
+//                    @Override
+//                    public void handleData(@NotNull List<StoreHouseAioConfig> data) {
+//                        mainLocalSource.saveAioConfig(data.get(0));
+//                    }
+//
+//                    @Override
+//                    protected void showLoadingProgress() {
+//                        mSaveProgress.show();
+//                    }
+//
+//                    @Override
+//                    protected void closeLoadingProgress() {
+//                        mSaveProgress.dismiss();
+//                    }
+//                });
     }
 
     /**

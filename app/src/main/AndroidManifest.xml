@@ -22,7 +22,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--配置权限，用来记录应用配置信息 -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
+    <!--在通知栏显示下载apk中-->
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <application
         android:name=".application.WareHouseApplication"
         android:allowBackup="true"
@@ -41,7 +42,7 @@
         <!--主页面-->
         <activity
             android:name=".module.main.activity.MainActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTask" />
         <!--扫码-->
         <activity android:name=".module.san.activity.ScanActivity" />
         <!--设置-->
@@ -62,6 +63,8 @@
         <!--领料-->
         <activity android:name=".module.pick.activity.PickDeviceListActivity" />
         <activity android:name=".module.pick.activity.PickDeviceMateActity" />
+        <!--rfid查询-->
+        <activity android:name=".module.search.activity.RfidSearchActivity"/>
     </application>
 
 </manifest>

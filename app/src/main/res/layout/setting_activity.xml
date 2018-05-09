@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                             xmlns:app="http://schemas.android.com/apk/res-auto"
-                                             xmlns:tools="http://schemas.android.com/tools"
-                                             android:layout_width="match_parent"
-                                             android:layout_height="match_parent"
-                                             android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/include"
@@ -19,46 +19,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.34"/>
+        app:layout_constraintGuide_percent="0.34" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="32dp"
         android:gravity="right"
         android:text="@string/setting_port"
+        app:layout_constraintBottom_toTopOf="@+id/guideline10"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
         android:id="@+id/tvSettingWarehouseText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="29dp"
         android:gravity="right"
         android:text="@string/setting_warehouse"
+        app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tvSettingLessessText"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline12"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvSettingLessessText" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.22"/>
+        app:layout_constraintGuide_percent="0.22" />
 
     <TextView
         android:id="@+id/tvSettingDeviceText"
@@ -72,57 +72,56 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/tvSettingLessessText"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvSettingLessessText" />
 
     <TextView
         android:id="@+id/tvSettingLessessText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="32dp"
         android:gravity="right"
         android:text="@string/setting_lessee"
+        app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline11"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="25dp"
         android:gravity="right"
         android:text="@string/setting_server"
+        app:layout_constraintBottom_toTopOf="@+id/guideline9"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/include"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline9"/>
+        app:layout_constraintTop_toBottomOf="@+id/include" />
 
     <Button
-        android:textColor="@color/white"
-        android:background="@color/colorPrimary"
         android:id="@+id/btnSettingSave"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
+        android:background="@color/colorPrimary"
         android:text="@string/setting_save"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="16dp"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:drawableRight="@drawable/ic_arrow_drop_down"
         android:id="@+id/tvSettingWarehouse"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -130,6 +129,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
+        android:drawableRight="@drawable/ic_arrow_drop_down"
         android:ems="10"
         android:hint="@string/setting_warehouse_hint"
         android:inputType="textPersonName"
@@ -138,10 +138,9 @@
         app:layout_constraintLeft_toRightOf="@+id/tvSettingWarehouseText"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvSettingWarehouseText"
-        app:layout_constraintVertical_bias="0.533"/>
+        app:layout_constraintVertical_bias="0.533" />
 
     <TextView
-        android:drawableRight="@drawable/ic_arrow_drop_down"
         android:id="@+id/tvSettingLessee"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -149,6 +148,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="0dp"
+        android:drawableRight="@drawable/ic_arrow_drop_down"
         android:ems="10"
         android:hint="@string/setting_lessee_hint"
         android:inputType="textPersonName"
@@ -157,7 +157,7 @@
         app:layout_constraintLeft_toRightOf="@+id/tvSettingLessessText"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvSettingLessessText"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/etSettingPort"
@@ -165,16 +165,16 @@
         android:layout_height="43dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="0dp"
         android:ems="10"
         android:gravity="center_horizontal"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintLeft_toRightOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.411"
         app:layout_constraintRight_toLeftOf="@+id/btnSettingConnect"
-        android:layout_marginRight="8dp"/>
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.411" />
 
     <EditText
         android:id="@+id/etSettingServerIp"
@@ -190,22 +190,22 @@
         app:layout_constraintLeft_toRightOf="@+id/textView2"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.515"/>
+        app:layout_constraintVertical_bias="0.515" />
 
     <Button
-        android:textColor="@color/white"
-        android:background="@color/colorPrimary"
         android:id="@+id/btnSettingConnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
         android:text="@string/setting_connection"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/etSettingPort"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/etSettingPort"
-        app:layout_constraintVertical_bias="1.0"/>
+        app:layout_constraintVertical_bias="1.0" />
 
     <RadioGroup
         android:id="@+id/rgSettingDevice"
@@ -227,36 +227,68 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/setting_device_new"/>
+            android:text="@string/setting_device_new" />
 
         <RadioButton
             android:id="@+id/rbSettingOld"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/setting_device_old"/>
+            android:text="@string/setting_device_old" />
 
     </RadioGroup>
 
     <android.support.constraint.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/guideline10"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.31"/>
-
-    <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.31" />
+
+    <android.support.constraint.Guideline
         android:id="@+id/guideline11"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.42"/>
-
-    <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline12"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.52"/>
+        app:layout_constraintGuide_percent="0.42" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.52" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="43dp"
+        android:gravity="right"
+        android:text="OA地址："
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/tvSettingDeviceText" />
+
+    <EditText
+        android:id="@+id/etSettingOAAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="-131dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="41dp"
+        android:ems="10"
+        android:hint="请输入OA地址"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgSettingDevice"
+        app:layout_constraintVertical_bias="0.666" />
 
 </android.support.constraint.ConstraintLayout>

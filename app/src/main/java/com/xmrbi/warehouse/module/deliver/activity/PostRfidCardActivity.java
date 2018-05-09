@@ -108,10 +108,6 @@ public class PostRfidCardActivity extends BaseActivity {
      */
     private int mType;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     protected int getLayout() {
@@ -145,7 +141,7 @@ public class PostRfidCardActivity extends BaseActivity {
             }
             tvPostRfidCardName.setText(entity.getDevice().getModel().getComponent().getName());
             String unit = entity.getDevice().getUnit() == null ? "个" : entity.getDevice().getUnit();
-            tvPostRfidCardNum.setText(String.valueOf(entity.getDevice().getAmount()) + unit);
+            tvPostRfidCardNum.setText(String.valueOf(entity.getAmount()) + unit);
             tvPostRfidCardModel.setText(entity.getDevice().getModel().getName());
             if (entity.getDevice().getModel().getBrand() != null) {
                 tvPostRfidCardBrand.setText(entity.getDevice().getModel().getBrand().getName());
@@ -174,8 +170,14 @@ public class PostRfidCardActivity extends BaseActivity {
                 helper.setText(R.id.tvPostRfidCardEPC, item.getCode());
                 helper.setText(R.id.etPostRfidCardNum, item.getAmount());
                 //不显示输入法
-                ((EditText) helper.getView(R.id.etPostRfidCardNum)).setInputType(InputType.TYPE_NULL);
+                EditText etPostRfidCardNum = (EditText) helper.getView(R.id.etPostRfidCardNum);
+                etPostRfidCardNum.setInputType(InputType.TYPE_NULL);
+                etPostRfidCardNum.requestFocus();
+                if (etPostRfidCardNum.getText().toString().trim().length() > 0) {
+                    etPostRfidCardNum.setSelection(etPostRfidCardNum.getText().toString().trim().length() );
+                }
                 helper.addOnClickListener(R.id.ivPostRfidCardDelete);
+
             }
         };
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -268,6 +270,11 @@ public class PostRfidCardActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        RfidUtils.stop();
+    }
 
     /**
      * 提交rfid填写结果
@@ -364,6 +371,7 @@ public class PostRfidCardActivity extends BaseActivity {
                                     mLstEpcs.add(new Rfid(lstRfidCodes[i], lstRfidAmounts[i]));
                                 }
                             }
+                            mAdapter.notifyDataSetChanged();
                         }
                     }
                 });

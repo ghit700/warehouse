@@ -103,9 +103,6 @@ public class CheckStoreDeviceActivity extends BaseActivity {
     @Override
     protected void initEventAndData() {
         mDrawerName = mBundle.getString("drawerName");
-        if (StringUtils.isEmpty(mDrawerName)) {
-            ToastUtils.showLong("货架为空");
-        }
         mCheckId = mBundle.getLong("checkId");
         checkRepository = new CheckRepository(this);
         RxBus.getDefault().toObservable(RfidScanEvent.class)

@@ -29,10 +29,15 @@ public abstract class ResponseObserver<T> extends BaseObserver<Response> {
     public void onNext(@NonNull Response response) {
         super.onNext(response);
         if (!response.isSuccess()) {
-            ToastUtils.showLong((String) response.getData());
+            ToastUtils.showLong("毫无数据");
+            handleErrorData();
         } else {
             handleData((T) response.getData());
         }
+    }
+
+    protected void handleErrorData() {
+
     }
 
     public abstract void handleData(@NotNull T data);

@@ -5,6 +5,7 @@ import android.os.Environment;
 import com.xmrbi.warehouse.R;
 
 import java.io.File;
+import java.io.FileFilter;
 
 /**
  * Created by wzn on 2018/3/29.
@@ -23,9 +24,10 @@ public class Config {
     /**
      * 科大讯飞的appid
      */
-    public static String SPEECHCONSTANT_APPID="5ad7567b";
-    public static class DB{
-        public static String DB_NAME="WAREHOURE_DB";
+    public static String SPEECHCONSTANT_APPID = "5ad7567b";
+
+    public static class DB {
+        public static String DB_NAME = "WAREHOURE_DB";
     }
 
     public static class SP {
@@ -36,41 +38,65 @@ public class Config {
         /**
          * 是否设置仓库信息
          */
-        public static String SP_IS_SETTING ="is_setting";
+        public static String SP_IS_SETTING = "is_setting";
         /**
          * 是否是新版上位机
          */
-        public final static String SP_IS_NEW ="is_new";
-        public final static String SP_SERVER_IP ="server_ip";
-        public final static String SP_SERVER_PORT ="server_port";
+        public final static String SP_IS_NEW = "is_new";
+        public final static String SP_SERVER_IP = "server_ip";
+        public final static String SP_SERVER_PORT = "server_port";
+        public final static String SP_OA_IP = "oa_ip";
     }
-    public static class Crash{
+
+    public static class Crash {
         /**
          * 崩溃文件的地址
          */
         public static String CRASH_DIR = SD_PATH + File.separator + "gmms" + File.separator + "errorFile";
 
     }
-    public static class Http{
+
+    public static class Http {
         /**
          * 超时时间
          */
-        public static final int DEFAULT_TIMEOUT=30;
+        public static final int DEFAULT_TIMEOUT = 30;
         /**
-         * 服务器地址
+         * 服务器地址（正式）
          */
-        public static  String SERVER_IP="172.16.53.225";
+        public static String SERVER_IP = "172.20.60.40";
+        //厦门西地址
+//        public static  String SERVER_IP="192.168.192.40";
         /**
          * 服务器端口
          */
-        public static  String SERVER_PORT="8080";
+        public static String SERVER_PORT = "8787";
         /**
          * gmms地址
          */
-//        public static final String SERVER_GMMS="http://192.168.0.101:8844/";
-        public static final String SERVER_GMMS="http://192.168.199.226:8844/";
-//        public static final String SERVER_GMMS="http://172.16.53.226:8080/";
-        public static final boolean IS_IP_ADDRESS=true;
+//        public static  String SERVER_GMMS="http://192.168.0.110:8844/";
+        public static String SERVER_GMMS = "http://172.16.53.226:8080/";
+        //正式地址(厦门西)
+//        public static  String SERVER_GMMS="http://192.168.192.40:8280/";
+        //正式环境
+//        public static  String SERVER_GMMS = "http://172.20.60.40:8280/";
+        public static final boolean IS_IP_ADDRESS = true;
+        /**
+         * apk的web地址
+         */
+        public static String UPDATE_APK_ADDRESS = SERVER_GMMS + "gmms/files/wareHouse.apk";
+        /**
+         * 判断apk是否更新的web文件
+         */
+        public static String UPDATE_APK_UPDATE_FILE = SERVER_GMMS + "gmms/updateRfid.xml";
+        /**
+         * apk本地下载地址
+         */
+        public static final String UPDATE_APK_FILE_ADDRESS = SD_PATH + File.separator + "gmms" + File.separator + "apk" + File.separator + "wareHouse.apk";
+        /**
+         * apk本地下载地址目录（创建）
+         */
+        public static final String UPDATE_APK_FILE_ADDRESS_DIR = SD_PATH + File.separator + "gmms" + File.separator + "apk";
     }
 
 

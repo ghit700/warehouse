@@ -80,4 +80,11 @@
     <string name="check_item_device_factnum">实际数量：</string>
     <string name="check_btn_check_text">盘点</string>
     <string name="check_manual_dailog_content">确定盘点完毕？</string>
+    <!--update-->
+    <string name="update_alert_title">更新内容</string>
+    <string name="update_progress_title">下载更新</string>
+    <string name="update_progress_content">下载中...</string>
+    <string name="update_alert_install_title">安装</string>
+    <string name="update_alert_install_content">是否安装？</string>
+    <string name="update_download_fail">下载失败</string>
 </resources>

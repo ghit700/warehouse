@@ -5,6 +5,9 @@ import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -55,12 +58,24 @@ public class FastJsonConverterFactory extends Converter.Factory {
         }
 
         public T convert(ResponseBody value) throws IOException {
+            String result = value.string();
             //如果返回的结果要求是String就返回string
-            String typeClassName=type.toString();
-            if(typeClassName.substring(typeClassName.lastIndexOf(".")+1,typeClassName.length()).equals("String")){
-                return (T) value.string();
+            String typeClassName = type.toString();
+            if (typeClassName.substring(typeClassName.lastIndexOf(".") + 1, typeClassName.length()).equals("String")) {
+                return (T) result;
             }
-            return JSON.parseObject(value.string(), this.type, new Feature[0]);
+            if (typeClassName.contains("com.xmrbi.warehouse.component.http.Response")) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (!json.getBoolean("success")) {
+                        json.put("data", null);
+                    }
+                    result = json.toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return JSON.parseObject(result, this.type, new Feature[0]);
         }
     }
 

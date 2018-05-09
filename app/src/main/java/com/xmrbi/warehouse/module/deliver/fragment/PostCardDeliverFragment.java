@@ -107,8 +107,8 @@ public class PostCardDeliverFragment extends BaseFragment {
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                queryData();
                 mPageNo++;
+                queryData();
             }
         }, listPostCardDeliver);
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {

@@ -20,10 +20,14 @@ import com.xmrbi.warehouse.component.http.IOTransformer;
 import com.xmrbi.warehouse.component.rfid.RfidUtils;
 import com.xmrbi.warehouse.data.entity.main.StoreHouse;
 import com.xmrbi.warehouse.data.local.MainLocalSource;
+import com.xmrbi.warehouse.event.ChangeStoreHouseSettingEvent;
 import com.xmrbi.warehouse.module.deliver.activity.DevicePostCardActivity;
 import com.xmrbi.warehouse.module.deliver.activity.PlaceShelvesActivity;
 import com.xmrbi.warehouse.module.san.activity.ScanActivity;
+import com.xmrbi.warehouse.module.search.activity.RfidSearchActivity;
 import com.xmrbi.warehouse.module.setting.activity.SettingActivity;
+import com.xmrbi.warehouse.utils.RxBus;
+import com.xmrbi.warehouse.utils.UpdateUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -84,31 +88,39 @@ public class MainActivity extends BaseActivity {
     protected void onViewCreated() {
         leftBaseActionbar.setBackgroundResource(R.drawable.ic_scan);
         rightBaseActionbar.setBackgroundResource(R.drawable.ic_settings);
-        mIsNew = SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_NEW);
-        if (!mIsNew) {
-            tvMainCheckText.setText(R.string.main_text_check_goods_old);
-            tvMainPickText.setText(R.string.main_text_pick_goods_old);
-            tvMainDeleverText.setText(R.string.main_text_deliver_goods_old);
-            tvMainSearchText.setText(R.string.main_text_search_goods_old);
-        }
+        leftBaseActionbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lauch(RfidSearchActivity.class);
+            }
+        });
     }
 
     @Override
     protected void initEventAndData() {
-        initRfid();
         mainLocalSource = new MainLocalSource();
-        mStoreHouse = mainLocalSource.getStoreHouse();
-        titleBaseAction.setText(mStoreHouse.getName());
-
+        changeStoreHouseSetting();
+        //仓库设置改变事件
+        RxBus.getDefault().toObservable(ChangeStoreHouseSettingEvent.class)
+                .subscribe(new Consumer<ChangeStoreHouseSettingEvent>() {
+                    @Override
+                    public void accept(ChangeStoreHouseSettingEvent changeStoreHouseSettingEvent) throws Exception {
+                        changeStoreHouseSetting();
+                    }
+                });
+        //初始化rfid扫描器
+        initRfid();
+        //更新apk
+        new UpdateUtils(mContext).updateAPK();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (RfidUtils.getIuhfService() != null) {
             RfidUtils.closeDevice();
             RfidUtils.destoryService();
         }
+        super.onDestroy();
     }
 
     @OnClick({R.id.llMainDeliverGoods, R.id.llMainPickGoods, R.id.llMainCheckGoods, R.id.llMainSearchGoods, R.id.leftBaseActionbar, R.id.rightBaseActionbar})
@@ -137,12 +149,32 @@ public class MainActivity extends BaseActivity {
                 lauchPermission(new String[]{Manifest.permission.CAMERA}, ScanActivity.class, "盘点扫码");
                 break;
             case R.id.llMainSearchGoods:
-                if(mIsNew){
+                if (mIsNew) {
 
-                }else {
+                } else {
                     lauchPermission(new String[]{Manifest.permission.CAMERA}, ScanActivity.class, "领料扫码");
                 }
                 break;
+        }
+    }
+
+    /**
+     * 切换仓库配置
+     */
+    public void changeStoreHouseSetting() {
+        mIsNew = SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_NEW);
+        mStoreHouse = mainLocalSource.getStoreHouse();
+        titleBaseAction.setText(mStoreHouse.getName());
+        if (!mIsNew) {
+            tvMainCheckText.setText(R.string.main_text_check_goods_old);
+            tvMainPickText.setText(R.string.main_text_pick_goods_old);
+            tvMainDeleverText.setText(R.string.main_text_deliver_goods_old);
+            tvMainSearchText.setText(R.string.main_text_search_goods_old);
+        } else {
+            tvMainCheckText.setText(R.string.main_text_check_goods);
+            tvMainPickText.setText(R.string.main_text_pick_goods);
+            tvMainDeleverText.setText(R.string.main_text_deliver_goods);
+            tvMainSearchText.setText(R.string.main_text_search_goods);
         }
     }
 
@@ -169,7 +201,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void accept(Boolean result) throws Exception {
                         //如果不是对应的扫描枪应用不可用
-                        if(!result){
+                        if (!result) {
                             finish();
                         }
                     }
