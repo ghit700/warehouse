@@ -20,6 +20,8 @@ android {
         multiDexEnabled true
         //增加对Vector兼容性的支持
         vectorDrawables.useSupportLibrary = true
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+
     }
     buildTypes {
         release {

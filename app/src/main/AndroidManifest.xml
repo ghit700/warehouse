@@ -22,8 +22,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--配置权限，用来记录应用配置信息 -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <!--在通知栏显示下载apk中-->
-    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <application
         android:name=".application.WareHouseApplication"
         android:allowBackup="true"

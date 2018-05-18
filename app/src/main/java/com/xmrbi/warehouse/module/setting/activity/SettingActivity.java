@@ -130,7 +130,6 @@ public class SettingActivity extends BaseActivity {
             tvSettingWarehouse.setText(mStoreHouse.getName());
             tvSettingLessee.setText(mUseunit.getName());
             rgSettingDevice.check(SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_NEW) ? R.id.rbSettingNew : R.id.rbSettingOld);
-
         } else {
             queryLessessMsg();
         }

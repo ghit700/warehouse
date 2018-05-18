@@ -44,7 +44,7 @@ public class PlaceShelvesActivity extends BaseActivity {
         mLstFragments.add(PlaceShelvesFragment.newInstance(PlaceShelvesFragment.TYPE_PLACE));
         mAdapter = new PlaceShevesAdapter(getFragmentManager(),mLstTabs,mLstFragments);
         vpPlaceShevesList.setAdapter(mAdapter);
-        tlPlaceSheves.setupWithViewPager(vpPlaceShevesList);
+        tlPlaceSheves.setupWithViewPager(vpPlaceShevesList,false);
     }
 
     @Override

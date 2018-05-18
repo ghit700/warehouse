@@ -1,8 +1,6 @@
 package com.xmrbi.warehouse.data.local;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.application.WareHouseApplication;
 import com.xmrbi.warehouse.component.greendao.StoreHouseAioConfigDao;
 import com.xmrbi.warehouse.component.greendao.StoreHouseDao;
