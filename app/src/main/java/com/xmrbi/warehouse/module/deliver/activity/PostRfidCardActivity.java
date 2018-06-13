@@ -38,6 +38,8 @@ import com.xmrbi.warehouse.utils.RxBus;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -237,6 +239,13 @@ public class PostRfidCardActivity extends BaseActivity {
                                                     ToastUtils.showLong(result.substring(4, result.length()) + "已被使用");
                                                 }
                                                 mLstEpcs.addAll(tempLstRfid);
+                                                //扫码出来的rfid按照编码排序
+                                                Collections.sort(mLstEpcs, new Comparator<Rfid>() {
+                                                    @Override
+                                                    public int compare(Rfid o1, Rfid o2) {
+                                                        return o1.getCode().compareTo(o2.getCode());
+                                                    }
+                                                });
                                                 mAdapter.notifyDataSetChanged();
                                                 mScanDialog.dismiss();
                                                 isScan = false;

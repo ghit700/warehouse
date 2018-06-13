@@ -28,10 +28,13 @@ import com.xmrbi.warehouse.utils.RxBus;
 import org.greenrobot.greendao.annotation.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 import static com.iflytek.sunflower.config.a.m;
@@ -112,22 +115,32 @@ public class PickDeviceMateActity extends BaseActivity {
         mPosition = mBundle.getInt("position");
         pickRepository = new PickRepository(this);
         getPickListDetail();
-        RxBus.getDefault().toObservable(RfidScanEvent.class)
+        Disposable d = RxBus.getDefault().toObservable(RfidScanEvent.class)
                 .compose(this.<RfidScanEvent>bindToLifecycle())
                 .subscribe(new Consumer<RfidScanEvent>() {
                     @Override
                     public void accept(RfidScanEvent rfidScanEvent) throws Exception {
                         RfidUtils.stop();
                         List<Tag_Data> lstDatas = rfidScanEvent.getLstTagDatas();
+                        List<String> lstErrorEPCs=new ArrayList<>();
                         for (Tag_Data td : lstDatas) {
                             //符合规定且不曾扫描过的rfid，上传到领料单rfid中
-                            if (RfidUtils.isAccord(td.epc) && (StringUtils.isEmpty(mPickListDetail.getRfid()) || !mPickListDetail.getRfid().contains(td.epc))) {
+                            if (RfidUtils.isAccord(td.epc)&&mlstDetails.size()>0 && (StringUtils.isEmpty(mPickListDetail.getRfid()) || !mPickListDetail.getRfid().contains(td.epc))) {
                                 for (PickListDetail detail : mlstDetails) {
                                     if (detail.getRfidTag().equals(td.epc)) {
                                         updatePickListRfid(detail);
                                     }
                                 }
+                            } else {
+                                lstErrorEPCs.add(td.epc);
                             }
+                        }
+                        if(lstErrorEPCs.size()>0){
+                            new MaterialDialog.Builder(mContext)
+                                    .title("Rfid错误")
+                                    .items(lstErrorEPCs)
+                                    .positiveText(android.R.string.cancel)
+                                    .show();
                         }
                         isScan = false;
                         if (mScanDialog != null) {
@@ -154,6 +167,17 @@ public class PickDeviceMateActity extends BaseActivity {
                     public void handleData(@NotNull List<PickListDetail> data) {
                         if (data != null && !data.isEmpty()) {
                             mlstDetails.addAll(data);
+                            //rfid排序
+                            Collections.sort(mlstDetails, new Comparator<PickListDetail>() {
+                                @Override
+                                public int compare(PickListDetail o1, PickListDetail o2) {
+                                    if (!StringUtils.isEmpty(o1.getRfidTag()) && !StringUtils.isEmpty(o2.getRfidTag())) {
+                                        return o1.getRfidTag().compareTo(o2.getRfidTag());
+                                    } else {
+                                        return 0;
+                                    }
+                                }
+                            });
                             mAdapter.notifyDataSetChanged();
                         }
                     }

@@ -49,6 +49,7 @@
         <activity android:name=".module.deliver.activity.DevicePostCardActivity" />
         <activity android:name=".module.deliver.activity.PostCardDeliverActivity" />
         <activity android:name=".module.deliver.activity.PostRfidCardActivity" />
+        <activity android:name=".module.deliver.activity.DeliverPostCardActivity" />
         <activity android:name=".module.deliver.activity.PlaceShelvesActivity" />
         <activity
             android:name=".module.deliver.activity.PostCardSearchActivity"

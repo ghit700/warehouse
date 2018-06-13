@@ -2,6 +2,7 @@ package com.xmrbi.warehouse.data.remote;
 
 import com.xmrbi.warehouse.component.http.Response;
 import com.xmrbi.warehouse.data.entity.pick.PickListDetail;
+import com.xmrbi.warehouse.data.entity.pick.PickListDetailNew;
 
 import java.util.List;
 
@@ -36,6 +37,14 @@ public interface PickRemoteSource {
     Observable<Response<List<PickListDetail>>> getPickListDetail(@Query("PickListId") long PickListId, @Query("deviceId") long deviceId);
 
     /**
+     * 获取领料单明细
+     *
+     * @return
+     */
+    @GET("getPickListDetail.action")
+    Observable<Response<List<PickListDetailNew>>> getPickListDetail();
+
+    /**
      * 更新设备的rifd码扫描情况（也就是领料情况）
      *
      * @param rfid
@@ -43,5 +52,5 @@ public interface PickRemoteSource {
      * @return
      */
     @POST("gmms/modules/device/device!updatePickListRfid.action")
-    Observable<String> updatePickListRfid(@Query("rfid") String rfid, @Query("deviceId") long deviceId,@Query("pickListId")long pickListId);
+    Observable<String>  updatePickListRfid(@Query("rfid") String rfid, @Query("deviceId") long deviceId, @Query("pickListId") long pickListId);
 }

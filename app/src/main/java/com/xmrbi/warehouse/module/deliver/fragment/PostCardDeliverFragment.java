@@ -46,7 +46,7 @@ public class PostCardDeliverFragment extends BaseFragment {
     private DeliverRepository deliverRepository;
     private int mMaxNo = Integer.MAX_VALUE;
     private int mPageNo = 1;
-    private int mPageNum = 10;
+    private int mPageNum = 5;
     private StoreHouse mStoreHouse;
     private MainLocalSource mainLocalSource;
     private PostCardDeliverAdapter mAdapter;
@@ -74,6 +74,14 @@ public class PostCardDeliverFragment extends BaseFragment {
     public static PostCardDeliverFragment newInstance(int type) {
         Bundle bundle = new Bundle();
         bundle.putInt("type", type);
+        PostCardDeliverFragment fragment = new PostCardDeliverFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+    public static PostCardDeliverFragment newInstance(int type,String assetCode) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", type);
+        bundle.putString("assetCode", assetCode);
         PostCardDeliverFragment fragment = new PostCardDeliverFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -130,7 +138,11 @@ public class PostCardDeliverFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        mSearchContent = "";
+        if( getArguments().containsKey("assetCode")){
+            mSearchContent=getArguments().getString("assetCode");
+        }else{
+            mSearchContent = "";
+        }
         mainLocalSource = new MainLocalSource();
         mStoreHouse = mainLocalSource.getStoreHouse();
         deliverRepository = new DeliverRepository((BaseActivity) getActivity());

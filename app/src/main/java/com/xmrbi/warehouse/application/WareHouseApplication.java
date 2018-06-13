@@ -12,14 +12,11 @@ import android.support.v4.content.ContextCompat;
 import com.blankj.utilcode.util.CrashUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechUtility;
 import com.xmrbi.warehouse.base.Config;
 import com.xmrbi.warehouse.component.greendao.DaoMaster;
 import com.xmrbi.warehouse.component.greendao.DaoSession;
 import com.xmrbi.warehouse.utils.ImageLoader;
 
-import static com.xmrbi.warehouse.base.Config.SPEECHCONSTANT_APPID;
 
 
 /**

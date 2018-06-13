@@ -21,6 +21,7 @@ import com.xmrbi.warehouse.component.zxing.decoding.CaptureActivityHandler;
 import com.xmrbi.warehouse.component.zxing.decoding.InactivityTimer;
 import com.xmrbi.warehouse.component.zxing.view.ViewfinderView;
 import com.xmrbi.warehouse.module.check.activity.CheckStoreDeviceListActivity;
+import com.xmrbi.warehouse.module.deliver.activity.DeliverPostCardActivity;
 import com.xmrbi.warehouse.module.pick.activity.PickDeviceListActivity;
 
 import java.io.IOException;
@@ -130,14 +131,6 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
                 finish();
             } else if (sequenceCode.length() >= 6 && sequenceCode.subSequence(0, 5).equals("'RfidUtils")) {
                 ToastUtils.showLong(R.string.scan_success);
-//                mTextToSpeech.speak("扫描成功", TextToSpeech.QUEUE_FLUSH, null);
-                //if (type.equals("领料扫码")) {
-//                intent.setClass(BarcodeActivity.this,
-//                        RfidIndexPostScanActivity.class);
-//				}else {
-//					intent.setClass(RfidIndexPostScanGIFActivity.this,
-//							RfidPackListDetailItemActivity.class);
-//				}
                 String[] arr = sequenceCode.split("\\'");
                 if (arr.length > 1) {
                     intent.putExtra("PickListid",
@@ -149,7 +142,7 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
                 //盘点
                 String[] arr = sequenceCode.split("\\'");
                 if (arr.length > 1) {
-                    CheckStoreDeviceListActivity.lauch(mContext,Long.parseLong(arr[1].substring(2,arr[1].length())));
+                    CheckStoreDeviceListActivity.lauch(mContext, Long.parseLong(arr[1].substring(2, arr[1].length())));
                 }
 
                 ToastUtils.showLong(R.string.scan_success);
@@ -159,21 +152,15 @@ public class ScanActivity extends BaseActivity implements SurfaceHolder.Callback
                 //安卓上位机领料
                 String[] arr = sequenceCode.split("-");
                 if (arr.length > 1) {
-                    intent.putExtra("PickListid", arr[1]);
+//                    PickDeviceListNewActivity.lauch(mContext, arr[1]);
                 }
-//                intent.setClass(BarcodeActivity.this,
-//                        RfidNewPickListActivity.class);
-                startActivity(intent);
                 ToastUtils.showLong(R.string.scan_success);
                 finish();
-            } else if (sequenceCode.length() >= 13 && sequenceCode.subSequence(0, 12).equals("DELIVERGOOD,")) {
+            } else if (sequenceCode.indexOf("'jh") == 0) {
                 //安卓上位机送货
-                String[] arr = sequenceCode.split(",");
-                if (arr.length > 1) {
-                    intent.putExtra("delivergoodId", arr[1]);
-                }
-//                intent.setClass(BarcodeActivity.this,
-//                        RfidIPCpostCardListActivity.class);
+                intent.putExtra("assetCode", sequenceCode.substring(3, sequenceCode.length() - 1));
+                intent.setClass(mContext,
+                        DeliverPostCardActivity.class);
                 startActivity(intent);
                 ToastUtils.showLong(R.string.scan_success);
                 finish();

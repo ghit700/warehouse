@@ -6,6 +6,7 @@ import com.xmrbi.warehouse.component.http.IOTransformer;
 import com.xmrbi.warehouse.component.http.Response;
 import com.xmrbi.warehouse.component.http.RetrofitHelper;
 import com.xmrbi.warehouse.data.entity.pick.PickListDetail;
+import com.xmrbi.warehouse.data.entity.pick.PickListDetailNew;
 import com.xmrbi.warehouse.data.remote.PickRemoteSource;
 
 import java.util.List;
@@ -25,6 +26,11 @@ public class PickRepository extends BaseRepository {
         pickRemoteSource = RetrofitHelper.getInstance(PickRemoteSource.class, Config.Http.SERVER_GMMS);
     }
 
+    public PickRepository(BaseActivity baseActivity, String baseUrl) {
+        super(baseActivity);
+        pickRemoteSource = RetrofitHelper.getInstance(PickRemoteSource.class, baseUrl);
+    }
+
     public Observable<Response<List<PickListDetail>>> getPickListById(long pickListId) {
         return pickRemoteSource.getPickListById(pickListId)
                 .compose(new IOTransformer<Response<List<PickListDetail>>>(mBaseActivity));
@@ -35,8 +41,13 @@ public class PickRepository extends BaseRepository {
                 .compose(new IOTransformer<Response<List<PickListDetail>>>(mBaseActivity));
     }
 
-    public Observable<String> updatePickListRfid(String rfid, long deviceId,long pickListId) {
-        return pickRemoteSource.updatePickListRfid(rfid, deviceId,pickListId)
+    public Observable<Response<List<PickListDetailNew>>> getPickListDetail() {
+        return pickRemoteSource.getPickListDetail()
+                .compose(new IOTransformer<Response<List<PickListDetailNew>>>(mBaseActivity));
+    }
+
+    public Observable<String> updatePickListRfid(String rfid, long deviceId, long pickListId) {
+        return pickRemoteSource.updatePickListRfid(rfid, deviceId, pickListId)
                 .compose(new IOTransformer<String>(mBaseActivity));
     }
 }

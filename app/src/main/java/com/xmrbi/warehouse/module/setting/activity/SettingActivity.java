@@ -178,9 +178,9 @@ public class SettingActivity extends BaseActivity {
         mainLocalSource.saveStoreHouse(mStoreHouse);
         mainLocalSource.saveUseunit(mUseunit);
         SPUtils.getInstance(SP_NAME).put(SP_IS_SETTING, true);
-        RxBus.getDefault().post(new ChangeStoreHouseSettingEvent());
         finish();
         lauch(MainActivity.class);
+        RxBus.getDefault().post(new ChangeStoreHouseSettingEvent());
     }
 
     @Override

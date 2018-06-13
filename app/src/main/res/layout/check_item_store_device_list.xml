@@ -78,6 +78,8 @@
             android:layout_marginRight="32dp"
             android:layout_marginTop="8dp"
             android:text="自动盘点"
+            android:background="@drawable/btn_bg_common"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"

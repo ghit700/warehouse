@@ -1,6 +1,7 @@
 package com.xmrbi.warehouse.data.local;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.application.WareHouseApplication;
 import com.xmrbi.warehouse.component.greendao.StoreHouseAioConfigDao;
 import com.xmrbi.warehouse.component.greendao.StoreHouseDao;
@@ -8,6 +9,10 @@ import com.xmrbi.warehouse.component.greendao.UseunitDao;
 import com.xmrbi.warehouse.data.entity.main.StoreHouse;
 import com.xmrbi.warehouse.data.entity.main.StoreHouseAioConfig;
 import com.xmrbi.warehouse.data.entity.main.Useunit;
+
+
+
+
 
 /**
  * Created by wzn on 2018/4/17.

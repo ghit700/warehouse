@@ -164,17 +164,19 @@ public class MainActivity extends BaseActivity {
     public void changeStoreHouseSetting() {
         mIsNew = SPUtils.getInstance(SP_NAME).getBoolean(SP_IS_NEW);
         mStoreHouse = mainLocalSource.getStoreHouse();
-        titleBaseAction.setText(mStoreHouse.getName());
-        if (!mIsNew) {
-            tvMainCheckText.setText(R.string.main_text_check_goods_old);
-            tvMainPickText.setText(R.string.main_text_pick_goods_old);
-            tvMainDeleverText.setText(R.string.main_text_deliver_goods_old);
-            tvMainSearchText.setText(R.string.main_text_search_goods_old);
-        } else {
-            tvMainCheckText.setText(R.string.main_text_check_goods);
-            tvMainPickText.setText(R.string.main_text_pick_goods);
-            tvMainDeleverText.setText(R.string.main_text_deliver_goods);
-            tvMainSearchText.setText(R.string.main_text_search_goods);
+        if(titleBaseAction!=null&&mStoreHouse!=null){
+            titleBaseAction.setText(mStoreHouse.getName());
+            if (!mIsNew) {
+                tvMainCheckText.setText(R.string.main_text_check_goods_old);
+                tvMainPickText.setText(R.string.main_text_pick_goods_old);
+                tvMainDeleverText.setText(R.string.main_text_deliver_goods_old);
+                tvMainSearchText.setText(R.string.main_text_search_goods_old);
+            } else {
+                tvMainCheckText.setText(R.string.main_text_check_goods);
+                tvMainPickText.setText(R.string.main_text_pick_goods);
+                tvMainDeleverText.setText(R.string.main_text_deliver_goods);
+                tvMainSearchText.setText(R.string.main_text_search_goods);
+            }
         }
     }
 

@@ -83,6 +83,8 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLength="20"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvitemDeviceName"
             tools:text="中兴" />
@@ -142,6 +144,7 @@
             android:layout_marginRight="32dp"
             android:layout_marginTop="8dp"
             android:text="@string/pick_item_device_post_text"
+            android:background="@drawable/btn_bg_common"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

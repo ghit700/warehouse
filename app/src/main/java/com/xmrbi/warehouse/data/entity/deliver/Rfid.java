@@ -25,6 +25,15 @@ public class Rfid {
      */
     private String model;
 
+    /**
+     * 货架名称
+     */
+    private String drawerNames;
+    /**
+     * 货架id
+     */
+    private String drawerIds;
+
     public Rfid() {
     }
 
@@ -84,5 +93,21 @@ public class Rfid {
             return this.code.equals(((Tag_Data) obj).epc);
         }
         return super.equals(obj);
+    }
+
+    public String getDrawerNames() {
+        return drawerNames;
+    }
+
+    public void setDrawerNames(String drawerNames) {
+        this.drawerNames = drawerNames;
+    }
+
+    public String getDrawerIds() {
+        return drawerIds;
+    }
+
+    public void setDrawerIds(String drawerIds) {
+        this.drawerIds = drawerIds;
     }
 }
