@@ -18,16 +18,16 @@ import io.reactivex.disposables.Disposable;
  */
 
 public abstract class BaseObserver<T> implements Observer<T> {
-    private MaterialDialog dialog;
+    public MaterialDialog mDialog;
     private Context mContext;
     /**
      * 是否显示错误信息的toast
      */
-    private boolean isShowErrorToast = true;
+    protected boolean isShowErrorToast = true;
     /**
      * 是否显示dailog
      */
-    private boolean isShowDialog = true;
+    protected boolean isShowDialog = true;
     /**
      * 是否是上传
      */
@@ -65,6 +65,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
 //        }else{
 //            d.dispose();
 //        }
+        mDialog = setDialog();
         showLoadingProgress();
 
     }
@@ -100,23 +101,23 @@ public abstract class BaseObserver<T> implements Observer<T> {
     }
 
     protected void closeLoadingProgress() {
-        if (dialog != null ) {
-            dialog.dismiss();
+        if (mDialog != null) {
+            mDialog.dismiss();
         }
     }
 
     protected void showLoadingProgress() {
-        if ((isShowDialog && mContext != null) || dialog != null) {
-            if (dialog == null) {
+        if (isShowDialog && mContext != null) {
+            if (mDialog == null) {
                 if (isPost) {
-                    dialog = new MaterialDialog.Builder(mContext)
+                    mDialog = new MaterialDialog.Builder(mContext)
                             .title(R.string.main_progress_post_title)
                             .content(R.string.main_progress_content)
                             .progress(true, 0)
                             .progressIndeterminateStyle(false)
                             .show();
                 } else {
-                    dialog = new MaterialDialog.Builder(mContext)
+                    mDialog = new MaterialDialog.Builder(mContext)
                             .title(R.string.main_progress_title)
                             .content(R.string.main_progress_content)
                             .progress(true, 0)
@@ -124,16 +125,20 @@ public abstract class BaseObserver<T> implements Observer<T> {
                             .show();
                 }
             } else {
-                dialog.show();
+                mDialog.setCanceledOnTouchOutside(false);
+                mDialog.show();
             }
         }
     }
 
-    public MaterialDialog getDialog() {
-        return dialog;
+    public MaterialDialog getmDialog() {
+        return mDialog;
     }
 
-    public void setDialog(MaterialDialog dialog) {
-        this.dialog = dialog;
+    /**
+     * 设置dialog的样式
+     */
+    protected MaterialDialog setDialog() {
+        return null;
     }
 }

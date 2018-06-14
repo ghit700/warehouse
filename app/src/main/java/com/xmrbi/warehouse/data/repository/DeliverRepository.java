@@ -84,4 +84,8 @@ public class DeliverRepository extends BaseRepository {
         return deliverRemoteSource.updateDeviceDrawer(deviceId, storeId, drawerNames)
                 .compose(new IOTransformer<String>(mBaseActivity));
     }
+    public Observable<String> deleteRfid(String code) {
+        return deliverRemoteSource.deleteRfid(code)
+                .compose(new IOTransformer<String>(mBaseActivity));
+    }
 }

@@ -330,17 +330,18 @@ public class PlaceShelvesFragment extends BaseFragment {
 
                     @Override
                     protected void showLoadingProgress() {
-                        if (getDialog() == null) {
-                            setDialog(new MaterialDialog.Builder(getActivity())
-                                    .title("更新货架中")
-                                    .content(R.string.main_progress_content)
-                                    .progress(true, 0)
-                                    .progressIndeterminateStyle(false)
-                                    .build());
-                        }
                         super.showLoadingProgress();
                     }
 
+                    @Override
+                    protected MaterialDialog setDialog() {
+                        return new MaterialDialog.Builder(getActivity())
+                                .title("更新货架中")
+                                .content(R.string.main_progress_content)
+                                .progress(true, 0)
+                                .progressIndeterminateStyle(false)
+                                .build();
+                    }
                 });
     }
 

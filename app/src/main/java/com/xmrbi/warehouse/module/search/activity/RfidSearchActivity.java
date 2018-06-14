@@ -79,11 +79,15 @@ public class RfidSearchActivity extends BaseActivity {
                                 queryRfidMsg(rfids.substring(1));
                             } else {
                                 isScan = false;
-                                mScanDialog.dismiss();
+                                if(mScanDialog!=null){
+                                    mScanDialog.dismiss();
+                                }
                             }
                         } else {
                             isScan = false;
-                            mScanDialog.dismiss();
+                            if(mScanDialog!=null){
+                                mScanDialog.dismiss();
+                            }
                         }
                     }
                 });

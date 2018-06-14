@@ -3,7 +3,6 @@ package com.xmrbi.warehouse.module.deliver.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -23,7 +22,6 @@ import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.base.BaseActivity;
 import com.xmrbi.warehouse.component.http.BaseObserver;
 import com.xmrbi.warehouse.component.http.ExceptionHandle;
-import com.xmrbi.warehouse.component.http.IOTransformer;
 import com.xmrbi.warehouse.component.rfid.RfidUtils;
 import com.xmrbi.warehouse.data.entity.deliver.Rfid;
 import com.xmrbi.warehouse.data.entity.deliver.RfidAlreadyCardEntity;
@@ -45,13 +43,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-
-import static com.xmrbi.warehouse.component.rfid.RfidUtils.isAccord;
 
 
 /**
@@ -176,7 +169,7 @@ public class PostRfidCardActivity extends BaseActivity {
                 etPostRfidCardNum.setInputType(InputType.TYPE_NULL);
                 etPostRfidCardNum.requestFocus();
                 if (etPostRfidCardNum.getText().toString().trim().length() > 0) {
-                    etPostRfidCardNum.setSelection(etPostRfidCardNum.getText().toString().trim().length() );
+                    etPostRfidCardNum.setSelection(etPostRfidCardNum.getText().toString().trim().length());
                 }
                 helper.addOnClickListener(R.id.ivPostRfidCardDelete);
 
@@ -185,8 +178,7 @@ public class PostRfidCardActivity extends BaseActivity {
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                mLstEpcs.remove(position);
-                mAdapter.notifyDataSetChanged();
+                deleteRfid(position);
             }
         });
         listRfidPostCard.setAdapter(mAdapter);
@@ -296,6 +288,7 @@ public class PostRfidCardActivity extends BaseActivity {
         }
         StringBuffer sbTJ = new StringBuffer();
         StringBuffer sbEN = new StringBuffer();
+        double allNum=0;
         for (int i = 0; i < listRfidPostCard.getChildCount(); i++) {
             View child = listRfidPostCard.getChildAt(i);
             String num = ((EditText) child.findViewById(R.id.etPostRfidCardNum)).getText().toString().trim();
@@ -304,9 +297,11 @@ public class PostRfidCardActivity extends BaseActivity {
                 ToastUtils.showLong(epc + "请填写数量");
                 return;
             }
+            allNum+=Double.parseDouble(num);
             sbTJ.append(epc + ",");
             sbEN.append(num + ",");
         }
+
         String result =
                 sbTJ.toString().substring(0, sbTJ.toString().length() - 1)
                         + "|"
@@ -338,6 +333,10 @@ public class PostRfidCardActivity extends BaseActivity {
                 amount = readyRowsBean.getAmount().intValue();
                 break;
 
+        }
+        if(allNum>amount){
+            ToastUtils.showLong("数量总和不能大于设备数量");
+            return;
         }
 
         deliverRepository
@@ -380,6 +379,12 @@ public class PostRfidCardActivity extends BaseActivity {
                                     mLstEpcs.add(new Rfid(lstRfidCodes[i], lstRfidAmounts[i]));
                                 }
                             }
+                            Collections.sort(mLstEpcs, new Comparator<Rfid>() {
+                                @Override
+                                public int compare(Rfid o1, Rfid o2) {
+                                    return o1.getCode().compareTo(o2.getCode());
+                                }
+                            });
                             mAdapter.notifyDataSetChanged();
                         }
                     }
@@ -419,5 +424,34 @@ public class PostRfidCardActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    /**
+     * 删除rfid
+     * @param position
+     */
+    private void deleteRfid(final int position) {
+        Rfid rfid = mLstEpcs.get(position);
+        deliverRepository.deleteRfid(rfid.getCode())
+                .subscribe(new BaseObserver<String>(this) {
+                    @Override
+                    public void onNext(String result) {
+                        if (result.equals("success")) {
+                            mLstEpcs.remove(position);
+                            mAdapter.notifyDataSetChanged();
+                        } else {
+                            ToastUtils.showLong(result);
+                        }
+                        super.onNext(result);
+                    }
+
+                    @Override
+                    protected MaterialDialog setDialog() {
+                        return  mDialog = new MaterialDialog.Builder(mContext)
+                                .content("正在删除rifd...")
+                                .progress(true, 0)
+                                .progressIndeterminateStyle(false)
+                                .show();
+                    }
+                });
+    }
 
 }

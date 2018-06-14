@@ -55,6 +55,16 @@ public interface DeliverRemoteSource {
                                      @Query("amount") int amount);
 
     /**
+     * 删除rfid
+     *
+     * @param code
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("gmms/modules/device/device!deleteRfid.action")
+    Observable<String> deleteRfid(@Field("rfid") String code);
+
+    /**
      * 库存设备中未贴卡的
      *
      * @param lesseeId

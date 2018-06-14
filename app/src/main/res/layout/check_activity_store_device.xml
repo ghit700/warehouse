@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginTop="-13dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/btn_bg_common"
         android:text="@string/check_btn_manual_text"
         android:textColor="@color/white"

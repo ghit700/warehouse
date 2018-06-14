@@ -122,7 +122,7 @@ public class PickDeviceMateActity extends BaseActivity {
                     public void accept(RfidScanEvent rfidScanEvent) throws Exception {
                         RfidUtils.stop();
                         List<Tag_Data> lstDatas = rfidScanEvent.getLstTagDatas();
-                        List<String> lstErrorEPCs=new ArrayList<>();
+                        StringBuffer lstErrorEPCs=new StringBuffer();
                         for (Tag_Data td : lstDatas) {
                             //符合规定且不曾扫描过的rfid，上传到领料单rfid中
                             if (RfidUtils.isAccord(td.epc)&&mlstDetails.size()>0 && (StringUtils.isEmpty(mPickListDetail.getRfid()) || !mPickListDetail.getRfid().contains(td.epc))) {
@@ -132,15 +132,17 @@ public class PickDeviceMateActity extends BaseActivity {
                                     }
                                 }
                             } else {
-                                lstErrorEPCs.add(td.epc);
+                                lstErrorEPCs.append(",").append(td.epc);
                             }
                         }
-                        if(lstErrorEPCs.size()>0){
-                            new MaterialDialog.Builder(mContext)
-                                    .title("Rfid错误")
-                                    .items(lstErrorEPCs)
-                                    .positiveText(android.R.string.cancel)
-                                    .show();
+                        //显示错签信息
+                        if(lstErrorEPCs.length()>0){
+                            ToastUtils.showLong(lstErrorEPCs.substring(1)+"标签错误");
+//                            new MaterialDialog.Builder(mContext)
+//                                    .title("Rfid错误")
+//                                    .items(lstErrorEPCs)
+//                                    .positiveText(android.R.string.cancel)
+//                                    .show();
                         }
                         isScan = false;
                         if (mScanDialog != null) {
