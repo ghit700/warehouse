@@ -20,7 +20,7 @@ public class Config {
     /**
      * log是否显示
      */
-    public static boolean IS_OPEN_LOG = true;
+    public static boolean IS_OPEN_LOG = false;
     /**
      * 科大讯飞的appid
      */

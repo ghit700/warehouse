@@ -21,10 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-
-import static android.R.attr.data;
-import static com.iflytek.sunflower.config.a.m;
 
 /**
  * Created by wzn on 2018/4/26.
@@ -84,7 +80,7 @@ public class CheckStoreDeviceListActivity extends BaseActivity {
     }
 
     public void countCheckStoreDeviceItemOrRfid() {
-        checkRepository.countCheckStoreDeviceItemOrRfid(mCheckId)
+        checkRepository.mobileCountCheckStoreDeviceItem(mCheckId)
                 .subscribe(new ResponseObserver<List<RfidNewInventoryEntity>>(mContext) {
                     @Override
                     public void handleData(@NotNull List<RfidNewInventoryEntity> data) {

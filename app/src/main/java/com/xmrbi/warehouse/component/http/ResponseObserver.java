@@ -2,7 +2,9 @@ package com.xmrbi.warehouse.component.http;
 
 import android.content.Context;
 
+import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.xmrbi.warehouse.R;
 
 import org.greenrobot.greendao.annotation.NotNull;
 
@@ -21,6 +23,10 @@ public abstract class ResponseObserver<T> extends BaseObserver<Response> {
         super(context);
     }
 
+    public ResponseObserver(Context context, boolean isPost) {
+        super(context, isPost);
+    }
+
     public ResponseObserver(Context mContext, boolean isShowErrorToast, boolean isShowDialog) {
         super(mContext, isShowErrorToast, isShowDialog);
     }
@@ -29,15 +35,22 @@ public abstract class ResponseObserver<T> extends BaseObserver<Response> {
     public void onNext(@NonNull Response response) {
         super.onNext(response);
         if (!response.isSuccess()) {
-            ToastUtils.showLong("毫无数据");
+            if(isShowErrorToast){
+                if (StringUtils.isEmpty(response.getErrorMsg())) {
+                    ToastUtils.showLong(R.string.default_error_request);
+                } else {
+                    ToastUtils.showLong(response.getErrorMsg());
+                }
+            }
             handleErrorData();
         } else {
             handleData((T) response.getData());
         }
+        onComplete();
     }
 
     protected void handleErrorData() {
-
+        onComplete();
     }
 
     public abstract void handleData(@NotNull T data);

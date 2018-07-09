@@ -5,18 +5,17 @@ public class RfidNewInventoryEntity {
 
 
     /**
-     * drawerName :
-     * rfidUncheck : 17
-     * rfidCheck : 0
-     * noRfidCheck : 41
-     * noRfidUncheck : 433
+     * 货架名
      */
-
     private String drawerName;
-    private int rfidUncheck;
-    private int rfidCheck;
-    private int noRfidCheck;
-    private int noRfidUncheck;
+    /**
+     * 盘点完成的数量
+     */
+    private int check;
+    /**
+     * 未盘点数量
+     */
+    private int noCheck;
 
     public String getDrawerName() {
         return drawerName;
@@ -26,35 +25,19 @@ public class RfidNewInventoryEntity {
         this.drawerName = drawerName;
     }
 
-    public int getRfidUncheck() {
-        return rfidUncheck;
+    public int getCheck() {
+        return check;
     }
 
-    public void setRfidUncheck(int rfidUncheck) {
-        this.rfidUncheck = rfidUncheck;
+    public void setCheck(int check) {
+        this.check = check;
     }
 
-    public int getRfidCheck() {
-        return rfidCheck;
+    public int getNoCheck() {
+        return noCheck;
     }
 
-    public void setRfidCheck(int rfidCheck) {
-        this.rfidCheck = rfidCheck;
-    }
-
-    public int getNoRfidCheck() {
-        return noRfidCheck;
-    }
-
-    public void setNoRfidCheck(int noRfidCheck) {
-        this.noRfidCheck = noRfidCheck;
-    }
-
-    public int getNoRfidUncheck() {
-        return noRfidUncheck;
-    }
-
-    public void setNoRfidUncheck(int noRfidUncheck) {
-        this.noRfidUncheck = noRfidUncheck;
+    public void setNoCheck(int noCheck) {
+        this.noCheck = noCheck;
     }
 }

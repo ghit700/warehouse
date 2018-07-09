@@ -4,13 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -24,8 +21,9 @@ import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.base.BaseActivity;
 import com.xmrbi.warehouse.component.http.BaseObserver;
 import com.xmrbi.warehouse.component.http.ExceptionHandle;
+import com.xmrbi.warehouse.component.http.ResponseObserver;
 import com.xmrbi.warehouse.component.rfid.RfidUtils;
-import com.xmrbi.warehouse.data.entity.check.RfidNewCheckingEntity;
+import com.xmrbi.warehouse.data.entity.check.CheckStroeDeviceItem;
 import com.xmrbi.warehouse.data.entity.check.RfidUpdateAutoCheckingEntity;
 import com.xmrbi.warehouse.data.repository.CheckRepository;
 import com.xmrbi.warehouse.event.RfidScanEvent;
@@ -39,9 +37,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-
-import static com.iflytek.sunflower.config.a.v;
 
 
 /**
@@ -76,18 +73,16 @@ public class CheckStoreDeviceActivity extends BaseActivity {
      */
     private String mDrawerName;
     /**
-     * 当前盘点情况
+     * 盘点单明细列表
      */
-    private RfidNewCheckingEntity mRfidNewCheckingEntity;
+    private List<CheckStroeDeviceItem> mlstCheckStroeDeviceItem;
+    private int mUnAutoCheckCount = 0;
     private CheckRepository checkRepository;
-    /**
-     * 还未盘点数量为1的rfid
-     */
-    private StringBuffer mUnCheckRfid;
     /**
      * 是否正在更新自动盘点的数据
      */
     private boolean isUpdate = false;
+    private Disposable mAutoScan;
 
     @Override
     protected int getLayout() {
@@ -105,32 +100,33 @@ public class CheckStoreDeviceActivity extends BaseActivity {
         mDrawerName = mBundle.getString("drawerName");
         mCheckId = mBundle.getLong("checkId");
         checkRepository = new CheckRepository(this);
-        RxBus.getDefault().toObservable(RfidScanEvent.class)
+        mlstCheckStroeDeviceItem = new ArrayList<>();
+        mAutoScan = RxBus.getDefault().toObservable(RfidScanEvent.class)
                 .compose(this.<RfidScanEvent>bindToLifecycle())
                 .subscribe(new Consumer<RfidScanEvent>() {
                     @Override
                     public void accept(RfidScanEvent rfidScanEvent) throws Exception {
-                        if (mUnCheckRfid != null && mUnCheckRfid.length() > 0) {
+                        if (mUnAutoCheckCount > 0) {
                             if (!rfidScanEvent.getLstTagDatas().isEmpty() && !isUpdate) {
                                 isUpdate = true;
                                 //搜索得到的rfid，并且是盘点单上的rfid
                                 StringBuffer scanRfid = new StringBuffer();
                                 for (Tag_Data td :
                                         rfidScanEvent.getLstTagDatas()) {
-                                    if (mUnCheckRfid.toString().contains(td.epc)) {
-                                        scanRfid.append(",").append(td.epc);
-                                    }
+                                    scanRfid.append(",").append(td.epc);
                                 }
-                                LogUtils.w(" mUnCheckRfid:" + mUnCheckRfid.toString() + " \nscanRfid:" + scanRfid.toString());
+                                LogUtils.w(" scanRfid:" + scanRfid.toString());
                                 //更新自动盘点
                                 if (scanRfid.length() > 0) {
-                                    autoCheckStoreRfid(scanRfid.substring(1));
+                                    mobileAutoCheckStoreRfid(scanRfid.substring(1));
                                 } else {
                                     isUpdate = false;
                                 }
                             }
                         } else {
                             RfidUtils.stop();
+                            btnCheckAuto.setText(R.string.check_btn_stop_auto_text);
+                            ToastUtils.showLong(mDrawerName + getString(R.string.check_auto_finish));
                         }
                     }
                 });
@@ -139,9 +135,8 @@ public class CheckStoreDeviceActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mUnCheckRfid = new StringBuffer();
         //刷新盘点数据
-        downloadCheckStoreDeviceItemOrRfidByDrawer();
+        mobileCountCheckStoreDeviceItemDetail();
     }
 
     @Override
@@ -158,6 +153,10 @@ public class CheckStoreDeviceActivity extends BaseActivity {
         if (btnCheckAuto.getText().toString().trim().equals(getString(R.string.check_btn_stop_auto_text))) {
             RfidUtils.stop();
         }
+        if (mAutoScan != null && !mAutoScan.isDisposed()) {
+            mAutoScan.dispose();
+        }
+        isUpdate = false;
     }
 
     @Override
@@ -176,35 +175,18 @@ public class CheckStoreDeviceActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    private void downloadCheckStoreDeviceItemOrRfidByDrawer() {
-        checkRepository.downloadCheckStoreDeviceItemOrRfidByDrawer(mCheckId, mDrawerName, false)
-                .subscribe(new BaseObserver<RfidNewCheckingEntity>(mContext) {
+    private void mobileCountCheckStoreDeviceItemDetail() {
+        checkRepository.mobileCountCheckStoreDeviceItemDetail(mCheckId, mDrawerName)
+                .subscribe(new ResponseObserver<List<CheckStroeDeviceItem>>() {
                     @Override
-                    public void onNext(@NonNull RfidNewCheckingEntity entity) {
-                        if (entity.isSuccess()) {
-                            mRfidNewCheckingEntity = entity;
-                            if (mRfidNewCheckingEntity.getData() != null && !mRfidNewCheckingEntity.getData().isEmpty()) {
-                                for (RfidNewCheckingEntity.DataBean bean :
-                                        mRfidNewCheckingEntity.getData()) {
-                                    if (!StringUtils.isEmpty(bean.getRfid()) && Double.valueOf(bean.getBookValue()) < 2) {
-                                        mUnCheckRfid.append(bean.getRfid()).append(",");
-                                    }
-                                }
-                                if (mUnCheckRfid.length() > 0) {
-                                    mUnCheckRfid.deleteCharAt(mUnCheckRfid.length() - 1);
-                                }
-                            }
-                            bindChartData();
-                        } else {
-                            if (StringUtils.isEmpty(entity.getErrorMsg())) {
-                                ToastUtils.showLong("查询失败");
-                            } else {
-                                ToastUtils.showLong(entity.getErrorMsg());
-                            }
-                        }
+                    public void handleData(List<CheckStroeDeviceItem> data) {
+                        mlstCheckStroeDeviceItem.clear();
+                        mlstCheckStroeDeviceItem.addAll(data);
+                        bindChartData();
                     }
-
                 });
+
+
     }
 
     /**
@@ -223,37 +205,53 @@ public class CheckStoreDeviceActivity extends BaseActivity {
      * 绑定图表的数据
      */
     private void bindChartData() {
+        int finishCheckCount = 0;
+        int autoCheckCount = 0;
+        int unCheckCount = 0;
+        int unCheckItemCount=0;
+        for (CheckStroeDeviceItem item : mlstCheckStroeDeviceItem) {
+            if (item.getIsCheck().equals("1")) {
+                finishCheckCount++;
+            } else {
+                unCheckItemCount++;
+                if (item.isAuto()) {
+                    autoCheckCount += item.getAutoCount();
+                } else {
+                    unCheckCount++;
+                }
+            }
+        }
+        mUnAutoCheckCount = autoCheckCount;
         //中间显示的文字
-        pcCheckChart.setCenterText("已盘点" + mRfidNewCheckingEntity.getCheckCount() + "件\n" +
-                "未盘点" + mRfidNewCheckingEntity.getUnCheckCount() + "件");
+        pcCheckChart.setCenterText("已盘点" + finishCheckCount + "件\n" +
+                "未盘点" + unCheckItemCount + "件");
         // 设置饼图各个区域颜色
         List<Integer> colors = new ArrayList<>();
         //设置每个饼图显示的文字和百分比
         List<PieEntry> valueList = new ArrayList<>();
-        if (mRfidNewCheckingEntity.getCheckCount() > 0) {
+        if (finishCheckCount > 0) {
             colors.add(Color.BLUE);
-            valueList.add(new PieEntry(mRfidNewCheckingEntity.getCheckCount(), "已盘点"));
+            valueList.add(new PieEntry(finishCheckCount, "已盘点(" + finishCheckCount + ")"));
         }
         //可自动盘点数
-        int unAutoCheckCount = !StringUtils.isEmpty(mUnCheckRfid.toString()) ? mUnCheckRfid.toString().split(",").length : 0;
-        if (unAutoCheckCount > 0) {
+        if (autoCheckCount > 0) {
             colors.add(Color.RED);
-            valueList.add(new PieEntry(unAutoCheckCount, "可自动盘点"));
+            valueList.add(new PieEntry(autoCheckCount, "可自动盘点标签(" + autoCheckCount + ")"));
         } else {
             //如果没有可自动盘点的数量那就不显示按钮
             if (btnCheckAuto.getText().toString().equals(getString(R.string.check_btn_stop_auto_text))) {
                 RfidUtils.stop();
+                ToastUtils.showLong(mDrawerName + getString(R.string.check_auto_finish));
             }
             btnCheckAuto.setVisibility(View.INVISIBLE);
         }
         //需人工盘点数
-        int manualCheck = mRfidNewCheckingEntity.getUnCheckCount() - unAutoCheckCount;
-        if (manualCheck > 0) {
+        if (unCheckCount > 0) {
             colors.add(Color.GRAY);
-            valueList.add(new PieEntry(manualCheck, "需人工盘点"));
+            valueList.add(new PieEntry(unCheckCount, "需人工盘点(" + unCheckCount + ")"));
         }
         //没有需盘点的数量，按钮不显示
-        if(mRfidNewCheckingEntity.getUnCheckCount()==0){
+        if (unCheckItemCount == 0) {
             btnCheckManual.setVisibility(View.INVISIBLE);
         }
 
@@ -299,6 +297,7 @@ public class CheckStoreDeviceActivity extends BaseActivity {
 
     /**
      * 按压扫描键
+     *
      * @param keyCode
      * @param event
      * @return
@@ -314,48 +313,22 @@ public class CheckStoreDeviceActivity extends BaseActivity {
     /**
      * 扫描枪自动盘点更新扫描的rifdj进行自动盘点
      */
-    public void autoCheckStoreRfid(String rfids) {
-        checkRepository.autoCheckStoreRfid(mCheckId, rfids, mDrawerName)
-                .subscribe(new BaseObserver<RfidUpdateAutoCheckingEntity>() {
+    public void mobileAutoCheckStoreRfid(String rfids) {
+        checkRepository.mobileAutoCheckStoreRfid(mCheckId, rfids)
+                .subscribe(new ResponseObserver<String>() {
                     @Override
-                    public void onNext(@NonNull RfidUpdateAutoCheckingEntity entity) {
-                        if (entity.isSuccess()) {
-                            mRfidNewCheckingEntity.setCheckCount(entity.getCheckCount());
-                            mRfidNewCheckingEntity.setUnCheckCount(entity.getUnCheckCount());
-                            if (!StringUtils.isEmpty(entity.getRfids())) {
-                                //判断需要自动盘点的rfid还有哪些，在更新之后
-                                String[] unAutoCheckRfids = mUnCheckRfid.toString().split(",");
-                                mUnCheckRfid.delete(0, mUnCheckRfid.length());
-                                for (String rfid : unAutoCheckRfids) {
-                                    if (entity.getRfids().contains(rfid)) {
-                                        mUnCheckRfid.append(",").append(rfid);
-                                    }
-                                }
-                                if (mUnCheckRfid.length() > 0) {
-                                    mUnCheckRfid.deleteCharAt(0);
-                                }
-                            } else {
-                                //没有可自动盘点的rfid
-                                RfidUtils.stop();
-                                btnCheckAuto.setVisibility(View.INVISIBLE);
-                            }
-                            bindChartData();
-                        } else {
-                            if (StringUtils.isEmpty(entity.getErrorMsg())) {
-                                ToastUtils.showLong("自动盘点更新失败");
-                            } else {
-                                ToastUtils.showLong("自动盘点更新失败:" + entity.getErrorMsg());
-                            }
-                        }
-                        isUpdate = false;
+                    public void handleData(String data) {
+                        mobileCountCheckStoreDeviceItemDetail();
                     }
 
                     @Override
-                    protected void onError(ExceptionHandle.ResponeThrowable e) {
-                        super.onError(e);
+                    public void onComplete() {
+                        super.onComplete();
                         isUpdate = false;
+
                     }
                 });
+
     }
 
     /**

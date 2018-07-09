@@ -6,25 +6,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.blankj.utilcode.util.StringUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.base.BaseActivity;
-import com.xmrbi.warehouse.component.http.BaseObserver;
-import com.xmrbi.warehouse.data.entity.check.RfidNewCheckingEntity;
+import com.xmrbi.warehouse.component.http.ResponseObserver;
+import com.xmrbi.warehouse.data.entity.check.CheckStroeDeviceItem;
 import com.xmrbi.warehouse.data.repository.CheckRepository;
 import com.xmrbi.warehouse.module.check.adapter.ManualCheckDeviceListAdapter;
 import com.xmrbi.warehouse.utils.ActivityStackUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
 
 /**
  * 需人工盘点设备列表
@@ -46,10 +40,10 @@ public class ManualCheckDeviceListActivity extends BaseActivity {
     /**
      * 未盘点的设备列表
      */
-    private List<RfidNewCheckingEntity.DataBean> mlstCheckStoreDeviceItems;
+    private List<CheckStroeDeviceItem> mlstCheckStoreDeviceItems;
     private long mCheckId;
     private String mDrawerName;
-    private CheckRepository checkRepository;
+    private CheckRepository mCheckRepository;
 
     @Override
     protected int getLayout() {
@@ -76,41 +70,31 @@ public class ManualCheckDeviceListActivity extends BaseActivity {
     protected void initEventAndData() {
         mCheckId = mBundle.getLong("checkId");
         mDrawerName = mBundle.getString("drawerName");
-        checkRepository = new CheckRepository(this);
+        mCheckRepository = new CheckRepository(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        downloadCheckStoreDeviceItemOrRfidByDrawer();
+        mobileUnCheckStoreDeviceItemList();
     }
 
-    private void downloadCheckStoreDeviceItemOrRfidByDrawer() {
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put("isMerge", "true");
-        checkRepository.downloadCheckStoreDeviceItemOrRfidByDrawer(mCheckId, mDrawerName, false, queryMap)
-                .subscribe(new BaseObserver<RfidNewCheckingEntity>(mContext) {
+    private void mobileUnCheckStoreDeviceItemList() {
+        mCheckRepository.mobileUnCheckStoreDeviceItemList(mCheckId, mDrawerName)
+                .subscribe(new ResponseObserver<List<CheckStroeDeviceItem>>(this) {
                     @Override
-                    public void onNext(@NonNull RfidNewCheckingEntity entity) {
-                        if (entity.isSuccess()) {
-                            if (entity.getData() != null) {
-                                if (entity.getData().isEmpty()) {
-                                    finish();
-                                }
-                                mlstCheckStoreDeviceItems.clear();
-                                mlstCheckStoreDeviceItems.addAll(entity.getData());
-                                mAdapter.notifyDataSetChanged();
-                            }
-                        } else {
-                            if (StringUtils.isEmpty(entity.getErrorMsg())) {
-                                ToastUtils.showLong("查询失败");
-                            } else {
-                                ToastUtils.showLong(entity.getErrorMsg());
-                            }
+                    public void handleData(List<CheckStroeDeviceItem> data) {
+                        if(data.size()==0){
+                            finish();
+                            return;
                         }
-                    }
+                        mlstCheckStoreDeviceItems.clear();
+                        mlstCheckStoreDeviceItems.addAll(data);
+                        mAdapter.notifyDataSetChanged();
 
+                    }
                 });
+
     }
 
 }

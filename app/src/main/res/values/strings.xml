@@ -2,6 +2,8 @@
     <string name="app_name">帖卡小助手</string>
     <!--权限请求-->
     <string name="permissions_fail">您之前拒绝了部分权限，请允许权限以保障功能运行</string>
+    <!--网络请求-->
+    <string name="default_error_request">获取数据失败</string>
     <!--main-->
     <string name="main_text_deliver_goods">送货</string>
     <string name="main_text_check_goods">盘点</string>
@@ -80,6 +82,7 @@
     <string name="check_item_device_factnum">实际数量：</string>
     <string name="check_btn_check_text">盘点</string>
     <string name="check_manual_dailog_content">确定盘点完毕？</string>
+    <string name="check_auto_finish">自动盘点完毕</string>
     <!--update-->
     <string name="update_alert_title">更新内容</string>
     <string name="update_progress_title">下载更新</string>

@@ -9,33 +9,27 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.blankj.utilcode.util.StringUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xmrbi.warehouse.R;
 import com.xmrbi.warehouse.base.BaseActivity;
-import com.xmrbi.warehouse.component.http.BaseObserver;
-import com.xmrbi.warehouse.data.entity.check.RfidNewCheckingEntity;
+import com.xmrbi.warehouse.component.http.ResponseObserver;
+import com.xmrbi.warehouse.data.entity.check.CheckStoreRfid;
+import com.xmrbi.warehouse.data.entity.check.CheckStroeDeviceItem;
 import com.xmrbi.warehouse.data.repository.CheckRepository;
 import com.xmrbi.warehouse.module.check.adapter.ManualCheckDeviceAdapter;
 import com.xmrbi.warehouse.utils.ActivityStackUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
-import io.reactivex.annotations.NonNull;
-
-import static com.iflytek.sunflower.config.a.s;
 
 /**
  * Created by wzn on 2018/5/3.
  */
 
 public class ManualCheckDeviceActivity extends BaseActivity {
-    public static void lauch(Context context, long checkId, String drawerName, RfidNewCheckingEntity.DataBean item) {
+    public static void lauch(Context context, long checkId, String drawerName, CheckStroeDeviceItem item) {
         Bundle bundle = new Bundle();
         bundle.putLong("checkId", checkId);
         bundle.putSerializable("item", item);
@@ -57,11 +51,11 @@ public class ManualCheckDeviceActivity extends BaseActivity {
     RecyclerView listCheckRfidCode;
 
     private ManualCheckDeviceAdapter mAdapter;
-    private List<RfidNewCheckingEntity.DataBean> mLstCheckStroeDeviceItems;
+    private List<CheckStoreRfid> mlstCheckStoreRfids;
     private Long mCheckId;
-    private RfidNewCheckingEntity.DataBean mItem;
+    private CheckStroeDeviceItem mItem;
     private String mDrawerName;
-    private CheckRepository checkRepository;
+    private CheckRepository mCheckRepository;
 
     @Override
     protected int getLayout() {
@@ -71,8 +65,8 @@ public class ManualCheckDeviceActivity extends BaseActivity {
     @Override
     protected void onViewCreated() {
         listCheckRfidCode.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        mLstCheckStroeDeviceItems = new ArrayList<>();
-        mAdapter = new ManualCheckDeviceAdapter(mLstCheckStroeDeviceItems);
+        mlstCheckStoreRfids = new ArrayList<>();
+        mAdapter = new ManualCheckDeviceAdapter(mlstCheckStoreRfids);
         listCheckRfidCode.setAdapter(mAdapter);
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -82,8 +76,8 @@ public class ManualCheckDeviceActivity extends BaseActivity {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@android.support.annotation.NonNull MaterialDialog dialog, @android.support.annotation.NonNull DialogAction which) {
-                                RfidNewCheckingEntity.DataBean item = mLstCheckStroeDeviceItems.get(position);
-                                manualCheckStoreDeviceItemOrRfid(item.getRfid(), item.getCsriID(), item.getBookValue(), position);
+                                CheckStoreRfid item = mlstCheckStoreRfids.get(position);
+                                mobileSubmitCheckStroeDeviceItem(item.getCode(), item.getFactAmount(), position);
                             }
                         })
                         .positiveText("确定")
@@ -92,89 +86,74 @@ public class ManualCheckDeviceActivity extends BaseActivity {
 
             }
         });
-        mItem = (RfidNewCheckingEntity.DataBean) mBundle.getSerializable("item");
-        tvItemCheckDeviceBrand.setText(mItem.getBrand());
-        tvItemCheckDeviceModel.setText(mItem.getModel());
-        tvItemCheckDeviceName.setText(mItem.getName());
-        tvItemCheckDevicePlace.setText(mItem.getDrawerName());
-        if (!StringUtils.isEmpty(mItem.getBookValues())) {
-            String[] bookValues = mItem.getBookValues().split(",");
-            Double bookValue = 0d;
-            for (String book :
-                    bookValues) {
-                bookValue += Double.parseDouble(book);
-            }
-            tvItemCheckDeviceNum.setText(bookValue.toString());
-        } else {
+        mItem = (CheckStroeDeviceItem) mBundle.getSerializable("item");
+        mDrawerName = mBundle.getString("drawerName");
+        tvItemCheckDeviceBrand.setText(mItem.getBrandName());
+        tvItemCheckDeviceModel.setText(mItem.getModelName());
+        tvItemCheckDeviceName.setText(mItem.getComponentName());
+        tvItemCheckDevicePlace.setText(mDrawerName);
+        if(mItem.getFactNum()!=null&&mItem.getFactNum()>0){
+            Double profitLoss=mItem.getFactNum()-mItem.getBookValue();
+            tvItemCheckDeviceNum.setText(profitLoss.toString());
+
+        }else{
             tvItemCheckDeviceNum.setText(mItem.getBookValue().toString());
+
         }
     }
 
     @Override
     protected void initEventAndData() {
-        mDrawerName = mBundle.getString("drawerName");
         mCheckId = mBundle.getLong("checkId");
-        checkRepository = new CheckRepository(this);
-        downloadCheckStoreDeviceItemOrRfidByDrawer();
+        mCheckRepository = new CheckRepository(this);
+        mobileUnCheckStoreDeviceItemDetail();
     }
 
 
-    private void downloadCheckStoreDeviceItemOrRfidByDrawer() {
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put("isMerge", "false");
-        queryMap.put("deviceId", String.valueOf(mItem.getDeviceId()));
-        checkRepository.downloadCheckStoreDeviceItemOrRfidByDrawer(mCheckId, mDrawerName, false, queryMap)
-                .subscribe(new BaseObserver<RfidNewCheckingEntity>(mContext) {
+    private void mobileUnCheckStoreDeviceItemDetail() {
+        mCheckRepository.mobileUnCheckStoreDeviceItemDetail(mItem.getId())
+                .subscribe(new ResponseObserver<CheckStroeDeviceItem>(this) {
                     @Override
-                    public void onNext(@NonNull RfidNewCheckingEntity entity) {
-                        if (entity.isSuccess()) {
-                            if (entity.getData() != null) {
-                                mLstCheckStroeDeviceItems.addAll(entity.getData());
-                                mAdapter.notifyDataSetChanged();
-                            }
+                    public void handleData(CheckStroeDeviceItem data) {
+                        if (data.getLstCheckStoreRfids().size() > 0) {
+                            mlstCheckStoreRfids.addAll(data.getLstCheckStoreRfids());
+                            mAdapter.notifyDataSetChanged();
                         } else {
-                            if (StringUtils.isEmpty(entity.getErrorMsg())) {
-                                ToastUtils.showLong("查询失败");
-                            } else {
-                                ToastUtils.showLong(entity.getErrorMsg());
-                            }
+                            CheckStoreRfid csr = new CheckStoreRfid();
+                            csr.setAmount(mItem.getBookValue());
+                            csr.setFactAmount(mItem.getBookValue());
+                            mlstCheckStoreRfids.add(csr);
                         }
                     }
-
                 });
+
+
     }
 
     /**
      * 盘点
      *
      * @param rfid
-     * @param csriID
-     * @param count
+     * @param factNum
+     * @param position
      */
-    private void manualCheckStoreDeviceItemOrRfid(String rfid, String csriID, Double count, final int position) {
-        Map<String, String> queryMap = new HashMap<>();
-        queryMap.put("checkId", mCheckId.toString());
-        queryMap.put("rfid", rfid);
-        queryMap.put("count", count.toString());
-        queryMap.put("id", StringUtils.isEmpty(csriID) ? "" : csriID);
-
-        checkRepository.manualCheckStoreDeviceItemOrRfid(queryMap)
-                .subscribe(new BaseObserver<String>(mContext, true) {
+    private void mobileSubmitCheckStroeDeviceItem(String rfid, Double factNum, final int position) {
+        mCheckRepository.mobileSubmitCheckStroeDeviceItem(mItem.getId(), factNum.intValue(), rfid)
+                .subscribe(new ResponseObserver<String>(this,true) {
                     @Override
-                    public void onNext(@NonNull String result) {
-                        if (result.contains("成功")) {
-                            //修改总数
-                            double bookvalue = mLstCheckStroeDeviceItems.get(position).getBookValue();
+                    public void handleData(String data) {
+                        if (data.contains("success")) {
+                            double bookvalue = mlstCheckStoreRfids.get(position).getFactAmount();
                             double totalBookValue = Double.parseDouble(tvItemCheckDeviceNum.getText().toString().trim());
                             tvItemCheckDeviceNum.setText(String.valueOf(totalBookValue - bookvalue));
                             mAdapter.remove(position);
-                            if (mLstCheckStroeDeviceItems.isEmpty()) {
+                            if (mlstCheckStoreRfids.isEmpty()) {
                                 finish();
                             }
                         }
-                        ToastUtils.showLong(result);
                     }
                 });
+
     }
 
 
